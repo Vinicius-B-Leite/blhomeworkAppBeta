@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react-native"
+import { render } from "@/testUtils"
 import { LoginScreen } from "../LoginScreen"
 
 describe("integration: LoginScreen", () => {

@@ -3,7 +3,7 @@ import { Input, InputProps } from "./Input"
 import { Icon } from "../Icon/Icon"
 import { Pressable } from "react-native"
 
-type PasswordInputProps = Omit<InputProps, "secureTextEntry" | "LeftIcon">
+export type PasswordInputProps = Omit<InputProps, "secureTextEntry" | "LeftIcon">
 export const PasswordInput: React.FC<PasswordInputProps> = ({ ...rest }) => {
 	const [secureTextEntry, setSecureTextEntry] = useState(true)
 	return (

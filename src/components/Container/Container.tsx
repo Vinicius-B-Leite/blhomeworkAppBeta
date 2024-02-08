@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Box, BoxProps, ScrollBox } from "../Box/Box"
+import { BoxProps, ScrollBox } from "../Box/Box"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useAppTheme } from "@/hooks/useAppTheme"
 
@@ -15,6 +15,7 @@ export const Container: React.FC<ContainerProps> = ({ children }) => {
 
 	return (
 		<ScrollBox
+			keyboardShouldPersistTaps="handled"
 			backgroundColor="bg"
 			flex={1}
 			paddingHorizontal={24}

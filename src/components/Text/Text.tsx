@@ -1,12 +1,12 @@
 import React from "react"
 import { createText } from "@shopify/restyle"
-import { presets } from "./variants"
+import { textPresets } from "./variants"
 import { Theme } from "@/theme"
 
 const CustomText = createText<Theme>()
 
 export type TextProps = React.ComponentProps<typeof CustomText> & {
-	preset: keyof typeof presets
+	preset: keyof typeof textPresets
 	bold?: boolean
 	italic?: boolean
 }
@@ -23,7 +23,7 @@ export const Text: React.FC<TextProps> = ({
 			fontWeight={bold ? "bold" : "normal"}
 			fontStyle={italic ? "italic" : "normal"}
 			color={"text"}
-			{...presets[preset]}
+			{...textPresets[preset]}
 			{...rest}>
 			{children}
 		</CustomText>

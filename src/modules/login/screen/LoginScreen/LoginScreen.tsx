@@ -1,4 +1,4 @@
-import { Box, Container, Text } from "@/components"
+import { Box, Container, Icon, Input, PasswordInput, Text } from "@/components"
 import React from "react"
 
 export const LoginScreen: React.FC = () => {
@@ -16,6 +16,18 @@ export const LoginScreen: React.FC = () => {
 					Homework
 				</Text>
 			</Box>
+
+			<Input
+				placeholder="Email"
+				keyboardType="email-address"
+				LeftIcon={<Icon name="user" size={30} />}
+			/>
+			<PasswordInput
+				placeholder="****"
+				boxProps={{
+					mt: 14,
+				}}
+			/>
 		</Container>
 	)
 }

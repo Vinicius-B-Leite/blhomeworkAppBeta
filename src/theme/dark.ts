@@ -10,9 +10,12 @@ export const dark = createTheme({
 		secondText: pallet.gray400,
 
 		contrast: pallet.lightBlue600,
+
+		alert: pallet.red900,
 	},
 
 	spacing: {
+		4: 4,
 		8: 8,
 		12: 12,
 		14: 14,

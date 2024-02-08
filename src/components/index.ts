@@ -1,4 +1,7 @@
 export * from "./Box/Box"
 // export * from "./Button"
 export * from "./Container/Container"
+export * from "./Icon/Icon"
+export * from "./Input/Input"
+export * from "./Input/PasswordInput"
 export * from "./Text/Text"

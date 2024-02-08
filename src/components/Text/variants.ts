@@ -15,10 +15,10 @@ type TextStyle = {
 	fontFamily: string
 }
 
-export const presets: Record<keyof typeof textVariants, TextStyle> = {
+export const textPresets: Record<keyof typeof textVariants, TextStyle> = {
 	pSmall: {
 		fontSize: 12,
-		lineHeight: 18,
+		lineHeight: 16,
 		fontFamily: fonts.REGULAR,
 	},
 	pMedium: {

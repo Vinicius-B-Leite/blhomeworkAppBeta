@@ -1,7 +1,8 @@
-import { EyeOffSvg, EyeOnSvg, UserSvg } from "@/assets/icons"
+import { EmailSvg, EyeOffSvg, EyeOnSvg, UserSvg } from "@/assets/icons"
 
 export const iconMap = {
-	user: UserSvg,
-	eyeOn: EyeOnSvg,
+	email: EmailSvg,
 	eyeOff: EyeOffSvg,
+	eyeOn: EyeOnSvg,
+	user: UserSvg,
 }

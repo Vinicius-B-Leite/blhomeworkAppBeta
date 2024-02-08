@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@shopify/restyle": "^2.4.2",
+    "@supabase/supabase-js": "^2.39.3",
     "expo": "~50.0.6",
     "expo-font": "~11.10.2",
     "expo-status-bar": "~1.11.1",

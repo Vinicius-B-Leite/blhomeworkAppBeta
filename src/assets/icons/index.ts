@@ -1,3 +1,4 @@
+export * from "./EmailSvg"
 export * from "./EyeOff"
 export * from "./EyeOnSvg"
 export * from "./UserSvg"

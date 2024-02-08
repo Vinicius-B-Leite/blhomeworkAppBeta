@@ -1,10 +1,10 @@
 import React from "react"
 
-import { Box } from "../Box/Box"
+import { Box, BoxProps, ScrollBox } from "../Box/Box"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useAppTheme } from "@/hooks/useAppTheme"
 
-type ContainerProps = React.PropsWithChildren
+type ContainerProps = React.PropsWithChildren & BoxProps
 
 export const Container: React.FC<ContainerProps> = ({ children }) => {
 	const { bottom, top } = useSafeAreaInsets()
@@ -14,12 +14,12 @@ export const Container: React.FC<ContainerProps> = ({ children }) => {
 	const paddingBottom = Math.max(bottom, theme.spacing[14]) + theme.spacing[14]
 
 	return (
-		<Box
+		<ScrollBox
 			backgroundColor="bg"
 			flex={1}
 			paddingHorizontal={24}
 			style={{ paddingBottom, paddingTop }}>
 			{children}
-		</Box>
+		</ScrollBox>
 	)
 }

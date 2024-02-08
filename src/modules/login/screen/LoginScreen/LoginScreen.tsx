@@ -1,15 +1,21 @@
-import { Container, Text } from "@/components"
+import { Box, Container, Text } from "@/components"
 import React from "react"
 
 export const LoginScreen: React.FC = () => {
 	return (
 		<Container>
-			<Text preset="tLarge">Hello World</Text>
-			<Text preset="tMedium">Hello World</Text>
-			<Text preset="tSmall">Hello World</Text>
-			<Text preset="pLarge">Hello World</Text>
-			<Text preset="pMedium">Hello World</Text>
-			<Text preset="pSmall">Hello World</Text>
+			<Box
+				flexDirection="row"
+				gap={12}
+				justifyContent="center"
+				paddingVertical={50}>
+				<Text preset="tLarge" italic color="contrast">
+					BL
+				</Text>
+				<Text preset="tLarge" italic>
+					Homework
+				</Text>
+			</Box>
 		</Container>
 	)
 }

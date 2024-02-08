@@ -22,7 +22,7 @@ export const Input: React.FC<InputProps> = ({
 	const inputRef = useRef<TextInput>(null)
 
 	return (
-		<Box {...boxProps}>
+		<Box width={"100%"} {...boxProps}>
 			<PressableBox
 				testID="inputBox"
 				onPress={() => inputRef.current?.focus()}

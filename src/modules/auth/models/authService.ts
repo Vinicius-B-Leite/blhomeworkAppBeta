@@ -1,27 +1,18 @@
 import { supabase } from "@/api"
 import { AuthResponse, UserType } from "./authTypes"
 import { authAdapter } from "./authAdapter"
+import { authApi } from "@/modules/auth/api"
 
 export type SingUpProps = Pick<UserType, "email" | "avatarUrl" | "username"> & {
 	password: string
 }
 const singUp = async (user: SingUpProps) => {
-	const response = await supabase.auth.signUp({
-		email: user.email,
-		password: user.password,
-		options: {
-			data: {
-				avatarUrl: user.avatarUrl,
-				username: user.username,
-			},
-		},
-	})
-
-	if (response.error) {
-		throw new Error(response.error.message)
+	try {
+		const response = await authApi.singUp(user)
+		return authAdapter.authResponseToUser(response)
+	} catch (error) {
+		throw error
 	}
-
-	return response.data as unknown as AuthResponse
 }
 
 export const authService = {

@@ -58,7 +58,7 @@ export const Toast: React.FC = () => {
 			bg="secondsBg"
 			p={14}
 			borderRadius={8}>
-			<Icon name={iconName} color={iconColor} />
+			<Icon name={iconName} color={iconColor} testID={`toastIcon-${iconName}`} />
 			<Text preset="pMedium">{message}</Text>
 		</AnimatedBox>
 	)

@@ -1,1 +1,1 @@
-export * from "./useCases/useSingUp"
+export * from "./authService"

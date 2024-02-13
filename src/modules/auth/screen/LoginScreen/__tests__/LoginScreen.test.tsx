@@ -1,9 +1,9 @@
-import { act, fireEvent, render, screen } from "@/testUtils"
+import { act, fireEvent, render, renderScreen, screen } from "@/testUtils"
 import { LoginScreen } from "../LoginScreen"
 
 describe("integration: LoginScreen", () => {
 	it("should show error message if has some error validation on form", async () => {
-		render(<LoginScreen />)
+		renderScreen(<LoginScreen />)
 
 		const passwordInput = screen.getByPlaceholderText("****")
 		await act(() => fireEvent.changeText(passwordInput, "12345"))

@@ -1,3 +1,4 @@
+import { Toast } from "@/components"
 import { dark } from "@/theme"
 import { NavigationContainer } from "@react-navigation/native"
 import { ThemeProvider } from "@shopify/restyle"
@@ -19,20 +20,33 @@ const queryClient = new QueryClient({
 	},
 })
 
-const Providers = ({ children }: React.PropsWithChildren) => {
+const IntegrationProviders = ({ children }: React.PropsWithChildren) => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<SafeAreaProvider>
 				<ThemeProvider theme={dark}>
 					<NavigationContainer>{children}</NavigationContainer>
+					<Toast />
 				</ThemeProvider>
 			</SafeAreaProvider>
 		</QueryClientProvider>
 	)
 }
 
-const customRender = (ui: React.ReactElement, options = {}) => {
-	return render(ui, { wrapper: Providers, ...options })
+const UnitProviders = ({ children }: React.PropsWithChildren) => {
+	return (
+		<SafeAreaProvider>
+			<ThemeProvider theme={dark}>{children}</ThemeProvider>
+		</SafeAreaProvider>
+	)
 }
 
-export { customRender }
+const renderScreen = (ui: React.ReactElement, options = {}) => {
+	return render(ui, { wrapper: IntegrationProviders, ...options })
+}
+
+const renderComponent = (ui: React.ReactElement, options = {}) => {
+	return render(ui, { wrapper: UnitProviders, ...options })
+}
+
+export { renderScreen, renderComponent }

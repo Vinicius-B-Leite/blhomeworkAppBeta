@@ -9,7 +9,7 @@ export const SingUpScreen: React.FC = () => {
 		useSingUpScreenViewController()
 
 	return (
-		<Container scrollabel mt={50}>
+		<Container scrollable mt={50}>
 			<Logo mt={50} />
 
 			<FormInput

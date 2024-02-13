@@ -1,1 +1,1 @@
-export * from "./useLogin.modelView"
+export * from "./useSingUp.modelView"

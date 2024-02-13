@@ -12,6 +12,12 @@ export const dark = createTheme({
 		contrast: pallet.lightBlue600,
 		darkContrast: pallet.lightBlue800,
 
+		scondContrast: pallet.lightGreen600,
+		secondDarkContrast: pallet.lightGreen900,
+
+		thirdContrast: pallet.lightYellow600,
+		thirdDarkContrast: pallet.lightYellow900,
+
 		alert: pallet.red900,
 
 		...pallet,

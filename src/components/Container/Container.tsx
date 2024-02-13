@@ -3,6 +3,7 @@ import React from "react"
 import { Box, BoxProps, ScrollBox } from "../Box/Box"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useAppTheme } from "@/hooks/useAppTheme"
+import { useAppSafeArea } from "@/hooks"
 
 type ContainerProps = React.PropsWithChildren &
 	BoxProps & {
@@ -14,11 +15,11 @@ export const Container: React.FC<ContainerProps> = ({
 	scrollabel = false,
 	...boxProps
 }) => {
-	const { bottom, top } = useSafeAreaInsets()
+	const { bottom, top } = useAppSafeArea()
 	const theme = useAppTheme()
 
-	const paddingTop = Math.max(top, theme.spacing[14]) + theme.spacing[14]
-	const paddingBottom = Math.max(bottom, theme.spacing[14]) + theme.spacing[14]
+	const paddingTop = top + theme.spacing[14]
+	const paddingBottom = bottom + theme.spacing[14]
 
 	const Wrapper = scrollabel ? ScrollBox : Box
 

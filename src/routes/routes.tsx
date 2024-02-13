@@ -1,6 +1,7 @@
-import { Box } from "@/components"
+import { Box, Toast } from "@/components"
 import { useAppTheme } from "@/hooks/useAppTheme"
 import { LoginRoutes } from "@/modules/auth/routes"
+
 import { NavigationContainer, useTheme } from "@react-navigation/native"
 import { StatusBar } from "react-native"
 
@@ -20,6 +21,7 @@ export const Routes = () => {
 				/>
 				<LoginRoutes />
 			</NavigationContainer>
+			<Toast />
 		</Box>
 	)
 }

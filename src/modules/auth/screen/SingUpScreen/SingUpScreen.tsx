@@ -7,6 +7,7 @@ import { useSingUpScreenViewController } from "./singupScreen.viewController"
 export const SingUpScreen: React.FC = () => {
 	const { control, error, isLoading, isValid, goBackToLogin, submit } =
 		useSingUpScreenViewController()
+
 	return (
 		<Container scrollabel mt={50}>
 			<Logo mt={50} />

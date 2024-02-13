@@ -12,4 +12,10 @@ export const pallet = {
 	red900: "#FF0000",
 
 	transparent: "transparent",
+
+	lightGreen600: "#00FF19",
+	lightGreen900: "#508055",
+
+	lightYellow600: "#FAFF00",
+	lightYellow900: "#816C00",
 }

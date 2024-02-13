@@ -28,7 +28,6 @@ describe("component: Input", () => {
 		const passwordInput = await screen.findByPlaceholderText("Some text")
 		expect(passwordInput.props.secureTextEntry).toBe(true)
 		const eyeIcon = await screen.findByTestId("eyeIcon")
-		console.log(passwordInput)
 
 		fireEvent.press(eyeIcon)
 		expect(screen.getByPlaceholderText("Some text").props.secureTextEntry).toBe(false)

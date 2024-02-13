@@ -17,3 +17,5 @@ export const Icon: React.FC<IconProps> = ({
 	const SvgIcon = iconMap[name]
 	return <SvgIcon size={size} color={color} testID={testID} />
 }
+
+export { iconMap }

@@ -1,4 +1,3 @@
-import { supabase } from "@/api"
 import { AuthResponse, UserType } from "./authTypes"
 import { authAdapter } from "./authAdapter"
 import { authApi } from "@/modules/auth/api"

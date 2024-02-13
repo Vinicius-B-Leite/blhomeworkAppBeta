@@ -1,8 +1,8 @@
 import React from "react"
 
 import { Box, BoxProps, ScrollBox } from "../Box/Box"
-import { useAppTheme } from "@/hooks/useAppTheme"
-import { useAppSafeArea } from "@/hooks"
+
+import { useAppSafeArea, useAppTheme } from "@/hooks"
 
 type ContainerProps = React.PropsWithChildren &
 	BoxProps & {

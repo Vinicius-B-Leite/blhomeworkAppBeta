@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@/testUtils"
 import { useSingUpModelView } from "../useSingUp.modelView"
 
-import { AuthResponse, UserType } from "../../models/authTypes"
+import { AuthResponse, UserType } from "@/modules/auth/models"
 import { authApi } from "@/modules/auth/api"
 
 const user: UserType = {

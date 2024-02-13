@@ -1,6 +1,6 @@
 import { supabase } from "@/api"
 import { AuthApi } from "./authApiTypes"
-import { AuthResponse } from "../models/authTypes"
+import { AuthResponse } from "@/modules/auth/models"
 
 export const authApi: AuthApi = {
 	singUp: async ({ email, password, username, avatarUrl }) => {

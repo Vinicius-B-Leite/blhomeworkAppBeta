@@ -1,4 +1,4 @@
-import { authService } from "@/modules/auth/models/authService"
+import { authService } from "@/modules/auth/models"
 import { useMutation } from "@tanstack/react-query"
 
 import { AUTH_QUERY_KEYS } from "@/modules/auth/api"

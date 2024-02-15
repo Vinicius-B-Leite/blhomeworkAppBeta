@@ -1,4 +1,5 @@
 import { Toast } from "@/components"
+import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
 import { dark } from "@/theme"
 import { NavigationContainer } from "@react-navigation/native"
 import { ThemeProvider } from "@shopify/restyle"
@@ -25,8 +26,10 @@ const IntegrationProviders = ({ children }: React.PropsWithChildren) => {
 		<QueryClientProvider client={queryClient}>
 			<SafeAreaProvider>
 				<ThemeProvider theme={dark}>
-					<NavigationContainer>{children}</NavigationContainer>
-					<Toast />
+					<ContextsProviders>
+						<NavigationContainer>{children}</NavigationContainer>
+						<Toast />
+					</ContextsProviders>
 				</ThemeProvider>
 			</SafeAreaProvider>
 		</QueryClientProvider>

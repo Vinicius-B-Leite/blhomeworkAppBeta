@@ -3,16 +3,16 @@ import { useMutation } from "@tanstack/react-query"
 
 import { AUTH_QUERY_KEYS } from "@/modules/auth/api"
 
-import { SingUpErrorreturn, getSupabeSingUpErrorMessage } from "@/modules/auth/utils"
+import { SubapaseAuthError, getSubapaseAuthError } from "@/modules/auth/utils"
+
+import { CoumnModelViewProps } from "@/types"
 
 type HandleSingupProps = Parameters<typeof authService.singUp>[0]
 
-type UseSingUpProps = {
-	onError?: (errorFormated: SingUpErrorreturn) => void
-	onSucess?: () => void
-}
-export const useSingUpModelView = (props?: UseSingUpProps) => {
-	const onSuccess = props?.onSucess
+export const useSingUpModelView = (
+	props?: CoumnModelViewProps<SubapaseAuthError, void>
+) => {
+	const onSuccess = props?.onSuccess
 	const onError = props?.onError
 
 	const { data, isPending, mutate } = useMutation<void, Error, HandleSingupProps>({
@@ -24,7 +24,7 @@ export const useSingUpModelView = (props?: UseSingUpProps) => {
 			onSuccess && onSuccess()
 		},
 		onError: (error) => {
-			const errorFormated = getSupabeSingUpErrorMessage(error.message)
+			const errorFormated = getSubapaseAuthError(error.message)
 
 			onError && onError(errorFormated)
 		},

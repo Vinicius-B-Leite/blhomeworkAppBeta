@@ -1,3 +1,3 @@
-import { LoginRoutesType } from "@/modules/auth/routes"
+import { AuthRoutesType } from "@/modules/auth/routes"
 
-export type AppRoutes = LoginRoutesType
+export type AppRoutes = AuthRoutesType

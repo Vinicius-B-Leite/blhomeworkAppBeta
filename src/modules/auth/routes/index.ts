@@ -1,2 +1,2 @@
-export * from "./loginRoutes"
+export * from "./authRoutes"
 export * from "./routesTypes"

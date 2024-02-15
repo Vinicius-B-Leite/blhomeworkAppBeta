@@ -1,6 +1,6 @@
 import { supabase } from "@/api"
 import { AuthApi } from "./authApiTypes"
-import { AuthResponse } from "@/modules/auth/models"
+import { AuthLoginResponse, AuthSingUpResponse } from "@/modules/auth/models"
 
 export const authApi: AuthApi = {
 	singUp: async ({ email, password, username, avatarUrl }) => {
@@ -9,7 +9,7 @@ export const authApi: AuthApi = {
 			password: password,
 			options: {
 				data: {
-					avatarUrl: avatarUrl,
+					avatarUrl: avatarUrl ? avatarUrl : null,
 					username: username,
 				},
 			},
@@ -19,6 +19,18 @@ export const authApi: AuthApi = {
 			throw new Error(response.error.message)
 		}
 
-		return response.data as unknown as AuthResponse
+		return response.data as unknown as AuthSingUpResponse
+	},
+	loginWithEmail: async ({ email, password }) => {
+		const response = await supabase.auth.signInWithPassword({
+			email: email,
+			password: password,
+		})
+
+		if (response.error) {
+			throw new Error(response.error.message)
+		}
+
+		return response.data as unknown as AuthLoginResponse
 	},
 }

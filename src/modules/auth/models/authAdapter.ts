@@ -1,6 +1,6 @@
-import { AuthResponse, UserType } from "./authTypes"
+import { AuthLoginResponse, AuthSingUpResponse, UserType } from "./authTypes"
 
-const authResponseToUser = (authResponse: AuthResponse): UserType => {
+const authSingupResponseToUser = (authResponse: AuthSingUpResponse): UserType => {
 	return {
 		avatarUrl: "",
 		username: authResponse.session.user.user_metadata.username,
@@ -10,7 +10,17 @@ const authResponseToUser = (authResponse: AuthResponse): UserType => {
 		refreshtoken: authResponse.session.refresh_token,
 	}
 }
-
+const authLoginResponseToUser = (authResponse: AuthLoginResponse): UserType => {
+	return {
+		email: authResponse.user.email,
+		refreshtoken: authResponse.session.refresh_token,
+		token: authResponse.session.access_token,
+		uid: authResponse.user.id,
+		username: authResponse.user.user_metadata.username,
+		avatarUrl: authResponse.user.user_metadata.avatarUrl,
+	}
+}
 export const authAdapter = {
-	authResponseToUser,
+	authSingupResponseToUser,
+	authLoginResponseToUser,
 }

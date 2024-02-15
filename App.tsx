@@ -8,6 +8,8 @@ import {
 	Poppins_400Regular_Italic,
 } from "@expo-google-fonts/poppins"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { AuthProvider } from "@/modules/auth/context"
+import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
 
 const queryClient = new QueryClient()
 
@@ -24,7 +26,9 @@ export default function App() {
 		<QueryClientProvider client={queryClient}>
 			<SafeAreaProvider>
 				<ThemeProvider theme={dark}>
-					<Routes />
+					<ContextsProviders>
+						<Routes />
+					</ContextsProviders>
 				</ThemeProvider>
 			</SafeAreaProvider>
 		</QueryClientProvider>

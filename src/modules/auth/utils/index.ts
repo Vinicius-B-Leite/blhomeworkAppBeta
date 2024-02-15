@@ -1,1 +1,1 @@
-export * from "./getSupabeSingUpErrorMessage"
+export * from "./getSupabaseAuthError"

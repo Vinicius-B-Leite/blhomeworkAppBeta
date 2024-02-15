@@ -1,3 +1,4 @@
 export const AUTH_QUERY_KEYS = {
 	SING_UP: "SING_UP",
+	LOGIN_WITH_EMAIL: "LOGIN_WITH_EMAIL",
 }

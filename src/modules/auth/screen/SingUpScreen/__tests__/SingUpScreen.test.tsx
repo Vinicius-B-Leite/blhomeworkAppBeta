@@ -1,7 +1,7 @@
 import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
 import { SingUpScreen } from "../SingUpScreen"
 import { authApi } from "@/modules/auth/api"
-import { AuthResponse } from "@/modules/auth/models/authTypes"
+import { AuthSingUpResponse } from "@/modules/auth/models/authTypes"
 import { mocks } from "./__mocks__/singUpScreenMocks"
 import { iconMap } from "@/components"
 import { toastMap } from "@/components"
@@ -22,7 +22,7 @@ describe("integration: SingUpScreen", () => {
 		jest.useRealTimers()
 	})
 	it("should show all validations", async () => {
-		jest.spyOn(authApi, "singUp").mockResolvedValue({} as AuthResponse)
+		jest.spyOn(authApi, "singUp").mockResolvedValue({} as AuthSingUpResponse)
 		renderScreen(<SingUpScreen />)
 
 		const usernameInput = await screen.findByPlaceholderText("Nome de usuário")
@@ -68,6 +68,7 @@ describe("integration: SingUpScreen", () => {
 				user: {
 					user_metadata: {
 						username: mocks.user.username,
+						avatarUrl: null,
 					},
 					email: mocks.user.email,
 					id: mocks.user.uid,

@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { LoginRoutesType } from "./routesTypes"
+import { AuthRoutesType } from "./routesTypes"
 import { LoginScreen, SingUpScreen } from "@/modules/auth/screen"
 
-const Stack = createNativeStackNavigator<LoginRoutesType>()
-export const LoginRoutes = () => {
+const Stack = createNativeStackNavigator<AuthRoutesType>()
+export const AuthRoutes = () => {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="LoginScreen" component={LoginScreen} />

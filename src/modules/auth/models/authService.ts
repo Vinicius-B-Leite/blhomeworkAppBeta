@@ -1,14 +1,28 @@
-import { AuthResponse, UserType } from "./authTypes"
+import { UserType } from "./authTypes"
 import { authAdapter } from "./authAdapter"
-import { authApi } from "@/modules/auth/api"
+import { LoginWithEmailProps, authApi } from "@/modules/auth/api"
 
 export type SingUpProps = Pick<UserType, "email" | "avatarUrl" | "username"> & {
 	password: string
 }
 const singUp = async (user: SingUpProps) => {
 	try {
-		const response = await authApi.singUp(user)
-		return authAdapter.authResponseToUser(response)
+		const response = await authApi.singUp({
+			...user,
+			email: user.email.toLowerCase(),
+		})
+		return authAdapter.authSingupResponseToUser(response)
+	} catch (error) {
+		throw error
+	}
+}
+const loginWithEmail = async ({ email, password }: LoginWithEmailProps) => {
+	try {
+		const response = await authApi.loginWithEmail({
+			email: email.toLowerCase(),
+			password,
+		})
+		return authAdapter.authLoginResponseToUser(response)
 	} catch (error) {
 		throw error
 	}
@@ -16,4 +30,5 @@ const singUp = async (user: SingUpProps) => {
 
 export const authService = {
 	singUp,
+	loginWithEmail,
 }

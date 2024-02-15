@@ -44,9 +44,13 @@ export const useSingUpScreenViewController = (): LoginScreenViewController => {
 				showToast({ type: "error", message: "Erro ao realizar cadastro!" })
 				return
 			}
-			setError(errorFormated.field, { message: errorFormated.message })
+			errorFormated.field.forEach((field) => {
+				setError(field === "password" ? "passwords.password" : field, {
+					message: errorFormated.message,
+				})
+			})
 		},
-		onSucess: () => {
+		onSuccess: () => {
 			showToast({ type: "success", message: "Cadastro realizado com sucesso" })
 			navigation.goBack()
 		},

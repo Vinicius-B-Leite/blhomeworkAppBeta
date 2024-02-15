@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@/testUtils"
 import { useSingUpModelView } from "../useSingUp.modelView"
 
-import { AuthResponse, UserType } from "@/modules/auth/models"
+import { UserType } from "@/modules/auth/models"
 import { authApi } from "@/modules/auth/api"
 
 const user: UserType = {
@@ -25,6 +25,7 @@ describe("modelView: useSingUpModelView", () => {
 				user: {
 					user_metadata: {
 						username: user.username,
+						avatarUrl: null,
 					},
 					email: user.email,
 					id: user.uid,
@@ -32,7 +33,7 @@ describe("modelView: useSingUpModelView", () => {
 			},
 		})
 		const onSuccess = jest.fn()
-		const { result } = renderHook(() => useSingUpModelView({ onSucess: onSuccess }))
+		const { result } = renderHook(() => useSingUpModelView({ onSuccess: onSuccess }))
 
 		await result.current.handleSingUp({
 			email: user.email,

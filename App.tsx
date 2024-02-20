@@ -1,20 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Routes } from "@/routes"
+import { dark } from "@/theme"
+import { ThemeProvider } from "@shopify/restyle"
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import {
+	useFonts,
+	Poppins_400Regular,
+	Poppins_400Regular_Italic,
+} from "@expo-google-fonts/poppins"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { AuthProvider } from "@/modules/auth/context"
+import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
+
+const queryClient = new QueryClient()
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+	let [fontsLoaded, fontError] = useFonts({
+		Poppins_400Regular,
+		Poppins_400Regular_Italic,
+	})
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+	if (!fontsLoaded && !fontError) {
+		return null
+	}
+	return (
+		<QueryClientProvider client={queryClient}>
+			<SafeAreaProvider>
+				<ThemeProvider theme={dark}>
+					<ContextsProviders>
+						<Routes />
+					</ContextsProviders>
+				</ThemeProvider>
+			</SafeAreaProvider>
+		</QueryClientProvider>
+	)
+}

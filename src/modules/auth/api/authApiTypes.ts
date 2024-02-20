@@ -8,4 +8,5 @@ export type LoginWithEmailProps = {
 export type AuthApi = {
 	singUp: (props: SingUpProps) => Promise<AuthSingUpResponse>
 	loginWithEmail: (props: LoginWithEmailProps) => Promise<AuthLoginResponse>
+	sendEmailToResetPassword: (email: string) => Promise<void>
 }

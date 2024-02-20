@@ -56,7 +56,8 @@ export const Toast: React.FC = () => {
 			alignItems="center"
 			justifyContent="center"
 			bg="secondsBg"
-			p={14}
+			paddingVertical={14}
+			paddingHorizontal={24}
 			borderRadius={8}>
 			<Icon name={iconName} color={iconColor} testID={`toastIcon-${iconName}`} />
 			<Text preset="pMedium">{message}</Text>

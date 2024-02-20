@@ -4,6 +4,7 @@ import {
 	ErrorSvg,
 	EyeOffSvg,
 	EyeOnSvg,
+	LeftSvg,
 	UserSvg,
 	WarningSvg,
 } from "@/assets/icons"
@@ -14,6 +15,7 @@ export const iconMap = {
 	error: ErrorSvg,
 	eyeOff: EyeOffSvg,
 	eyeOn: EyeOnSvg,
+	left: LeftSvg,
 	user: UserSvg,
 	warning: WarningSvg,
 }

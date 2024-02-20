@@ -2,7 +2,7 @@ import { FieldErrors, UseControllerProps, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginScreenSchema, loginScreenSchema } from "./loginScreenSchema"
 import { useNavigation } from "@react-navigation/native"
-import { useLoginWithEmail } from "../../modelView"
+import { useLoginWithEmail } from "@/modules/auth/modelView"
 import { useToastDispatch } from "@/store"
 
 type LoginScreenViewController = {
@@ -12,6 +12,7 @@ type LoginScreenViewController = {
 	isValid: boolean
 	control: UseControllerProps<LoginScreenSchema>["control"]
 	navigateToSignUp: () => void
+	navigateToForgetPassword: () => void
 }
 
 export const useLoginScreenViewController = (): LoginScreenViewController => {
@@ -32,6 +33,7 @@ export const useLoginScreenViewController = (): LoginScreenViewController => {
 		control,
 		handleSubmit: formHandleSubmit,
 		setError,
+		getValues,
 		formState: { errors, isValid },
 	} = useForm<LoginScreenSchema>({
 		resolver: zodResolver(loginScreenSchema),
@@ -52,5 +54,7 @@ export const useLoginScreenViewController = (): LoginScreenViewController => {
 		isValid: isValid,
 		control,
 		navigateToSignUp: () => navigation.navigate("SingUpScreen"),
+		navigateToForgetPassword: () =>
+			navigation.navigate("ForgetPasswordScreen", { email: getValues().email }),
 	}
 }

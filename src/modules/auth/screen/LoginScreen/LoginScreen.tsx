@@ -1,11 +1,18 @@
-import { Button, Container, FormInput, FormPasswordInput, Icon } from "@/components"
+import { Box, Button, Container, FormInput, FormPasswordInput, Icon } from "@/components"
 import React from "react"
 import { useLoginScreenViewController } from "./loginScreen.viewController"
 import { Logo } from "@/modules/auth/components"
 
 export const LoginScreen: React.FC = () => {
-	const { error, submit, isLoading, isValid, control, navigateToSignUp } =
-		useLoginScreenViewController()
+	const {
+		error,
+		submit,
+		isLoading,
+		isValid,
+		control,
+		navigateToSignUp,
+		navigateToForgetPassword,
+	} = useLoginScreenViewController()
 
 	return (
 		<Container justifyContent="center" alignItems="center" width={"100%"}>
@@ -29,6 +36,11 @@ export const LoginScreen: React.FC = () => {
 					mt: 14,
 				}}
 			/>
+			<Box width={"100%"} alignItems="flex-start">
+				<Button link width={undefined} onPress={navigateToForgetPassword}>
+					Esqueci a senha
+				</Button>
+			</Box>
 
 			<Button onPress={submit} isloading={isLoading} disabled={!isValid} mt={24}>
 				Entrar

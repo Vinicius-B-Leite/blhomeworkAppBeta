@@ -1,5 +1,5 @@
 import React from "react"
-import { View } from "react-native"
+
 import { Path, Svg } from "react-native-svg"
 import { BaseIconProps } from "./iconTypes"
 import { useAppTheme } from "@/hooks/useAppTheme"

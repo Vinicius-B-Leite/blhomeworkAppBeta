@@ -28,7 +28,16 @@ const loginWithEmail = async ({ email, password }: LoginWithEmailProps) => {
 	}
 }
 
+const resetPasswordsForEmail = async (email: string) => {
+	try {
+		await authApi.sendEmailToResetPassword(email.toLowerCase())
+	} catch (error) {
+		throw error
+	}
+}
+
 export const authService = {
 	singUp,
 	loginWithEmail,
+	resetPasswordsForEmail,
 }

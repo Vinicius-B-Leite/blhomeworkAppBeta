@@ -33,4 +33,16 @@ export const authApi: AuthApi = {
 
 		return response.data as unknown as AuthLoginResponse
 	},
+	sendEmailToResetPassword: async (email: string) => {
+		const response = await supabase.auth.resetPasswordForEmail(email, {
+			redirectTo:
+				"https://65d3b1a89e9f6b24125002b8--kaleidoscopic-strudel-e34d3b.netlify.app",
+		})
+
+		if (response.error) {
+			throw new Error(response.error.message)
+		}
+
+		return
+	},
 }

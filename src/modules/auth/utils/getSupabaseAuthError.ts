@@ -14,6 +14,14 @@ export const authErrors: Record<string, { field: Fields[]; message: string }> = 
 		field: ["email"],
 		message: "Email já está em uso",
 	},
+	"For security purposes, you can only request this once every 60 seconds": {
+		field: ["email"],
+		message: "Por segurança, você só pode solicitar isso uma vez a cada 60 segundos",
+	},
+	"Email rate limit exceeded": {
+		field: ["email"],
+		message: "Limite de e-mail excedido",
+	},
 }
 export const getSubapaseAuthError = (error: string): SubapaseAuthError => {
 	const authErrosIncludesErrorProp = Object.keys(authErrors).includes(error)

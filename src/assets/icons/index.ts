@@ -3,6 +3,7 @@ export * from "./CheckSvg"
 export * from "./ErrorSvg"
 export * from "./EyeOff"
 export * from "./EyeOnSvg"
+export * from "./LeftSvg"
 export * from "./UserSvg"
 export * from "./WarningSvg"
 

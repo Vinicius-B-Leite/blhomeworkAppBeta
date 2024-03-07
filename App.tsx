@@ -6,6 +6,7 @@ import {
 	useFonts,
 	Poppins_400Regular,
 	Poppins_400Regular_Italic,
+	Poppins_700Bold,
 } from "@expo-google-fonts/poppins"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AuthProvider } from "@/modules/auth/context"
@@ -17,6 +18,7 @@ export default function App() {
 	let [fontsLoaded, fontError] = useFonts({
 		Poppins_400Regular,
 		Poppins_400Regular_Italic,
+		Poppins_700Bold,
 	})
 
 	if (!fontsLoaded && !fontError) {

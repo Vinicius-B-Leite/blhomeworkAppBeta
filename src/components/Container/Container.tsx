@@ -45,9 +45,7 @@ export const Container: React.FC<ContainerProps> = ({
 					gap={14}
 					onPress={handleGoBack}>
 					<Icon name="left" />
-					<Text preset="tSmall" bold>
-						{goBack.title}
-					</Text>
+					<Text preset="tSmallBold">{goBack.title}</Text>
 				</PressableBox>
 			)}
 			<Wrapper

@@ -1,5 +1,6 @@
 import { createTheme } from "@shopify/restyle"
 import { pallet } from "./pallet"
+import { Dimensions } from "react-native"
 
 export const dark = createTheme({
 	colors: {
@@ -36,6 +37,7 @@ export const dark = createTheme({
 	borderRadii: {
 		8: 8,
 		10: 10,
+		9999: Dimensions.get("screen").height,
 	},
 	textVariants: {
 		defaults: {},

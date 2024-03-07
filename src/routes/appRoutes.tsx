@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { View } from "react-native"
 import { useAppTheme } from "@/hooks"
 import { Icon } from "@/components"
+import { ClassRoomRoutes } from "@/modules/classroom/routes/classroomRoutes"
 
 const Tab = createBottomTabNavigator()
 
@@ -22,7 +23,7 @@ export const AppRoutes: React.FC = () => {
 			}}>
 			<Tab.Screen
 				name="ClassroomRoutes"
-				component={View}
+				component={ClassRoomRoutes}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<Icon

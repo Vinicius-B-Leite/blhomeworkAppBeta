@@ -6,6 +6,7 @@ export * from "./EyeOff"
 export * from "./EyeOnSvg"
 export * from "./HomeSvg"
 export * from "./LeftSvg"
+export * from "./SunSvg"
 export * from "./UserSvg"
 export * from "./WarningSvg"
 

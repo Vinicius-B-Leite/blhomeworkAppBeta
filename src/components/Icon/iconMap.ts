@@ -9,6 +9,7 @@ import {
 	WarningSvg,
 	ChatSvg,
 	HomeSvg,
+	SunSvg,
 } from "@/assets/icons"
 
 export const iconMap = {
@@ -22,4 +23,5 @@ export const iconMap = {
 	left: LeftSvg,
 	user: UserSvg,
 	warning: WarningSvg,
+	sun: SunSvg,
 }

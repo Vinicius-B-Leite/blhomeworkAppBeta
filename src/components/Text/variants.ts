@@ -21,47 +21,47 @@ type TextStyle = {
 export const textPresets: Record<keyof typeof textVariants, TextStyle> = {
 	pSmall: {
 		fontSize: 12,
-		lineHeight: 16,
+		lineHeight: 22,
 		fontFamily: fonts.REGULAR,
 	},
 	pMedium: {
 		fontSize: 16,
-		lineHeight: 20,
+		lineHeight: 26,
 		fontFamily: fonts.REGULAR,
 	},
 	pMediumBold: {
 		fontSize: 16,
-		lineHeight: 20,
+		lineHeight: 26,
 		fontFamily: fonts.BOLD,
 	},
 	pLarge: {
 		fontSize: 20,
-		lineHeight: 24,
+		lineHeight: 30,
 		fontFamily: fonts.REGULAR,
 	},
 	tSmall: {
 		fontSize: 24,
-		lineHeight: 28,
+		lineHeight: 34,
 		fontFamily: fonts.REGULAR,
 	},
 	tSmallBold: {
 		fontSize: 24,
-		lineHeight: 28,
+		lineHeight: 34,
 		fontFamily: fonts.BOLD,
 	},
 	tMedium: {
 		fontSize: 28,
-		lineHeight: 32,
+		lineHeight: 38,
 		fontFamily: fonts.REGULAR,
 	},
 	tLarge: {
 		fontSize: 32,
-		lineHeight: 36,
+		lineHeight: 42,
 		fontFamily: fonts.REGULAR,
 	},
 	tLargeItalic: {
 		fontSize: 32,
-		lineHeight: 36,
+		lineHeight: 42,
 		fontFamily: fonts.REGULAR_ITALIC,
 	},
 }

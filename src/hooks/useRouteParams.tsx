@@ -1,7 +1,7 @@
-import { AppRoutes } from "@/routes"
+import { RootRoutes } from "@/routes"
 import { RouteProp, useRoute } from "@react-navigation/native"
 
-type RoutesKeys = keyof AppRoutes
+type RoutesKeys = keyof RootRoutes
 export const useRouteParams = <RoutName extends RoutesKeys>(routeName: RoutName) => {
-	return useRoute<RouteProp<AppRoutes, RoutName>>().params
+	return useRoute<RouteProp<RootRoutes, RoutName>>().params
 }

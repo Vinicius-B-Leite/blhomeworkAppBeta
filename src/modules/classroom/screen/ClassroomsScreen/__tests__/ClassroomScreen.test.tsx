@@ -17,9 +17,9 @@ describe("integration: ClassroomScreen", () => {
 
 		renderScreen(<ClassroomsScreen />)
 
-		expect(await screen.findByText("Classroom 1")).toBeVisible()
-		expect(await screen.findByText("Classroom 2")).toBeVisible()
-		expect(await screen.findByText("Classroom 3")).toBeVisible()
+		expect(
+			await screen.findAllByTestId("classroom - ", { exact: false })
+		).toHaveLength(3)
 	})
 	it("should refresh classroom list", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)

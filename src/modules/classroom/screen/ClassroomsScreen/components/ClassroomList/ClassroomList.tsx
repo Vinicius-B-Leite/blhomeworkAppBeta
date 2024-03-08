@@ -26,7 +26,8 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 				p={12}
 				borderRadius={10}
 				gap={14}
-				bg="secondsBg">
+				bg="secondsBg"
+				testID={`classroom - ${item.id}`}>
 				<CircleImage source={{ uri: item.bannerUrl }} size={40} />
 				<Text preset="pMedium" numberOfLines={2} style={{ flex: 1 }}>
 					{item.title}

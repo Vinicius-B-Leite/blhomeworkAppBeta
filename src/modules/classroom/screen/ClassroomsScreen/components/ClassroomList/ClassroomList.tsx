@@ -27,6 +27,7 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 				borderRadius={10}
 				gap={14}
 				bg="secondsBg"
+				mb={12}
 				testID={`classroom - ${item.id}`}>
 				<CircleImage source={{ uri: item.bannerUrl }} size={40} />
 				<Text preset="pMedium" numberOfLines={2} style={{ flex: 1 }}>
@@ -50,6 +51,7 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 			}
 			contentContainerStyle={{ paddingVertical: theme.spacing[20] }}
 			renderItem={renderItem}
+			showsVerticalScrollIndicator={false}
 			testID="classroom-list"
 		/>
 	)

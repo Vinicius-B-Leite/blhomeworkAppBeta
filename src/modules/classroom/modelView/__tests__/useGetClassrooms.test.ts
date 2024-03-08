@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@/testUtils"
-import { useGetClassrooms } from "../useGetClassrooms.modelView"
-import { classroomApi } from "../../api"
+import { useGetClassrooms } from "@/modules/classroom/modelView"
+import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classrooModelViewMocks"
 
 jest.mock("@/modules/auth/context", () => ({
@@ -12,6 +12,10 @@ jest.mock("@/modules/auth/context", () => ({
 	}),
 }))
 describe("modelView: useGetClassrooms", () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+		jest.restoreAllMocks()
+	})
 	it("should return classroom list and update isLoading", async () => {
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValueOnce(
 			mocks.classroomApiResponse

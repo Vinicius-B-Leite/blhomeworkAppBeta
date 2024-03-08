@@ -1,6 +1,6 @@
 import { supabase } from "@/api"
 import { ClassroomApi } from "./classroomApiTypes"
-import { ClassroomApiResponse } from "../models"
+import { ClassroomApiResponse } from "@/modules/classroom/models"
 
 export const classroomApi: ClassroomApi = {
 	getClassrooms: async (userId: string) => {

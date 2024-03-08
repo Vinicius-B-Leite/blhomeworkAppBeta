@@ -1,6 +1,5 @@
 import { UserType } from "@/modules/auth/models"
-import { ClassroomApiResponse } from "@/modules/classroom/models"
-import { classroomAdapter } from "@/modules/classroom/models/classroomAdapter"
+import { ClassroomApiResponse, classroomAdapter } from "@/modules/classroom/models"
 
 const classroomApiResponse: ClassroomApiResponse[] = [
 	{

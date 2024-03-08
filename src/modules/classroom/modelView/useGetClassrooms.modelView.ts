@@ -1,11 +1,10 @@
+import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { CoumnModelViewProps } from "@/types"
 import { useAuth } from "@/modules/auth/context"
-import { classroomService } from "../models/classroomService"
-import { ClassroomType } from "../models"
-import { CLASSROOM_QUERY_KEYS } from "../api/classroomQueryKey"
-import { useEffect } from "react"
+import { ClassroomType, classroomService } from "@/modules/classroom/models"
+import { CLASSROOM_QUERY_KEYS } from "@/modules/classroom/api"
 
 export function useGetClassrooms(props?: CoumnModelViewProps<string, ClassroomType[]>) {
 	const { user } = useAuth()

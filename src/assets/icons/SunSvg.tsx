@@ -2,7 +2,7 @@ import React from "react"
 
 import { ClipPath, Defs, G, Path, Rect, Svg } from "react-native-svg"
 import { BaseIconProps } from "./iconTypes"
-import { useAppTheme } from "@/hooks/useAppTheme"
+import { useAppTheme } from "@/hooks"
 
 export const SunSvg: React.FC<BaseIconProps> = ({ color, size, testID }) => {
 	const theme = useAppTheme()

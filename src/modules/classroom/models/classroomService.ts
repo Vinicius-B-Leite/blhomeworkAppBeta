@@ -1,4 +1,4 @@
-import { classroomApi } from "../api"
+import { classroomApi } from "@/modules/classroom/api"
 import { classroomAdapter } from "./classroomAdapter"
 
 const getClassrooms = async (userId: string) => {

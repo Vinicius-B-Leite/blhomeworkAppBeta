@@ -1,6 +1,6 @@
 import React from "react"
 import { Path, Svg } from "react-native-svg"
-import { BaseIconProps } from "."
+import { BaseIconProps } from "./iconTypes"
 import { useAppTheme } from "@/hooks"
 
 export const ChatSvg: React.FC<BaseIconProps> = ({ color, size, testID }) => {

@@ -1,7 +1,7 @@
-import { AppRoutes } from "@/routes"
+import { RootRoutes } from "@/routes"
 
 declare global {
 	namespace ReactNavigation {
-		interface RootParamList extends AppRoutes {}
+		interface RootParamList extends RootRoutes {}
 	}
 }

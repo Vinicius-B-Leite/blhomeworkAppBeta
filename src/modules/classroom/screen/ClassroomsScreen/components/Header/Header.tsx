@@ -1,9 +1,13 @@
 import { Box, CircleImage, Icon, PressableBox, Text } from "@/components"
 import React from "react"
 
-const Header: React.FC = () => {
+type HeaderProps = {
+	onPress: () => void
+}
+const Header: React.FC<HeaderProps> = ({ onPress }) => {
 	return (
-		<Box
+		<PressableBox
+			onPress={onPress}
 			flexDirection="row"
 			alignItems="center"
 			justifyContent="space-between"
@@ -26,7 +30,7 @@ const Header: React.FC = () => {
 			<PressableBox>
 				<Icon name="sun" size={30} />
 			</PressableBox>
-		</Box>
+		</PressableBox>
 	)
 }
 

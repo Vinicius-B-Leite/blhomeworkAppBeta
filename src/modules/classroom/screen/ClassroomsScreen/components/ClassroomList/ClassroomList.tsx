@@ -44,10 +44,12 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 					onRefresh={refresh}
 					colors={[theme.colors.contrast]}
 					tintColor={theme.colors.contrast}
+					testID="refreshControl"
 				/>
 			}
 			contentContainerStyle={{ paddingVertical: theme.spacing[20] }}
 			renderItem={renderItem}
+			testID="classroom-list"
 		/>
 	)
 }

@@ -6,13 +6,13 @@ import { classroomService } from "../models/classroomService"
 import { ClassroomType } from "../models"
 import { CLASSROOM_QUERY_KEYS } from "../api/classroomQueryKey"
 import { useEffect } from "react"
-import { useToastDispatch } from "@/store"
 
 export function useGetClassrooms(props?: CoumnModelViewProps<string, ClassroomType[]>) {
 	const { user } = useAuth()
 	const { data, error, refetch, isFetching } = useQuery<ClassroomType[], Error>({
-		queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS],
+		queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user?.uid],
 		queryFn: () => classroomService.getClassrooms(user!.uid),
+		enabled: !!user?.uid,
 	})
 	useEffect(() => {
 		if (error) {

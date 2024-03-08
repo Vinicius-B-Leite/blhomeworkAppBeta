@@ -9,26 +9,20 @@ import { useEffect } from "react"
 import { useToastDispatch } from "@/store"
 
 export function useGetClassrooms(props?: CoumnModelViewProps<string, ClassroomType[]>) {
-	const { showToast } = useToastDispatch()
 	const { user } = useAuth()
-	const { data, isPending, error, refetch, isRefetching } = useQuery<
-		ClassroomType[],
-		Error
-	>({
+	const { data, error, refetch, isFetching } = useQuery<ClassroomType[], Error>({
 		queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS],
 		queryFn: () => classroomService.getClassrooms(user!.uid),
-		retry: false,
-		gcTime: Infinity,
 	})
 	useEffect(() => {
 		if (error) {
-			showToast({ message: "Erro ao buscar as salas!", type: "error" })
 			props?.onError && props.onError(error.message)
 		}
 	}, [error])
+
 	return {
 		classrooms: data || [],
-		isLoading: isPending || isRefetching,
+		isLoading: isFetching,
 		refresh: refetch,
 	}
 }

@@ -1,5 +1,6 @@
 export * from "./Box/Box"
 export * from "./Button/Button"
+export * from "./CircleImage/CircleImage"
 export * from "./Container/Container"
 export * from "./Form/FormInput"
 export * from "./Form/FormPasswordInput"

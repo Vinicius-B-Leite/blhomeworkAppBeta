@@ -4,12 +4,10 @@ import React from "react"
 export const Logo: React.FC<BoxProps> = (boxProps) => {
 	return (
 		<Box flexDirection="row" gap={12} justifyContent="center" mb={50} {...boxProps}>
-			<Text preset="tLarge" italic color="contrast">
+			<Text preset="tLargeItalic" color="contrast">
 				BL
 			</Text>
-			<Text preset="tLarge" italic>
-				Homework
-			</Text>
+			<Text preset="tLargeItalic">Homework</Text>
 		</Box>
 	)
 }

@@ -7,15 +7,21 @@ import {
 	LeftSvg,
 	UserSvg,
 	WarningSvg,
+	ChatSvg,
+	HomeSvg,
+	SunSvg,
 } from "@/assets/icons"
 
 export const iconMap = {
+	chat: ChatSvg,
 	check: CheckSvg,
 	email: EmailSvg,
 	error: ErrorSvg,
 	eyeOff: EyeOffSvg,
 	eyeOn: EyeOnSvg,
+	home: HomeSvg,
 	left: LeftSvg,
 	user: UserSvg,
 	warning: WarningSvg,
+	sun: SunSvg,
 }

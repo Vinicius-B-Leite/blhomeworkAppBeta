@@ -35,4 +35,27 @@ const createClassroom = async (classroom: CreateClassroomServiceProps) => {
 		throw error
 	}
 }
-export const classroomService = { getClassrooms, createClassroom }
+
+const enterClassroom = async (classroomCode: string, userId: string) => {
+	try {
+		const classroomExists = await getClassroomById(classroomCode)
+		if (classroomExists) {
+			await classroomApi.enterClassroom(classroomCode, userId)
+		}
+	} catch (error) {
+		throw error
+	}
+}
+
+const getClassroomById = async (classroomId: string) => {
+	try {
+		const data = await classroomApi.getClassroomById(classroomId)
+
+		if (!data) return []
+		return classroomAdapter.classroomApiResponseToClassroom(data[0])
+	} catch (error) {
+		throw error
+	}
+}
+
+export const classroomService = { getClassrooms, createClassroom, enterClassroom }

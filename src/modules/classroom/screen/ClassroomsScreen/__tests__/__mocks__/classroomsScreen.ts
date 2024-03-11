@@ -4,7 +4,11 @@ import { ClassroomApiResponse, classroomAdapter } from "@/modules/classroom/mode
 const classroomApiResponse: ClassroomApiResponse[] = [
 	{
 		classroom: {
-			banner_url: "url1",
+			upload: {
+				path_url: "url1",
+				type: "image",
+				id: "1",
+			},
 			created_at: "2024-03-07",
 			deleted_at: "",
 			id: "1",
@@ -14,7 +18,11 @@ const classroomApiResponse: ClassroomApiResponse[] = [
 	},
 	{
 		classroom: {
-			banner_url: "url2",
+			upload: {
+				path_url: "url2",
+				type: "image",
+				id: "1",
+			},
 			created_at: "2024-03-07",
 			deleted_at: "",
 			id: "2",
@@ -24,7 +32,11 @@ const classroomApiResponse: ClassroomApiResponse[] = [
 	},
 	{
 		classroom: {
-			banner_url: "url3",
+			upload: {
+				path_url: "url3",
+				type: "image",
+				id: "1",
+			},
 			created_at: "2024-03-07",
 			deleted_at: "",
 			id: "3",

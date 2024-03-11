@@ -3,6 +3,7 @@ import { Button, Container } from "@/components"
 import Header from "./components/Header/Header"
 import ClassroomList from "./components/ClassroomList/ClassroomList"
 import { useClassroomScreenModelView } from "./classroomScreen.modelView"
+import FloatButton from "./components/FloatButton/FloatButton"
 
 export const ClassroomsScreen: React.FC = () => {
 	const {
@@ -11,6 +12,7 @@ export const ClassroomsScreen: React.FC = () => {
 		classrooms,
 		isLoading,
 		refresh,
+		handleNavigateToCreateClassroom,
 	} = useClassroomScreenModelView()
 
 	return (
@@ -29,6 +31,8 @@ export const ClassroomsScreen: React.FC = () => {
 					await refresh()
 				}}
 			/>
+
+			<FloatButton onPress={handleNavigateToCreateClassroom} />
 		</Container>
 	)
 }

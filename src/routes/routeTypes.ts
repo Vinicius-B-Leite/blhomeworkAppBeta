@@ -3,6 +3,6 @@ import { ClassroomRouteType } from "@/modules/classroom/routes/classroomRoutesTy
 import { NavigatorScreenParams } from "@react-navigation/native"
 
 type AppRoutes = {
-	ClassroomStack: NavigatorScreenParams<ClassroomRouteType>
+	ClassroomRoutes: NavigatorScreenParams<ClassroomRouteType>
 }
 export type RootRoutes = AuthRoutesType & AppRoutes

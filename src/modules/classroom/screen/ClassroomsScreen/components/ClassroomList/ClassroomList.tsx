@@ -3,7 +3,7 @@ import { useAppTheme } from "@/hooks"
 import { ClassroomType } from "@/modules/classroom/models"
 import React, { useCallback } from "react"
 import { FlatList, ListRenderItemInfo, RefreshControl } from "react-native"
-
+import ImageNotFound from "@/assets/images/ImageNotfound.png"
 type ClassroomListProps = {
 	onSelectClassroom: (classroomId: string) => void
 	classroomList: ClassroomType[]
@@ -27,8 +27,12 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 				borderRadius={10}
 				gap={14}
 				bg="secondsBg"
+				mb={12}
 				testID={`classroom - ${item.id}`}>
-				<CircleImage source={{ uri: item.bannerUrl }} size={40} />
+				<CircleImage
+					source={item.bannerUrl ? { uri: item.bannerUrl } : ImageNotFound}
+					size={40}
+				/>
 				<Text preset="pMedium" numberOfLines={2} style={{ flex: 1 }}>
 					{item.title}
 				</Text>
@@ -50,6 +54,7 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 			}
 			contentContainerStyle={{ paddingVertical: theme.spacing[20] }}
 			renderItem={renderItem}
+			showsVerticalScrollIndicator={false}
 			testID="classroom-list"
 		/>
 	)

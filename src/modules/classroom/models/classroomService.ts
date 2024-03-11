@@ -11,4 +11,28 @@ const getClassrooms = async (userId: string) => {
 	}
 }
 
-export const classroomService = { getClassrooms }
+export type CreateClassroomServiceProps = {
+	name: string
+	userId: string
+	baner?: {
+		uri: string
+		base64: string
+	}
+}
+const createClassroom = async (classroom: CreateClassroomServiceProps) => {
+	try {
+		let bannerId = ""
+		if (classroom.baner) {
+			const { id } = await classroomApi.uploadClassroomBanner(
+				classroom.baner.uri,
+				classroom.baner.base64
+			)
+
+			bannerId = id
+		}
+		await classroomApi.createClassroom(classroom.name, classroom.userId, bannerId)
+	} catch (error) {
+		throw error
+	}
+}
+export const classroomService = { getClassrooms, createClassroom }

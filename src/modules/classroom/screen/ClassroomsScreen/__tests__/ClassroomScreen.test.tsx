@@ -1,8 +1,18 @@
 import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classroomsScreen"
-import { act, renderScreen, screen } from "@/testUtils"
+import { act, fireEvent, renderScreen, screen } from "@/testUtils"
 import { ClassroomsScreen } from "../ClassroomsScreen"
 import { authStorage } from "@/modules/auth/storage"
+
+const mockNavigate = jest.fn()
+jest.mock("@react-navigation/native", () => {
+	return {
+		...jest.requireActual("@react-navigation/native"),
+		useNavigation: () => ({
+			navigate: mockNavigate,
+		}),
+	}
+})
 
 describe("integration: ClassroomScreen", () => {
 	beforeEach(() => {
@@ -48,5 +58,21 @@ describe("integration: ClassroomScreen", () => {
 		renderScreen(<ClassroomsScreen />)
 
 		expect(await screen.findByText("Erro ao buscar as salas!")).toBeVisible()
+	})
+	it("should navigate to Create Classroom Screen when float button is pressed", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+
+		renderScreen(<ClassroomsScreen />)
+
+		const floatButton = await screen.findByTestId("float-button")
+		await act(async () => {
+			await fireEvent.press(floatButton)
+		})
+		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
+			screen: "CreateClassroomScreen",
+		})
 	})
 })

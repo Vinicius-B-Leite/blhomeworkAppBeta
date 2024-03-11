@@ -1,8 +1,10 @@
 import { useGetClassrooms } from "@/modules/classroom/modelView"
 import { useToastDispatch } from "@/store"
+import { useNavigation } from "@react-navigation/native"
 
 export function useClassroomScreenModelView() {
 	const { showToast } = useToastDispatch()
+	const navigation = useNavigation()
 
 	const { classrooms, isLoading, refresh } = useGetClassrooms({
 		onError: () => {
@@ -17,6 +19,11 @@ export function useClassroomScreenModelView() {
 	const handleNavigateToTasks = (classroomId: string) => {
 		// TODO: navigation.navigate("Tasks", {classroomId: classroomId})
 	}
+	const handleNavigateToCreateClassroom = () => {
+		navigation.navigate("ClassroomRoutes", {
+			screen: "CreateClassroomScreen",
+		})
+	}
 
 	return {
 		handleNavigateToProfile,
@@ -24,5 +31,6 @@ export function useClassroomScreenModelView() {
 		isLoading,
 		classrooms,
 		refresh,
+		handleNavigateToCreateClassroom,
 	}
 }

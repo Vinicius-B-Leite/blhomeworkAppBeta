@@ -33,6 +33,12 @@
 				{
 					"fonts": ["node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf"]
 				}
+			],
+			[
+				"expo-image-picker",
+				{
+					"photosPermission": "O aplicativo precisa do acesso para selecionar uma foto."
+				}
 			]
 		]
 	}

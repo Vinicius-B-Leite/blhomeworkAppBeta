@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from "@/testUtils"
-import { useCreateClassroom } from "../useCreateClassroom.modelView"
-import { classroomApi } from "../../api"
+import { useCreateClassroom } from "@/modules/classroom/modelView"
+import { classroomApi } from "@/modules/classroom/api"
 
 jest.mock("@/modules/auth/context", () => ({
 	...jest.requireActual("@/modules/auth/context"),

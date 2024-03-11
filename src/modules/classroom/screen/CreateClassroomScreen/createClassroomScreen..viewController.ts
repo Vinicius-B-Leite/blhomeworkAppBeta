@@ -6,7 +6,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useCreateClassroom } from "@/modules/classroom/modelView"
-import { CreateClassroomServiceProps } from "../../models"
+import { CreateClassroomServiceProps } from "@/modules/classroom/models"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 import { pickImage } from "@/utils"

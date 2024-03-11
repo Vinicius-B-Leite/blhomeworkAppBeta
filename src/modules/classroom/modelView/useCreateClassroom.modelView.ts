@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { CreateClassroomServiceProps, classroomService } from "../models"
+import { CreateClassroomServiceProps, classroomService } from "@/modules/classroom/models"
 import { CoumnModelViewProps } from "@/types"
 import { useAuth } from "@/modules/auth/context"
-import { CLASSROOM_QUERY_KEYS } from "../api"
+import { CLASSROOM_QUERY_KEYS } from "@/modules/classroom/api"
 
 type UseCreateClassroomProps = CoumnModelViewProps<string, void>
 export function useCreateClassroom(props: UseCreateClassroomProps) {

@@ -14,7 +14,7 @@ export function useEnterClassroomModelView(props?: UseEnterClassroomModelViewPro
 	const { user } = useAuth()
 	const client = useQueryClient()
 	const { mutate, isPending } = useMutation<void, Error, { classroomCode: string }>({
-		mutationKey: [CLASSROOM_QUERY_KEYS.ENTER_CLASSROOM, user!.uid],
+		mutationKey: [CLASSROOM_QUERY_KEYS.ENTER_CLASSROOM],
 		mutationFn: ({ classroomCode }) =>
 			classroomService.enterClassroom(classroomCode, user!.uid),
 		onSuccess: () => {

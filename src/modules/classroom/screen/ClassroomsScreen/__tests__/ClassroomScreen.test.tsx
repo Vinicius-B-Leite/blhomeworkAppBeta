@@ -75,4 +75,20 @@ describe("integration: ClassroomScreen", () => {
 			screen: "CreateClassroomScreen",
 		})
 	})
+	it("should navigate to ENTER Classroom Screen when underline button is pressed", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+
+		renderScreen(<ClassroomsScreen />)
+
+		const underlineBtn = await screen.findByText(/Entre em uma sala com um código/i)
+		await act(async () => {
+			await fireEvent.press(underlineBtn)
+		})
+		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
+			screen: "EnterClassroomScreen",
+		})
+	})
 })

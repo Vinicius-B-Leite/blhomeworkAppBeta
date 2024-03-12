@@ -1,13 +1,12 @@
 import React from "react"
 import { Button, Container } from "@/components"
-import Header from "./components/Header/Header"
 import ClassroomList from "./components/ClassroomList/ClassroomList"
 import FloatButton from "./components/FloatButton/FloatButton"
 import { useClassroomScreenViewController } from "./classroomScreen.viewController"
+import Header from "@/components/Header/Header"
 
 export const ClassroomsScreen: React.FC = () => {
 	const {
-		handleNavigateToProfile,
 		handleNavigateToTasks,
 		classrooms,
 		isLoading,
@@ -18,7 +17,7 @@ export const ClassroomsScreen: React.FC = () => {
 
 	return (
 		<Container>
-			<Header onPress={handleNavigateToProfile} />
+			<Header />
 
 			<Button
 				onPress={handleNavigateToEnterClassroom}

@@ -1,19 +1,22 @@
 import { Box, CircleImage, Icon, PressableBox, Text } from "@/components"
 import React from "react"
+import { useHeader } from "./useHeader"
 
-type HeaderProps = {
-	onPress: () => void
-}
-const Header: React.FC<HeaderProps> = ({ onPress }) => {
+const Header: React.FC = () => {
+	const { handleNavigateToProfile, handleToggleTheme } = useHeader()
 	return (
-		<PressableBox
-			onPress={onPress}
+		<Box
 			flexDirection="row"
 			alignItems="center"
 			justifyContent="space-between"
 			gap={12}
 			mb={20}>
-			<Box flex={1} flexDirection="row" alignItems="center" gap={12}>
+			<PressableBox
+				onPress={handleNavigateToProfile}
+				flex={1}
+				flexDirection="row"
+				alignItems="center"
+				gap={12}>
 				<CircleImage
 					size={50}
 					source={{ uri: "https://www.github.com/Vinicius-B-Leite.png" }}
@@ -25,12 +28,12 @@ const Header: React.FC<HeaderProps> = ({ onPress }) => {
 					style={{ flex: 1 }}>
 					fulano fulano fulano
 				</Text>
-			</Box>
+			</PressableBox>
 
-			<PressableBox>
+			<PressableBox onPress={handleToggleTheme}>
 				<Icon name="sun" size={30} />
 			</PressableBox>
-		</PressableBox>
+		</Box>
 	)
 }
 

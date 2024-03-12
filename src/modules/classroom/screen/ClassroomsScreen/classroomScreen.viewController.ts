@@ -12,10 +12,6 @@ export function useClassroomScreenViewController() {
 		},
 	})
 
-	const handleNavigateToProfile = () => {
-		// TODO: navigation.navigate("Profile")
-	}
-
 	const handleNavigateToTasks = (classroomId: string) => {
 		// TODO: navigation.navigate("Tasks", {classroomId: classroomId})
 	}
@@ -31,7 +27,6 @@ export function useClassroomScreenViewController() {
 	}
 
 	return {
-		handleNavigateToProfile,
 		handleNavigateToTasks,
 		isLoading,
 		classrooms,

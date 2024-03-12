@@ -1,6 +1,9 @@
-import { Box, CircleImage, Icon, PressableBox, Text } from "@/components"
 import React from "react"
 import { useHeader } from "./useHeader"
+import { Box, PressableBox } from "../Box/Box"
+import { CircleImage } from "../CircleImage/CircleImage"
+import { Icon } from "../Icon/Icon"
+import { Text } from "../Text/Text"
 
 const Header: React.FC = () => {
 	const { handleNavigateToProfile, handleToggleTheme } = useHeader()

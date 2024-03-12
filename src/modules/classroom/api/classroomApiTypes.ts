@@ -6,4 +6,5 @@ export type ClassroomApi = {
 	getFileUrl: (path: string) => string | null
 	createClassroom: (name: string, userId: string, bannerId: string) => Promise<void>
 	enterClassroom: (classroomId: string, userId: string) => Promise<void>
+	getClassroomById: (classroomId: string) => Promise<ClassroomApiResponse[] | null>
 }

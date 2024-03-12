@@ -85,4 +85,19 @@ export const classroomApi: ClassroomApi = {
 
 		return
 	},
+	getClassroomById: async (classroomId: string) => {
+		const { data, error, status } = await supabase
+			.from("classroom")
+			.select("*")
+			.eq("id", classroomId)
+		const isClassroomNotFound = status === 400 && data === null
+		if (isClassroomNotFound) {
+			throw new Error("Classroom not found")
+		}
+		if (error && error.message) {
+			throw new Error(error.message)
+		}
+
+		return data
+	},
 }

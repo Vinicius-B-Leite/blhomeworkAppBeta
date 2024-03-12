@@ -1,4 +1,4 @@
-import { getExtension } from "./getFileExtension"
+import { getExtension } from "../getFileExtension"
 
 describe("getExtension", () => {
 	it("should return the correct extension for a URL with an extension", () => {

@@ -7,6 +7,7 @@ const classroomApiResponseToClassroom = (
 		bannerUrl: classroom.classroom?.upload?.path_url || null,
 		id: classroom.classroom.id,
 		title: classroom.classroom.name,
+		adminId: classroom.classroom.admin_id,
 	}
 }
 

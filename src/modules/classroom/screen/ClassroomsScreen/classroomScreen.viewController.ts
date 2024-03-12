@@ -12,8 +12,17 @@ export function useClassroomScreenViewController() {
 		},
 	})
 
-	const handleNavigateToTasks = (classroomId: string) => {
-		// TODO: navigation.navigate("Tasks", {classroomId: classroomId})
+	const handleNavigateToTasks = ({
+		classroomAdmin,
+		classroomId,
+	}: {
+		classroomId: string
+		classroomAdmin: string
+	}) => {
+		navigation.navigate("TaskRoutes", {
+			screen: "TaskList",
+			params: { classroomId, classroomAdmin },
+		})
 	}
 	const handleNavigateToCreateClassroom = () => {
 		navigation.navigate("ClassroomRoutes", {

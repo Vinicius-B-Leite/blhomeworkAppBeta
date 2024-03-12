@@ -5,7 +5,7 @@ import { CircleImage } from "../CircleImage/CircleImage"
 import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
 	const { handleNavigateToProfile, handleToggleTheme } = useHeader()
 	return (
 		<Box
@@ -39,5 +39,3 @@ const Header: React.FC = () => {
 		</Box>
 	)
 }
-
-export default Header

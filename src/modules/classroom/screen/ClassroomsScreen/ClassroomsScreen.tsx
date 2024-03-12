@@ -1,9 +1,8 @@
 import React from "react"
-import { Button, Container } from "@/components"
+import { Button, Container, FloatButton, Header } from "@/components"
 import ClassroomList from "./components/ClassroomList/ClassroomList"
-import FloatButton from "./components/FloatButton/FloatButton"
+
 import { useClassroomScreenViewController } from "./classroomScreen.viewController"
-import Header from "@/components/Header/Header"
 
 export const ClassroomsScreen: React.FC = () => {
 	const {
@@ -29,7 +28,9 @@ export const ClassroomsScreen: React.FC = () => {
 
 			<ClassroomList
 				classroomList={classrooms}
-				onSelectClassroom={handleNavigateToTasks}
+				onSelectClassroom={({ classroomAdmin, classroomId }) => {
+					handleNavigateToTasks({ classroomAdmin, classroomId })
+				}}
 				isRefetching={isLoading}
 				refresh={async () => {
 					await refresh()

@@ -1,11 +1,12 @@
-import { Icon, PressableBox } from "@/components"
 import React from "react"
+import { PressableBox } from "../Box/Box"
+import { Icon } from "../Icon/Icon"
 
 type FloatButtonProps = {
 	onPress: () => void
 }
 
-const FloatButton: React.FC<FloatButtonProps> = ({ onPress }) => {
+export const FloatButton: React.FC<FloatButtonProps> = ({ onPress }) => {
 	return (
 		<PressableBox
 			onPress={onPress}
@@ -19,5 +20,3 @@ const FloatButton: React.FC<FloatButtonProps> = ({ onPress }) => {
 		</PressableBox>
 	)
 }
-
-export default FloatButton

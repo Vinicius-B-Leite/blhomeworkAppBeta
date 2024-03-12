@@ -6,6 +6,7 @@ import {
 	EnterClassroomScreen,
 } from "@/modules/classroom/screen"
 import { ClassroomRouteType } from "./classroomRoutesTypes"
+import { TaskRoutes } from "@/modules/task/routes"
 
 const Stack = createNativeStackNavigator<ClassroomRouteType>()
 
@@ -20,6 +21,7 @@ export const ClassRoomRoutes: React.FC = () => {
 				component={CreateClassroomScreen}
 			/>
 			<Stack.Screen name="EnterClassroomScreen" component={EnterClassroomScreen} />
+			<Stack.Screen name="TaskRoutes" component={TaskRoutes} />
 		</Stack.Navigator>
 	)
 }

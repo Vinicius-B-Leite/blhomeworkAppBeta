@@ -12,6 +12,8 @@ const user: UserType = {
 const classroomApiResponse: ClassroomApiResponse[] = [
 	{
 		classroom: {
+			admin_id: "1",
+
 			upload: {
 				path_url: "url1",
 				type: "image",
@@ -26,6 +28,8 @@ const classroomApiResponse: ClassroomApiResponse[] = [
 	},
 	{
 		classroom: {
+			admin_id: "1",
+
 			upload: {
 				path_url: "url2",
 				type: "image",
@@ -40,6 +44,8 @@ const classroomApiResponse: ClassroomApiResponse[] = [
 	},
 	{
 		classroom: {
+			admin_id: "1",
+
 			upload: {
 				path_url: "url3",
 				type: "image",

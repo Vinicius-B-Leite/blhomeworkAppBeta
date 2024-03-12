@@ -5,7 +5,13 @@ import React, { useCallback } from "react"
 import { FlatList, ListRenderItemInfo, RefreshControl } from "react-native"
 import ImageNotFound from "@/assets/images/ImageNotfound.png"
 type ClassroomListProps = {
-	onSelectClassroom: (classroomId: string) => void
+	onSelectClassroom: ({
+		classroomId,
+		classroomAdmin,
+	}: {
+		classroomId: string
+		classroomAdmin: string
+	}) => void
 	classroomList: ClassroomType[]
 	isRefetching: boolean
 	refresh: () => Promise<void>
@@ -20,7 +26,12 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 	const renderItem = useCallback(({ item }: ListRenderItemInfo<ClassroomType>) => {
 		return (
 			<PressableBox
-				onPress={() => onSelectClassroom(item.id)}
+				onPress={() =>
+					onSelectClassroom({
+						classroomAdmin: item.adminId,
+						classroomId: item.id,
+					})
+				}
 				flexDirection="row"
 				alignItems="center"
 				p={12}

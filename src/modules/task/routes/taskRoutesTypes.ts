@@ -4,7 +4,7 @@ export type TaskRoutesTypes = {
 	TaskList: {
 		classroom: ClassroomType
 	}
-	Some: {
-		some: string
+	CreateTask: {
+		classroomId: string
 	}
 }

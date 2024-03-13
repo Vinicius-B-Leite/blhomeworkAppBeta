@@ -12,10 +12,11 @@ export const TaskListScreen: React.FC = () => {
 	const params = useRouteParams("TaskList")
 	const { adminId, id, title } = params!.classroom
 
-	const { currentUserIsAdmin, isLoading, taskList } = useTaskListScreenViewController({
-		classroomAdminId: adminId,
-		classroomId: id,
-	})
+	const { currentUserIsAdmin, isLoading, taskList, handleNavigateToCreateTask } =
+		useTaskListScreenViewController({
+			classroomAdminId: adminId,
+			classroomId: id,
+		})
 
 	const TaskListItem = useCallback(
 		({ item }: ListRenderItemInfo<Task>) => <TaskItem task={item} />,
@@ -43,7 +44,7 @@ export const TaskListScreen: React.FC = () => {
 				/>
 			)}
 
-			{currentUserIsAdmin && <FloatButton onPress={() => {}} />}
+			{currentUserIsAdmin && <FloatButton onPress={handleNavigateToCreateTask} />}
 		</Container>
 	)
 }

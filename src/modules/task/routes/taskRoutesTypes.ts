@@ -1,7 +1,8 @@
+import { ClassroomType } from "@/modules/classroom/models"
+
 export type TaskRoutesTypes = {
 	TaskList: {
-		classroomId: string
-		classroomAdmin: string
+		classroom: ClassroomType
 	}
 	Some: {
 		some: string

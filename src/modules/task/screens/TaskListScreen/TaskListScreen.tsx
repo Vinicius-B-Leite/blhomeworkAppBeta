@@ -5,56 +5,20 @@ import { FlatList, ListRenderItemInfo } from "react-native"
 import TaskItem from "./components/TaskItem/TaskItem"
 import { useRouteParams } from "@/hooks"
 import { useTaskListScreenViewController } from "./taskListScreen.viewController"
-
-const data = [
-	{
-		title: "exercicio para prova",
-		id: "1",
-		deadLine: new Date(),
-		subject: {
-			name: "Matemática",
-			id: "1",
-			shortName: "MAT",
-			color: "#FF0000",
-		},
-	},
-	{
-		title: "exercicio para prova",
-		deadLine: new Date(),
-
-		id: "2",
-		subject: {
-			name: "Biologia",
-			id: "2",
-			shortName: "BIO",
-			color: "#00FF00",
-		},
-	},
-	{
-		title: "exercicio para prova",
-		deadLine: new Date(),
-
-		id: "3",
-		subject: {
-			name: "Português",
-			id: "3",
-			shortName: "POR",
-			color: "#0000FF",
-		},
-	},
-]
+import { Spinner } from "@/components/Spinner/Spinner"
+import { Task } from "../../model"
 
 export const TaskListScreen: React.FC = () => {
 	const params = useRouteParams("TaskList")
-	const classroomId = params?.classroomId || ""
-	const classroomAdminId = params?.classroomAdmin || ""
+	const { adminId, id, title } = params!.classroom
 
-	const { currentUserIsAdmin } = useTaskListScreenViewController({
-		classroomAdminId,
+	const { currentUserIsAdmin, isLoading, taskList } = useTaskListScreenViewController({
+		classroomAdminId: adminId,
+		classroomId: id,
 	})
 
 	const TaskListItem = useCallback(
-		({ item }: ListRenderItemInfo<(typeof data)[0]>) => <TaskItem task={item} />,
+		({ item }: ListRenderItemInfo<Task>) => <TaskItem task={item} />,
 		[]
 	)
 	return (
@@ -63,16 +27,21 @@ export const TaskListScreen: React.FC = () => {
 			<Text preset="tMedium" mt={24}>
 				Tarefas
 			</Text>
-			<Text preset="pMedium" mb={24}>
-				Desenvolvimento de Sistema - Tarde
+			<Text preset="pMedium" mb={24} numberOfLines={2}>
+				{title}
 			</Text>
 
-			<FlatList
-				data={data}
-				keyExtractor={(item) => item.id}
-				showsVerticalScrollIndicator={false}
-				renderItem={TaskListItem}
-			/>
+			{isLoading ? (
+				<Spinner size={40} testID="spinner" />
+			) : (
+				<FlatList
+					data={taskList}
+					keyExtractor={(item) => item.id}
+					showsVerticalScrollIndicator={false}
+					renderItem={TaskListItem}
+					testID="task-list"
+				/>
+			)}
 
 			{currentUserIsAdmin && <FloatButton onPress={() => {}} />}
 		</Container>

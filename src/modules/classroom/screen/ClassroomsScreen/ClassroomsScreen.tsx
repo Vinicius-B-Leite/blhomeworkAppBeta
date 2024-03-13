@@ -28,9 +28,7 @@ export const ClassroomsScreen: React.FC = () => {
 
 			<ClassroomList
 				classroomList={classrooms}
-				onSelectClassroom={({ classroomAdmin, classroomId }) => {
-					handleNavigateToTasks({ classroomAdmin, classroomId })
-				}}
+				onSelectClassroom={handleNavigateToTasks}
 				isRefetching={isLoading}
 				refresh={async () => {
 					await refresh()

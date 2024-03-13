@@ -1,14 +1,27 @@
 import { useAuth } from "@/modules/auth/context"
+import { useGetTaskListModelView } from "@/modules/task/modelView"
+import { useToastDispatch } from "@/store"
 
 type UseTaskListScreenViewControllerProps = {
 	classroomAdminId: string
+	classroomId: string
 }
 export function useTaskListScreenViewController({
 	classroomAdminId,
+	classroomId,
 }: UseTaskListScreenViewControllerProps) {
 	const { user } = useAuth()
+	const { showToast } = useToastDispatch()
+	const { taskList, isLoading } = useGetTaskListModelView({
+		classroomId,
+		onError: () => {
+			showToast({ message: "Erro ao carregar tarefas", type: "error" })
+		},
+	})
 
 	return {
-		currentUserIsAdmin: user!.uid == classroomAdminId,
+		currentUserIsAdmin: user?.uid == classroomAdminId,
+		taskList,
+		isLoading,
 	}
 }

@@ -8,8 +8,8 @@ type AppRoutes = {
 	TaskRoutes: NavigatorScreenParams<TaskRoutesTypes>
 }
 
-export type Screens = AuthRoutesType & ClassroomRouteType & TaskRoutesTypes
+export type Stacks = AuthRoutesType & ClassroomRouteType & TaskRoutesTypes
 
-export type ScreensKeys = keyof Screens
+export type StacksKeys = keyof Stacks
 
 export type RootRoutes = AuthRoutesType & AppRoutes

@@ -2,6 +2,7 @@ export type ClassroomType = {
 	bannerUrl: string | null
 	title: string
 	id: string
+	adminId: string
 }
 
 export type ClassroomApiResponse = {
@@ -10,6 +11,7 @@ export type ClassroomApiResponse = {
 		deleted_at: string
 		id: string
 		name: string
+		admin_id: string
 		updated_at: string
 		upload: {
 			id: string

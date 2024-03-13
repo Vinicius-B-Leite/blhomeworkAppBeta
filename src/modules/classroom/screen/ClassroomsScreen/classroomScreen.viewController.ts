@@ -1,6 +1,7 @@
 import { useGetClassrooms } from "@/modules/classroom/modelView"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
+import { ClassroomType } from "@/modules/classroom/models"
 
 export function useClassroomScreenViewController() {
 	const { showToast } = useToastDispatch()
@@ -12,12 +13,11 @@ export function useClassroomScreenViewController() {
 		},
 	})
 
-	const handleNavigateToProfile = () => {
-		// TODO: navigation.navigate("Profile")
-	}
-
-	const handleNavigateToTasks = (classroomId: string) => {
-		// TODO: navigation.navigate("Tasks", {classroomId: classroomId})
+	const handleNavigateToTasks = (classroom: ClassroomType) => {
+		navigation.navigate("TaskRoutes", {
+			screen: "TaskList",
+			params: { classroom },
+		})
 	}
 	const handleNavigateToCreateClassroom = () => {
 		navigation.navigate("ClassroomRoutes", {
@@ -31,7 +31,6 @@ export function useClassroomScreenViewController() {
 	}
 
 	return {
-		handleNavigateToProfile,
 		handleNavigateToTasks,
 		isLoading,
 		classrooms,

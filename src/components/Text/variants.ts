@@ -8,6 +8,7 @@ const textVariants = {
 	tSmall: "tSmall",
 	tSmallBold: "tSmallBold",
 	tMedium: "tMedium",
+	tMediumBold: "tMediumBold",
 	tLarge: "tLarge",
 	tLargeItalic: "tLargeItalic",
 }
@@ -53,6 +54,11 @@ export const textPresets: Record<keyof typeof textVariants, TextStyle> = {
 		fontSize: 28,
 		lineHeight: 38,
 		fontFamily: fonts.REGULAR,
+	},
+	tMediumBold: {
+		fontSize: 28,
+		lineHeight: 38,
+		fontFamily: fonts.BOLD,
 	},
 	tLarge: {
 		fontSize: 32,

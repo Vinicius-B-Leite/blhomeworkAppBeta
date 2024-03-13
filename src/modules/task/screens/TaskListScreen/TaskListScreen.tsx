@@ -1,12 +1,12 @@
-import { Container, FloatButton, Text } from "@/components"
-import { Header } from "@/components"
+import { Container, FloatButton, Text, Header } from "@/components"
+
 import React, { useCallback } from "react"
 import { FlatList, ListRenderItemInfo } from "react-native"
 import TaskItem from "./components/TaskItem/TaskItem"
 import { useRouteParams } from "@/hooks"
 import { useTaskListScreenViewController } from "./taskListScreen.viewController"
 import { Spinner } from "@/components/Spinner/Spinner"
-import { Task } from "../../model"
+import { Task } from "@/modules/task/model"
 
 export const TaskListScreen: React.FC = () => {
 	const params = useRouteParams("TaskList")

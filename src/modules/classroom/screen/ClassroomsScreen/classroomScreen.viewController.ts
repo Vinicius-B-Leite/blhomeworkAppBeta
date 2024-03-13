@@ -1,7 +1,7 @@
 import { useGetClassrooms } from "@/modules/classroom/modelView"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
-import { ClassroomType } from "../../models"
+import { ClassroomType } from "@/modules/classroom/models"
 
 export function useClassroomScreenViewController() {
 	const { showToast } = useToastDispatch()

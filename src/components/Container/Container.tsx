@@ -12,6 +12,7 @@ type ContainerProps = React.PropsWithChildren &
 		scrollable?: boolean
 		goBack?: {
 			title: string
+			righComponent?: React.ReactNode
 		}
 	}
 
@@ -39,14 +40,24 @@ export const Container: React.FC<ContainerProps> = ({
 			paddingHorizontal={24}
 			style={{ paddingBottom, paddingTop }}>
 			{goBack && (
-				<PressableBox
+				<Box
 					flexDirection="row"
+					justifyContent="space-between"
 					alignItems="center"
-					gap={14}
-					onPress={handleGoBack}>
-					<Icon name="left" />
-					<Text preset="tSmallBold">{goBack.title}</Text>
-				</PressableBox>
+					g={14}>
+					<PressableBox
+						flex={1}
+						flexDirection="row"
+						alignItems="center"
+						gap={14}
+						onPress={handleGoBack}>
+						<Icon name="left" />
+						<Text preset="tSmallBold" numberOfLines={1} style={{ flex: 1 }}>
+							{goBack.title}
+						</Text>
+					</PressableBox>
+					{goBack.righComponent}
+				</Box>
 			)}
 			<Wrapper
 				testID="container"

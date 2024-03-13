@@ -22,17 +22,15 @@ export const Input: React.FC<InputProps> = ({
 	const inputRef = useRef<TextInput>(null)
 
 	return (
-		<Box width={"100%"} {...boxProps}>
-			<PressableBox
-				testID="inputBox"
-				onPress={() => inputRef.current?.focus()}
-				bg="secondsBg"
-				flexDirection="row"
-				alignItems="center"
-				paddingHorizontal={20}
-				height={55}
-				borderRadius={10}
-				gap={14}>
+		<PressableBox
+			onPress={() => inputRef.current?.focus()}
+			width={"100%"}
+			bg="secondsBg"
+			borderRadius={10}
+			paddingVertical={14}
+			paddingHorizontal={20}
+			{...boxProps}>
+			<Box testID="inputBox" flexDirection="row" gap={14}>
 				{LeftIcon}
 				<TextInput
 					ref={inputRef}
@@ -47,13 +45,13 @@ export const Input: React.FC<InputProps> = ({
 					}}
 					{...textinputProps}
 				/>
-				{RightIcon}
-			</PressableBox>
+				<Box alignSelf="center">{RightIcon}</Box>
+			</Box>
 			{errorMessage && (
 				<Text preset="pSmall" color="alert" mt={4}>
 					{errorMessage}
 				</Text>
 			)}
-		</Box>
+		</PressableBox>
 	)
 }

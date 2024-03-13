@@ -12,9 +12,13 @@ import {
 	SunSvg,
 	PlusSvg,
 	ImageSvg,
+	DownSvg,
+	UploadSvg,
+	CalendarSvg,
 } from "@/assets/icons"
 
 export const iconMap = {
+	calendar: CalendarSvg,
 	chat: ChatSvg,
 	check: CheckSvg,
 	email: EmailSvg,
@@ -28,4 +32,6 @@ export const iconMap = {
 	warning: WarningSvg,
 	sun: SunSvg,
 	plus: PlusSvg,
+	down: DownSvg,
+	upload: UploadSvg,
 }

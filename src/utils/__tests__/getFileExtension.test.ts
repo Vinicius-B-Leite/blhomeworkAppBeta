@@ -1,6 +1,6 @@
 import { getExtension } from "../getFileExtension"
 
-describe("getExtension", () => {
+describe("utils: getExtension", () => {
 	it("should return the correct extension for a URL with an extension", () => {
 		const url = "http://example.com/path/file.txt"
 		const extension = getExtension(url)

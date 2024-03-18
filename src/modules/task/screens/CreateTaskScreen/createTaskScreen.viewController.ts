@@ -5,11 +5,13 @@ import { useState } from "react"
 import { Subject } from "../../model"
 import { useNavigation } from "@react-navigation/native"
 import { useRouteParams } from "@/hooks"
+import { useCreateTask } from "../../modelView"
+import { useToastDispatch } from "@/store"
 
 export function useCreateTaskViewController() {
 	const {
 		control,
-		formState: { isValid, errors },
+		formState: { errors },
 		handleSubmit,
 		watch,
 		setValue,
@@ -25,8 +27,24 @@ export function useCreateTaskViewController() {
 	const [showDatePicker, setShowDatePicker] = useState(false)
 	const params = useRouteParams("CreateSubject")
 
+	const { showToast } = useToastDispatch()
+	const { createTaskt, isLoading } = useCreateTask({
+		classroomId: params!.classroomId,
+		onError: () => {
+			showToast({ message: "Erro ao criar tarefa!", type: "error" })
+		},
+	})
+
 	const handleCreateTask = handleSubmit((data) => {
-		console.log(data)
+		createTaskt({
+			classroomId: params!.classroomId,
+			task: {
+				title: data.title,
+				description: data.description,
+				deadLine: data.deadLine,
+			},
+			subjectId: data.subject.id,
+		})
 	})
 
 	const openDatePicker = () => {
@@ -57,7 +75,7 @@ export function useCreateTaskViewController() {
 	}
 	return {
 		control,
-		isValid,
+		isLoading,
 		errors,
 		handleCreateTask,
 		handleSelectDate,

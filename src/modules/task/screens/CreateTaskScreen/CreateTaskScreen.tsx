@@ -11,7 +11,6 @@ export const CreateTaskScreen: React.FC = () => {
 	const {
 		control,
 		errors,
-		isValid,
 		handleCreateTask,
 		deadLine,
 		handleSelectDate,
@@ -19,6 +18,7 @@ export const CreateTaskScreen: React.FC = () => {
 		closeDatePicker,
 		openDatePicker,
 		subject,
+		isLoading,
 		navigateToSubjects,
 	} = useCreateTaskViewController()
 	const theme = useAppTheme()
@@ -27,6 +27,7 @@ export const CreateTaskScreen: React.FC = () => {
 			scrollable
 			submitButton={{
 				onPress: handleCreateTask,
+				isLoading: isLoading,
 			}}
 			goBack={{
 				title: "Criar Tarefa",
@@ -52,7 +53,6 @@ export const CreateTaskScreen: React.FC = () => {
 				style={{
 					color: subject ? subject.color : theme.colors.text,
 				}}
-				errorMessage={errors.subject?.message}
 			/>
 
 			<FormInput

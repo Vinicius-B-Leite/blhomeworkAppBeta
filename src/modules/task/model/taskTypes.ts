@@ -27,7 +27,7 @@ export type Task = {
 	title: string
 	id: string
 	deadLine: Date
-	description: string
+	description?: string
 	subject: Subject
 }
 

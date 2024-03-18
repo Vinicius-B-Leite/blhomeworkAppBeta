@@ -28,10 +28,12 @@ export type Task = {
 	id: string
 	deadLine: Date
 	description: string
-	subject: {
-		name: string
-		id: string
-		shortName: string
-		color: string
-	}
+	subject: Subject
+}
+
+export type Subject = {
+	name: string
+	id: string
+	shortName: string
+	color: string
 }

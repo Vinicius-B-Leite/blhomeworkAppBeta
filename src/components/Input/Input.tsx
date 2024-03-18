@@ -10,48 +10,57 @@ export type InputProps = Omit<TextInputProps, "placeholderTextColor" | "cursorCo
 	RightIcon?: React.ReactNode
 	errorMessage?: string
 	boxProps?: BoxProps
+	onPress?: () => void
 }
 export const Input: React.FC<InputProps> = ({
 	LeftIcon,
 	RightIcon,
 	errorMessage,
 	boxProps,
+	onPress,
+	style,
 	...textinputProps
 }) => {
 	const theme = useAppTheme()
 	const inputRef = useRef<TextInput>(null)
 
 	return (
-		<PressableBox
-			onPress={() => inputRef.current?.focus()}
-			width={"100%"}
-			bg="secondsBg"
-			borderRadius={10}
-			paddingVertical={14}
-			paddingHorizontal={20}
-			{...boxProps}>
-			<Box testID="inputBox" flexDirection="row" gap={14}>
-				{LeftIcon}
-				<TextInput
-					ref={inputRef}
-					cursorColor={theme.colors.contrast}
-					placeholderTextColor={theme.colors.secondText}
-					style={{
-						flex: 1,
-						color: theme.colors.text,
-						...textPresets.pMedium,
-						padding: 0,
-						paddingBottom: 0,
-					}}
-					{...textinputProps}
-				/>
-				<Box alignSelf="center">{RightIcon}</Box>
-			</Box>
+		<>
+			<PressableBox
+				onPress={() => onPress?.() || inputRef.current?.focus()}
+				width={"100%"}
+				bg="secondsBg"
+				borderRadius={10}
+				paddingVertical={14}
+				paddingHorizontal={20}
+				{...boxProps}>
+				<Box testID="inputBox" flexDirection="row" gap={14}>
+					{LeftIcon}
+					<TextInput
+						onPressIn={() => onPress?.() || inputRef.current?.focus()}
+						ref={inputRef}
+						cursorColor={theme.colors.contrast}
+						placeholderTextColor={theme.colors.secondText}
+						style={[
+							{
+								flex: 1,
+								color: theme.colors.text,
+								...textPresets.pMedium,
+								padding: 0,
+								paddingBottom: 0,
+							},
+							style,
+						]}
+						{...textinputProps}
+					/>
+					<Box alignSelf="center">{RightIcon}</Box>
+				</Box>
+			</PressableBox>
 			{errorMessage && (
 				<Text preset="pSmall" color="alert" mt={4}>
 					{errorMessage}
 				</Text>
 			)}
-		</PressableBox>
+		</>
 	)
 }

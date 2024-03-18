@@ -14,12 +14,16 @@ type ContainerProps = React.PropsWithChildren &
 			title: string
 			righComponent?: React.ReactNode
 		}
+		submitButton?: {
+			onPress: () => void
+		}
 	}
 
 export const Container: React.FC<ContainerProps> = ({
 	children,
 	scrollable = false,
 	goBack,
+	submitButton,
 	...boxProps
 }) => {
 	const { bottom, top } = useAppSafeArea()
@@ -56,7 +60,14 @@ export const Container: React.FC<ContainerProps> = ({
 							{goBack.title}
 						</Text>
 					</PressableBox>
-					{goBack.righComponent}
+					{!submitButton && goBack.righComponent}
+					{submitButton && (
+						<PressableBox onPress={submitButton.onPress}>
+							<Text preset="pMedium" color={"contrast"}>
+								Criar
+							</Text>
+						</PressableBox>
+					)}
 				</Box>
 			)}
 			<Wrapper

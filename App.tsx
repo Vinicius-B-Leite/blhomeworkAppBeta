@@ -9,10 +9,15 @@ import {
 	Poppins_700Bold,
 } from "@expo-google-fonts/poppins"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { AuthProvider } from "@/modules/auth/context"
+
 import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 const queryClient = new QueryClient()
+
+import { LogBox } from "react-native"
+
+LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"])
 
 export default function App() {
 	let [fontsLoaded, fontError] = useFonts({
@@ -24,15 +29,18 @@ export default function App() {
 	if (!fontsLoaded && !fontError) {
 		return null
 	}
+
 	return (
-		<QueryClientProvider client={queryClient}>
-			<SafeAreaProvider>
-				<ThemeProvider theme={dark}>
-					<ContextsProviders>
-						<Routes />
-					</ContextsProviders>
-				</ThemeProvider>
-			</SafeAreaProvider>
-		</QueryClientProvider>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<QueryClientProvider client={queryClient}>
+				<SafeAreaProvider>
+					<ThemeProvider theme={dark}>
+						<ContextsProviders>
+							<Routes />
+						</ContextsProviders>
+					</ThemeProvider>
+				</SafeAreaProvider>
+			</QueryClientProvider>
+		</GestureHandlerRootView>
 	)
 }

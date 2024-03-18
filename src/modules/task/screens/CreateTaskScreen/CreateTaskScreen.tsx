@@ -1,42 +1,68 @@
-import { Box, Container, Icon, Input, PressableBox, Text } from "@/components"
-import React, { useCallback } from "react"
+import { Box, Container, FormInput, Icon, Input } from "@/components"
+import React from "react"
 import Options from "./components/Options/Options"
-import SubmitBt from "./components/SubmitBt/SubmitBtn"
+
+import { useCreateTaskViewController } from "./createTaskScreen.viewController"
+import DateTimePicker from "@react-native-community/datetimepicker"
+import { formatDate } from "@/utils"
+import { useAppTheme } from "@/hooks"
 
 export const CreateTaskScreen: React.FC = () => {
+	const {
+		control,
+		errors,
+		isValid,
+		handleCreateTask,
+		deadLine,
+		handleSelectDate,
+		showDatePicker,
+		closeDatePicker,
+		openDatePicker,
+		subject,
+		navigateToSubjects,
+	} = useCreateTaskViewController()
+	const theme = useAppTheme()
 	return (
 		<Container
 			scrollable
+			submitButton={{
+				onPress: handleCreateTask,
+			}}
 			goBack={{
 				title: "Criar Tarefa",
-				righComponent: (
-					<SubmitBt onPress={() => console.log("lerolero")} isValid={false} />
-				),
 			}}>
-			<Input
+			<FormInput
+				control={control}
+				name="title"
 				placeholder="Título"
 				boxProps={{
 					mt: 36,
-					mb: 24,
 				}}
 			/>
 
 			<Input
+				value={subject?.name}
 				placeholder="Disciplina"
 				RightIcon={<Icon name="down" size={30} />}
 				editable={false}
-				onPressOut={() => console.log("lerolero")}
+				onPress={navigateToSubjects}
 				boxProps={{
-					mb: 24,
+					mt: 24,
 				}}
+				style={{
+					color: subject ? subject.color : theme.colors.text,
+				}}
+				errorMessage={errors.subject?.message}
 			/>
 
-			<Input
+			<FormInput
+				control={control}
+				name="description"
 				placeholder="Descrição"
 				multiline
 				textAlignVertical="top"
 				boxProps={{
-					mb: 24,
+					mt: 24,
 					height: 300,
 				}}
 			/>
@@ -49,6 +75,7 @@ export const CreateTaskScreen: React.FC = () => {
 					}}
 					text="Material de apoio"
 					onPress={() => console.log("lerolero")}
+					errorMessage={errors.uploads?.message}
 				/>
 
 				<Options
@@ -56,10 +83,24 @@ export const CreateTaskScreen: React.FC = () => {
 						name: "calendar",
 						size: 24,
 					}}
-					text="Comentários"
-					onPress={() => console.log("lerolero")}
+					text={deadLine ? formatDate(deadLine) : "Entrega"}
+					onPress={openDatePicker}
+					errorMessage={errors.deadLine?.message}
 				/>
 			</Box>
+
+			{showDatePicker && (
+				<DateTimePicker
+					testID="dateTimePicker"
+					value={deadLine ?? new Date()}
+					onChange={(_, date) => {
+						if (date) {
+							handleSelectDate(date)
+						}
+						closeDatePicker()
+					}}
+				/>
+			)}
 		</Container>
 	)
 }

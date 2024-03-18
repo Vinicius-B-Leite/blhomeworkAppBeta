@@ -12,8 +12,8 @@ export const CreateSubjectScreen: React.FC = () => {
 		subjectName,
 		control,
 		shortName,
-
 		handleCreateSubject,
+		isLoading,
 	} = useCreateSubjectScreenViewController()
 	const theme = useAppTheme()
 
@@ -22,6 +22,7 @@ export const CreateSubjectScreen: React.FC = () => {
 			scrollable
 			submitButton={{
 				onPress: () => handleCreateSubject(),
+				isLoading: isLoading,
 			}}
 			goBack={{
 				title: "Criar Disciplina",

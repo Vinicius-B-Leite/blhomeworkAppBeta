@@ -10,6 +10,9 @@ export type TaskRoutesTypes = {
 	}
 	Subjects: {
 		onSelectSubject: (subject: Subject) => void
+		classroomId: string
 	}
-	CreateSubject: undefined
+	CreateSubject: {
+		classroomId: string
+	}
 }

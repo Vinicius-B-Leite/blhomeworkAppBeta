@@ -14,4 +14,21 @@ export const taskApi: TaskApi = {
 
 		return data?.length > 0 ? data : []
 	},
+	createSubject: async (classroomId, subject) => {
+		const { data, error } = await supabase
+			.from("subject")
+			.insert({
+				title: subject.name,
+				color_rgb: subject.color,
+				short_name: subject.shortName,
+				classroom_id: classroomId,
+			})
+			.select()
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data?.length > 0 ? data[0] : null
+	},
 }

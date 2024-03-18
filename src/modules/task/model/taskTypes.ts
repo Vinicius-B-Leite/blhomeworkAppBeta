@@ -37,3 +37,10 @@ export type Subject = {
 	shortName: string
 	color: string
 }
+
+export type SubjectApiResponse = {
+	name: string
+	id: string
+	short_name: string
+	color_rgb: string
+}

@@ -1,14 +1,13 @@
 import { z } from "zod"
 
-const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+const rgbColorRegex = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/
 export const createSubjectSchema = z.object({
 	name: z.string().min(3, "Mínimo de 3 caracteres"),
 	color: z
 		.string()
 		.min(4, "Mínimo de 4 caracteres")
-		.transform((color) => color.toUpperCase())
-		.refine((color) => hexColorRegex.test(color), {
-			message: "Cor deve ser hexadecimal. Ex: #FF0000",
+		.refine((color) => rgbColorRegex.test(color), {
+			message: "Cor deve ser RGB. Ex: rgb(255, 255, 255)",
 		}),
 	shortName: z.string().min(3, "Deve ter 3 caracteres").max(3, "Deve tr 3 caracteres"),
 })

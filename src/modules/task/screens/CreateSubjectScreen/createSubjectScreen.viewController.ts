@@ -1,8 +1,16 @@
 import { useForm } from "react-hook-form"
 import { CreateSubjectSchema, createSubjectSchema } from "./createSubjectSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useCreateSubject } from "../../modelView"
+import { useRouteParams } from "@/hooks"
+import { returnedResults } from "reanimated-color-picker"
+import { useToastDispatch } from "@/store"
+import { useNavigation } from "@react-navigation/native"
 
 export function useCreateSubjectScreenViewController() {
+	const params = useRouteParams("CreateSubject")
+	const navigation = useNavigation()
+	const { showToast } = useToastDispatch()
 	const {
 		handleSubmit,
 		watch,
@@ -12,18 +20,35 @@ export function useCreateSubjectScreenViewController() {
 	} = useForm<CreateSubjectSchema>({
 		resolver: zodResolver(createSubjectSchema),
 		defaultValues: {
-			color: "#ff0000",
+			color: "rgb(255, 0, 0)",
 			name: "",
 			shortName: "",
 		},
 	})
 
-	const onSelectColor = ({ hex }: { hex: string }) => {
-		setValue("color", hex)
+	const { createSubject, isLoading } = useCreateSubject({
+		classroomId: params!.classroomId,
+		onSuccess: () => {
+			showToast({ message: "Disciplina criada com sucesso!", type: "success" })
+			navigation.goBack()
+		},
+		onError: (error) => {
+			showToast({ message: "Erro ao criar disciplina!", type: "error" })
+		},
+	})
+	const onSelectColor = ({ rgb }: returnedResults) => {
+		setValue("color", rgb)
 	}
 
 	const handleCreateSubject = handleSubmit((data) => {
-		console.log(data)
+		createSubject({
+			subject: {
+				color: data.color,
+				name: data.name,
+				shortName: data.shortName,
+			},
+			classroomId: params!.classroomId,
+		})
 	})
 	return {
 		onSelectColor,
@@ -33,5 +58,6 @@ export function useCreateSubjectScreenViewController() {
 		control,
 		handleCreateSubject,
 		errors,
+		isLoading,
 	}
 }

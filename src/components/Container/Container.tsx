@@ -6,6 +6,7 @@ import { useAppSafeArea, useAppTheme } from "@/hooks"
 import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
 import { useNavigation } from "@react-navigation/native"
+import { Spinner } from "../Spinner/Spinner"
 
 type ContainerProps = React.PropsWithChildren &
 	BoxProps & {
@@ -16,6 +17,7 @@ type ContainerProps = React.PropsWithChildren &
 		}
 		submitButton?: {
 			onPress: () => void
+			isLoading?: boolean
 		}
 	}
 
@@ -63,9 +65,13 @@ export const Container: React.FC<ContainerProps> = ({
 					{!submitButton && goBack.righComponent}
 					{submitButton && (
 						<PressableBox onPress={submitButton.onPress}>
-							<Text preset="pMedium" color={"contrast"}>
-								Criar
-							</Text>
+							{submitButton.isLoading ? (
+								<Spinner />
+							) : (
+								<Text preset="pMedium" color={"contrast"}>
+									Criar
+								</Text>
+							)}
 						</PressableBox>
 					)}
 				</Box>

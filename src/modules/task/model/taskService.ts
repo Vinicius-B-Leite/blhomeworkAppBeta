@@ -1,5 +1,6 @@
 import { taskApi } from "@/modules/task/api"
 import { taskAdapter } from "./taskAdapter"
+import { Subject } from "./taskTypes"
 
 const getTaskList = async (classroomId: string) => {
 	try {
@@ -11,6 +12,16 @@ const getTaskList = async (classroomId: string) => {
 	}
 }
 
+const createSubject = async (classroomId: string, subject: Omit<Subject, "id">) => {
+	try {
+		const data = await taskApi.createSubject(classroomId, subject)
+
+		return taskAdapter.subjectApiResponseToSubject(data)
+	} catch (error) {
+		throw error
+	}
+}
 export const taskService = {
 	getTaskList,
+	createSubject,
 }

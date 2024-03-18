@@ -4,6 +4,7 @@ import { CreateTaskScreenSchema, createTaskScreenSchema } from "./createTaskScre
 import { useState } from "react"
 import { Subject } from "../../model"
 import { useNavigation } from "@react-navigation/native"
+import { useRouteParams } from "@/hooks"
 
 export function useCreateTaskViewController() {
 	const {
@@ -22,11 +23,11 @@ export function useCreateTaskViewController() {
 	})
 	const navigation = useNavigation()
 	const [showDatePicker, setShowDatePicker] = useState(false)
+	const params = useRouteParams("CreateSubject")
 
 	const handleCreateTask = handleSubmit((data) => {
 		console.log(data)
 	})
-	console.log(errors)
 
 	const openDatePicker = () => {
 		setShowDatePicker(true)
@@ -50,6 +51,7 @@ export function useCreateTaskViewController() {
 			screen: "Subjects",
 			params: {
 				onSelectSubject: handleSelectSubject,
+				classroomId: params!.classroomId,
 			},
 		})
 	}

@@ -21,7 +21,18 @@ const createSubject = async (classroomId: string, subject: Omit<Subject, "id">) 
 		throw error
 	}
 }
+
+const getSubjectList = async (classroomId: string) => {
+	try {
+		const data = await taskApi.getSubjectList(classroomId)
+
+		return data.map(taskAdapter.subjectApiResponseToSubject)
+	} catch (error) {
+		throw error
+	}
+}
 export const taskService = {
 	getTaskList,
 	createSubject,
+	getSubjectList,
 }

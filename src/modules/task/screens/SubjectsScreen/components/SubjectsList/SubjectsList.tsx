@@ -1,19 +1,25 @@
-import { Box, Icon, PressableBox, Text } from "@/components"
+import { Box, Icon, List, PressableBox, Text } from "@/components"
+import { useAppTheme } from "@/hooks"
 import { Subject } from "@/modules/task/model"
 import React, { useCallback } from "react"
-import { FlatList, ListRenderItemInfo, View } from "react-native"
+import { ListRenderItemInfo } from "react-native"
 
 type SubjectsListProps = {
 	subjects: Subject[]
 	onSelectSubject: (subject: Subject) => void
 	onListHeaderPress: () => void
+	isLoading: boolean
+	refresh: () => void
 }
 
 const SubjectsList: React.FC<SubjectsListProps> = ({
 	subjects,
 	onSelectSubject,
 	onListHeaderPress,
+	isLoading,
+	refresh,
 }) => {
+	const theme = useAppTheme()
 	const renderItem = useCallback(
 		({ item }: ListRenderItemInfo<Subject>) => (
 			<PressableBox
@@ -46,13 +52,14 @@ const SubjectsList: React.FC<SubjectsListProps> = ({
 	)
 	return (
 		<Box flex={1} mt={36} gap={14}>
-			<Text preset="pLargeBold">Minhas disciplinas</Text>
-			<FlatList
+			<Text preset="pLargeBold">Disciplinas da sala</Text>
+			<List
 				data={subjects}
 				keyExtractor={(item) => item.id.toString()}
 				renderItem={renderItem}
 				ListHeaderComponent={listHeader}
-				showsVerticalScrollIndicator={false}
+				isLoading={isLoading}
+				refresh={refresh}
 			/>
 		</Box>
 	)

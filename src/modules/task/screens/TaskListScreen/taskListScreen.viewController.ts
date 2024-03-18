@@ -14,7 +14,7 @@ export function useTaskListScreenViewController({
 	const { user } = useAuth()
 	const navigation = useNavigation()
 	const { showToast } = useToastDispatch()
-	const { taskList, isLoading } = useGetTaskListModelView({
+	const { taskList, isLoading, refresh } = useGetTaskListModelView({
 		classroomId,
 		onError: () => {
 			showToast({ message: "Erro ao carregar tarefas", type: "error" })
@@ -35,5 +35,6 @@ export function useTaskListScreenViewController({
 		taskList,
 		isLoading,
 		handleNavigateToCreateTask,
+		refresh,
 	}
 }

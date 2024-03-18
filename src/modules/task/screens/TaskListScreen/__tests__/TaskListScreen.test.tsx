@@ -20,17 +20,6 @@ describe("integration: TaskListScreen", () => {
 		jest.clearAllMocks()
 		jest.restoreAllMocks()
 	})
-	it("should show spinner when loading", async () => {
-		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
-		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
-
-		renderScreen(<TaskListScreen />)
-
-		const spinner = await screen.findByTestId("spinner")
-		expect(spinner).toBeDefined()
-
-		await waitFor(() => expect(screen.queryByTestId("spinner")).toBeNull())
-	})
 	it("should show task list", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)

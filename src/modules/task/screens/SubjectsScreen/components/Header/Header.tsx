@@ -1,10 +1,13 @@
 import { Box, Icon, Input, PressableBox } from "@/components"
 import React from "react"
 
-const Header: React.FC = () => {
+type HeaderProps = {
+	onBackPress: () => void
+}
+const Header: React.FC<HeaderProps> = ({ onBackPress }) => {
 	return (
 		<Box flexDirection="row" alignItems="center" gap={14}>
-			<PressableBox p={8}>
+			<PressableBox p={8} onPress={onBackPress}>
 				<Icon name="left" />
 			</PressableBox>
 

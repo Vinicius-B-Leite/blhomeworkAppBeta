@@ -31,4 +31,16 @@ export const taskApi: TaskApi = {
 
 		return data?.length > 0 ? data[0] : null
 	},
+	getSubjectList: async (classroomId) => {
+		const { data, error } = await supabase
+			.from("subject")
+			.select()
+			.eq("classroom_id", classroomId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data?.length > 0 ? data : []
+	},
 }

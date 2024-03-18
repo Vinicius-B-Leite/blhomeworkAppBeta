@@ -26,7 +26,7 @@ export function useCreateSubject({
 		onSuccess: async () => {
 			onSuccess?.()
 			await client.invalidateQueries({
-				queryKey: [TASK_QUERY_KEY.GET_TASK_LIST, classroomId],
+				queryKey: [TASK_QUERY_KEY.GET_SUBJECT_LIST, classroomId],
 			})
 		},
 		onError: (error) => {

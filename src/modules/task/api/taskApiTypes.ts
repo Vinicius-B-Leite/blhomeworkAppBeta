@@ -10,4 +10,5 @@ export type TaskApi = {
 		classroomId: string,
 		subject: Omit<Subject, "id">
 	) => Promise<SubjectApiResponse>
+	getSubjectList: (classroomId: string) => Promise<SubjectApiResponse[]>
 }

@@ -39,7 +39,7 @@ export type Subject = {
 }
 
 export type SubjectApiResponse = {
-	name: string
+	title: string
 	id: string
 	short_name: string
 	color_rgb: string

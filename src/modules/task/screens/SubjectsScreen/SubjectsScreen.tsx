@@ -7,15 +7,19 @@ import SubjectsList from "./components/SubjectsList/SubjectsList"
 import { useSubjectsScreenViewController } from "./subjectsScreen.viewController"
 
 export const SubjectsScreen: React.FC = () => {
-	const { handleNavigateToCreateSubject } = useSubjectsScreenViewController()
+	const { handleNavigateToCreateSubject, isLoading, subjectList, refresh, goBack } =
+		useSubjectsScreenViewController()
 	const onSelectSubject = useRouteParams("Subjects")!.onSelectSubject
+
 	return (
 		<Container>
-			<Header />
+			<Header onBackPress={goBack} />
 			<SubjectsList
 				onListHeaderPress={handleNavigateToCreateSubject}
-				subjects={[]}
+				subjects={subjectList}
 				onSelectSubject={onSelectSubject}
+				isLoading={isLoading}
+				refresh={refresh}
 			/>
 		</Container>
 	)

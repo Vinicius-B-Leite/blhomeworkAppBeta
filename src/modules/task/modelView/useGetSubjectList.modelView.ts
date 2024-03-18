@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query"
 import { TASK_QUERY_KEY } from "@/modules/task/api"
 import { CoumnModelViewProps } from "@/types"
-import { Task, taskService } from "@/modules/task/model"
+import { Subject, taskService } from "@/modules/task/model"
 import { useEffect } from "react"
 
-type useTaskListModelViewProps = Pick<
+type useSubjectListModelViewProps = Pick<
 	CoumnModelViewProps<string | null, void>,
 	"onError"
 > & {
 	classroomId: string
 }
-export function useGetTaskListModelView(props: useTaskListModelViewProps) {
-	const { data, error, isPending, refetch } = useQuery<unknown, Error, Task[]>({
-		queryKey: [TASK_QUERY_KEY.GET_TASK_LIST, props.classroomId],
-		queryFn: () => taskService.getTaskList(props.classroomId),
+export function useGetSubjectListModelView(props: useSubjectListModelViewProps) {
+	const { data, error, isPending, refetch } = useQuery<unknown, Error, Subject[]>({
+		queryKey: [TASK_QUERY_KEY.GET_SUBJECT_LIST, props.classroomId],
+		queryFn: () => taskService.getSubjectList(props.classroomId),
 		enabled: !!props.classroomId,
 	})
 
@@ -24,7 +24,7 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 	}, [error])
 
 	return {
-		taskList: data,
+		subjectList: data,
 		isLoading: isPending,
 		refresh: () => {
 			refetch()

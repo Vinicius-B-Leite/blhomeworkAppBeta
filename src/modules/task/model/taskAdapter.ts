@@ -19,7 +19,7 @@ const subjectApiResponseToSubject = (subjectApiResponse: SubjectApiResponse): Su
 	return {
 		color: subjectApiResponse.color_rgb,
 		id: subjectApiResponse.id,
-		name: subjectApiResponse.name,
+		name: subjectApiResponse.title,
 		shortName: subjectApiResponse.short_name,
 	}
 }

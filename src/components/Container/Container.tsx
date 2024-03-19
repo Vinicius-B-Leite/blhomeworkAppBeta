@@ -62,11 +62,11 @@ export const Container: React.FC<ContainerProps> = ({
 							{goBack.title}
 						</Text>
 					</PressableBox>
-					{!submitButton && goBack.righComponent}
-					{submitButton && (
+					{goBack.righComponent}
+					{submitButton && !goBack.righComponent && (
 						<PressableBox onPress={submitButton.onPress}>
 							{submitButton.isLoading ? (
-								<Spinner />
+								<Spinner testID="submitButton-spinner" />
 							) : (
 								<Text preset="pMedium" color={"contrast"}>
 									Criar

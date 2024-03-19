@@ -40,8 +40,6 @@ export function useCreateTask({ classroomId, onError, onSuccess }: useCreateTask
 			navigation.goBack()
 		},
 		onError: (error) => {
-			console.log("error", error.message)
-
 			onError?.(error.message)
 		},
 	})

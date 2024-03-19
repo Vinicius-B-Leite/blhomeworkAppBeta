@@ -16,6 +16,8 @@ export const createTaskScreenSchema = z.object({
 			z.object({
 				uri: z.string(),
 				name: z.string(),
+				base64: z.string(),
+				extension: z.string(),
 			})
 		)
 		.optional(),

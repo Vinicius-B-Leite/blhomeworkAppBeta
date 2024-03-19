@@ -2,11 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { CreateTaskScreenSchema, createTaskScreenSchema } from "./createTaskScreenSchema"
 import { useState } from "react"
-import { Subject } from "../../model"
+import { Subject, Upload } from "../../model"
 import { useNavigation } from "@react-navigation/native"
 import { useRouteParams } from "@/hooks"
 import { useCreateTask } from "../../modelView"
 import { useToastDispatch } from "@/store"
+import { getDocuments } from "../../utils"
 
 export function useCreateTaskViewController() {
 	const {
@@ -15,6 +16,7 @@ export function useCreateTaskViewController() {
 		handleSubmit,
 		watch,
 		setValue,
+		getValues,
 	} = useForm<CreateTaskScreenSchema>({
 		resolver: zodResolver(createTaskScreenSchema),
 		defaultValues: {
@@ -26,7 +28,7 @@ export function useCreateTaskViewController() {
 	const navigation = useNavigation()
 	const [showDatePicker, setShowDatePicker] = useState(false)
 	const params = useRouteParams("CreateSubject")
-
+	const documentList = watch("uploads") ?? []
 	const { showToast } = useToastDispatch()
 	const { createTaskt, isLoading } = useCreateTask({
 		classroomId: params!.classroomId,
@@ -34,6 +36,7 @@ export function useCreateTaskViewController() {
 			showToast({ message: "Erro ao criar tarefa!", type: "error" })
 		},
 	})
+	console.log("documentList", documentList)
 
 	const handleCreateTask = handleSubmit((data) => {
 		createTaskt({
@@ -73,6 +76,25 @@ export function useCreateTaskViewController() {
 			},
 		})
 	}
+
+	const selectDocuments = async () => {
+		const documents = await getDocuments()
+
+		if (!documents) {
+			return
+		}
+
+		setValue("uploads", [...documentList, ...documents])
+	}
+
+	const removeDocument = (doc: Upload) => {
+		const oldDocuments = getValues("uploads") || []
+		const index = oldDocuments.indexOf(doc)
+		const newDocuments = [...oldDocuments]
+		newDocuments.splice(index, 1)
+
+		setValue("uploads", [...newDocuments])
+	}
 	return {
 		control,
 		isLoading,
@@ -85,5 +107,8 @@ export function useCreateTaskViewController() {
 		deadLine: watch("deadLine"),
 		subject: watch("subject"),
 		navigateToSubjects,
+		selectDocuments,
+		documentList,
+		removeDocument,
 	}
 }

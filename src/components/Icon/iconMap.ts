@@ -17,6 +17,7 @@ import {
 	CalendarSvg,
 	SearchSvg,
 	RightSvg,
+	CloseSvg,
 } from "@/assets/icons"
 
 export const iconMap = {
@@ -38,4 +39,5 @@ export const iconMap = {
 	upload: UploadSvg,
 	search: SearchSvg,
 	right: RightSvg,
+	close: CloseSvg,
 }

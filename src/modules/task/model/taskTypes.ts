@@ -44,3 +44,10 @@ export type SubjectApiResponse = {
 	short_name: string
 	color_rgb: string
 }
+
+export type Upload = {
+	name: string
+	uri: string
+	extension: string
+	base64: string
+}

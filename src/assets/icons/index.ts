@@ -17,4 +17,6 @@ export * from "./UploadSvg"
 export * from "./UserSvg"
 export * from "./WarningSvg"
 
+export * from "./CloseSvg"
+
 export * from "./iconTypes"

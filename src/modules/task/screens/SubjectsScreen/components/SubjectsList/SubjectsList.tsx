@@ -60,6 +60,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({
 				ListHeaderComponent={listHeader}
 				isLoading={isLoading}
 				refresh={refresh}
+				testID="subjectsList"
 			/>
 		</Box>
 	)

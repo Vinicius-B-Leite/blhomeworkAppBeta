@@ -7,7 +7,7 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ onBackPress }) => {
 	return (
 		<Box flexDirection="row" alignItems="center" gap={14}>
-			<PressableBox p={8} onPress={onBackPress}>
+			<PressableBox p={8} onPress={onBackPress} testID="backIcon">
 				<Icon name="left" />
 			</PressableBox>
 

@@ -45,7 +45,11 @@ export const CreateSubjectScreen: React.FC = () => {
 							thumbShape="doubleTriangle"
 							thumbColor={theme.colors.text}
 						/>
-						<FormInput control={control} name="color" placeholder="#FFFFF" />
+						<FormInput
+							control={control}
+							name="color"
+							placeholder="rgb(0, 0, 0)"
+						/>
 					</Box>
 				</Box>
 			</ColorPicker>

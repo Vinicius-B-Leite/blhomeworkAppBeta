@@ -37,4 +37,11 @@ describe("component: Input", () => {
 
 		expect(await screen.findByText("Some error")).toBeTruthy()
 	})
+
+	it("should call onPress when the input is pressed", async () => {
+		const onPress = jest.fn()
+		render(<Input placeholder="Some text" onPress={onPress} />)
+		fireEvent.press(await screen.findByPlaceholderText("Some text"))
+		expect(onPress).toHaveBeenCalled()
+	})
 })

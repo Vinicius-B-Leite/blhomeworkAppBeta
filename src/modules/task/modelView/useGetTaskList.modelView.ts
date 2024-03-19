@@ -24,7 +24,7 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 	}, [error])
 
 	return {
-		taskList: data,
+		taskList: data ?? [],
 		isLoading: isPending,
 		refresh: () => {
 			refetch()

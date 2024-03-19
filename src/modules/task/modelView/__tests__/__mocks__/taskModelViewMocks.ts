@@ -1,4 +1,4 @@
-import { TaskApiResponse } from "@/modules/task/model/taskTypes"
+import { SubjectApiResponse, TaskApiResponse } from "@/modules/task/model/taskTypes"
 
 const tasks: TaskApiResponse[] = [
 	{
@@ -27,6 +27,40 @@ const tasks: TaskApiResponse[] = [
 	},
 ]
 
+const subjects: SubjectApiResponse[] = [
+	{
+		id: "classroom1",
+		color_rgb: "#FFFFFF",
+		short_name: "Subject 1",
+		title: "Subject Title 1",
+	},
+	{
+		color_rgb: "#FFFFFF",
+		id: "subject2",
+		short_name: "Subject 2",
+		title: "Subject Title 2",
+	},
+	{
+		color_rgb: "#FFFFFF",
+		id: "subject3",
+		short_name: "Subject 3",
+		title: "Subject Title 3",
+	},
+	{
+		color_rgb: "#FFFFFF",
+		id: "subject4",
+		short_name: "Subject 4",
+		title: "Subject Title 4",
+	},
+	{
+		color_rgb: "#FFFFFF",
+		id: "subject5",
+		short_name: "Subject 5",
+		title: "Subject Title 5",
+	},
+]
+
 export const mocks = {
 	tasks,
+	subjects,
 }

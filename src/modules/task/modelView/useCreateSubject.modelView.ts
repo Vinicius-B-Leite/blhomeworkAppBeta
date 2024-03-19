@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { taskService, Subject } from "../model"
-import { TASK_QUERY_KEY } from "../api"
+import { taskService, Subject } from "@/modules/task/model"
+import { TASK_QUERY_KEY } from "@/modules/task/api"
 import { CoumnModelViewProps } from "@/types"
 
 type MutateProps = {

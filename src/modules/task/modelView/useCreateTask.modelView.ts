@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { taskService, Task, Upload } from "../model"
-import { TASK_QUERY_KEY } from "../api"
+import { taskService, Task, Upload } from "@/modules/task/model"
+import { TASK_QUERY_KEY } from "@/modules/task/api"
 import { CoumnModelViewProps } from "@/types"
 import { useNavigation } from "@react-navigation/native"
 

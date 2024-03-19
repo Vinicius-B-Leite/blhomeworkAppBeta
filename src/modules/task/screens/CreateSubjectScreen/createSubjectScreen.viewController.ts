@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { CreateSubjectSchema, createSubjectSchema } from "./createSubjectSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useCreateSubject } from "../../modelView"
+import { useCreateSubject } from "@/modules/task/modelView"
 import { useRouteParams } from "@/hooks"
 import { returnedResults } from "reanimated-color-picker"
 import { useToastDispatch } from "@/store"

@@ -2,12 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { CreateTaskScreenSchema, createTaskScreenSchema } from "./createTaskScreenSchema"
 import { useState } from "react"
-import { Subject, Upload } from "../../model"
+import { Subject, Upload } from "@/modules/task/model"
 import { useNavigation } from "@react-navigation/native"
 import { useRouteParams } from "@/hooks"
-import { useCreateTask } from "../../modelView"
+import { useCreateTask } from "@/modules/task/modelView"
 import { useToastDispatch } from "@/store"
-import { getDocuments } from "../../utils"
+import { getDocuments } from "@/modules/task/utils"
 
 export function useCreateTaskViewController() {
 	const {

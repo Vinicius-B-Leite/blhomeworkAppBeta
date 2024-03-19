@@ -1,6 +1,6 @@
 import { useRouteParams } from "@/hooks"
 import { useNavigation } from "@react-navigation/native"
-import { useGetSubjectListModelView } from "../../modelView/useGetSubjectList.modelView"
+import { useGetSubjectListModelView } from "@/modules/task/modelView"
 import { useToastDispatch } from "@/store"
 
 export function useSubjectsScreenViewController() {

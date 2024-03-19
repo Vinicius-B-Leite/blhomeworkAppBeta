@@ -29,10 +29,6 @@ export const CreateTaskScreen: React.FC = () => {
 
 	const bottomSheetRef = useRef<BottomSheet>(null)
 
-	const handleSheetChanges = useCallback((index: number) => {
-		console.log("handleSheetChanges", index)
-	}, [])
-
 	const theme = useAppTheme()
 	return (
 		<>
@@ -117,7 +113,6 @@ export const CreateTaskScreen: React.FC = () => {
 			</Container>
 			<BottomSheet
 				ref={bottomSheetRef}
-				onChange={handleSheetChanges}
 				snapPoints={["80%"]}
 				enablePanDownToClose
 				enableContentPanningGesture={false}

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { taskService, Task } from "../model"
+import { taskService, Task, Upload } from "../model"
 import { TASK_QUERY_KEY } from "../api"
 import { CoumnModelViewProps } from "@/types"
 import { useNavigation } from "@react-navigation/native"
@@ -8,6 +8,7 @@ type MutateProps = {
 	classroomId: string
 	task: Omit<Task, "id" | "subject">
 	subjectId: string
+	files?: Upload[]
 }
 
 type useCreateTaskProps = CoumnModelViewProps<string, void> & {
@@ -17,7 +18,7 @@ export function useCreateTask({ classroomId, onError, onSuccess }: useCreateTask
 	const client = useQueryClient()
 	const navigation = useNavigation()
 	const { mutate, isPending } = useMutation<Task, Error, MutateProps>({
-		mutationFn: ({ classroomId, task, subjectId }) =>
+		mutationFn: ({ classroomId, task, subjectId, files }) =>
 			taskService.createTask(
 				{
 					deadLine: task.deadLine,
@@ -25,7 +26,8 @@ export function useCreateTask({ classroomId, onError, onSuccess }: useCreateTask
 					description: task.description,
 				},
 				classroomId,
-				subjectId
+				subjectId,
+				files
 			),
 		mutationKey: [TASK_QUERY_KEY.CREATE_TASK],
 		gcTime: Infinity,
@@ -38,6 +40,8 @@ export function useCreateTask({ classroomId, onError, onSuccess }: useCreateTask
 			navigation.goBack()
 		},
 		onError: (error) => {
+			console.log("error", error.message)
+
 			onError?.(error.message)
 		},
 	})

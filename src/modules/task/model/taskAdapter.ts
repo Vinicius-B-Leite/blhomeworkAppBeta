@@ -1,8 +1,6 @@
 import { Subject, SubjectApiResponse, Task, TaskApiResponse } from "./taskTypes"
 
 const taskApiResponseToTask = (taskApiResponse: TaskApiResponse): Task => {
-	console.log("taskApiResponse", taskApiResponse)
-
 	return {
 		deadLine: new Date(taskApiResponse.dead_line),
 		description: taskApiResponse.description,

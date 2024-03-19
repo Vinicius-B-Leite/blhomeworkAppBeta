@@ -1,4 +1,4 @@
-import { supabase } from "@/api"
+import { api, supabase } from "@/api"
 import { TaskApi } from "./taskApiTypes"
 
 export const taskApi: TaskApi = {
@@ -47,20 +47,34 @@ export const taskApi: TaskApi = {
 		const { data, error } = await supabase
 			.from("task")
 			.insert({
-				title: props.title,
-				description: props.description,
-				dead_line: props.deadLine.toISOString(),
+				title: props.task.title,
+				description: props.task.description,
+				dead_line: props.task.deadLine.toISOString(),
 				subject_id: props.subjectId,
 				classroom_id: props.classroomId,
 			})
 			.select("*, classroom ( * ), subject ( * )")
 
 		if (error) {
-			console.log(error)
-
 			throw new Error(error.message)
 		}
-
 		return data?.length > 0 ? data[0] : null
+	},
+	createUpload: async (pathUrl, type, taskId) => {
+		const { data, error } = await supabase
+			.from("upload")
+			.insert([
+				{
+					path_url: pathUrl,
+					type,
+					task_id: taskId,
+				},
+			])
+			.select()
+
+		if (error) {
+			throw new Error(error.message)
+		}
+		console.log(data, error)
 	},
 }

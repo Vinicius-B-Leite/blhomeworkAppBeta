@@ -36,7 +36,6 @@ export function useCreateTaskViewController() {
 			showToast({ message: "Erro ao criar tarefa!", type: "error" })
 		},
 	})
-	console.log("documentList", documentList)
 
 	const handleCreateTask = handleSubmit((data) => {
 		createTaskt({
@@ -47,6 +46,7 @@ export function useCreateTaskViewController() {
 				deadLine: data.deadLine,
 			},
 			subjectId: data.subject.id,
+			files: documentList,
 		})
 	})
 

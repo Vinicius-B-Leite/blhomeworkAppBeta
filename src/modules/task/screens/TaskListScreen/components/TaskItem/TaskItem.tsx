@@ -1,27 +1,19 @@
 import React from "react"
 import { Box, PressableBox, Text } from "@/components"
 import { formatDate } from "@/utils"
+import { Task } from "@/modules/task/model"
 
 type TaskItemProps = {
-	task: {
-		title: string
-		deadLine: Date
-		id: string
-		subject: {
-			name: string
-			id: string
-			shortName: string
-			color: string
-		}
-	}
+	task: Task
+	onPress: () => void
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({
-	task: { id, subject, title, deadLine },
-}) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, onPress }) => {
+	const { title, subject, deadLine } = task
 	const titleWithCapitalizedFirstLetter = title.charAt(0).toUpperCase() + title.slice(1)
 	return (
 		<PressableBox
+			onPress={() => onPress()}
 			flexDirection="row"
 			alignItems="center"
 			paddingHorizontal={14}

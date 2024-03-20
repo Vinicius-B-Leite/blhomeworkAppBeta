@@ -4,10 +4,11 @@ import {
 	SubjectApiResponse,
 	Task,
 	TaskApiResponse,
+	UploadApiResponse,
 } from "@/modules/task/model/taskTypes"
 
-type createTaskProps = {
-	task: Omit<Task, "id" | "subject">
+export type createTaskProps = {
+	task: Omit<Task, "id" | "subject" | "uploads">
 	classroomId: string
 	subjectId: string
 }
@@ -20,4 +21,5 @@ export type TaskApi = {
 	getSubjectList: (classroomId: string) => Promise<SubjectApiResponse[]>
 	createTask: (props: createTaskProps) => Promise<TaskApiResponse>
 	createUpload: (pathUrl: string, type: string, taskId: string) => Promise<void>
+	getUploads: (taskId: any) => Promise<UploadApiResponse[]>
 }

@@ -27,12 +27,11 @@ jest.mock("@react-navigation/native", () => ({
 	useNavigation: () => ({ navigate: mockNavigate }),
 }))
 describe("integration: TaskListScreen", () => {
-	beforeEach(() => {
-		jest.clearAllMocks()
-		jest.restoreAllMocks()
+	beforeAll(() => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 	})
 	it("should show task list", async () => {
-		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
 
 		renderScreen(<TaskListScreen />)

@@ -9,6 +9,9 @@ import { classroomApi } from "@/modules/classroom/api"
 import { authStorage } from "@/modules/auth/storage"
 
 describe("integration: CreateTaskScreen", () => {
+	beforeAll(() => {
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+	})
 	it("should show message error in empty inputs", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 

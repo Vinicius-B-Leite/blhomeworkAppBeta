@@ -19,6 +19,7 @@ import {
 	RightSvg,
 	CloseSvg,
 } from "@/assets/icons"
+import { PdfSvg } from "@/assets/icons/PdfSvg"
 
 export const iconMap = {
 	calendar: CalendarSvg,
@@ -40,4 +41,5 @@ export const iconMap = {
 	search: SearchSvg,
 	right: RightSvg,
 	close: CloseSvg,
+	pdf: PdfSvg,
 }

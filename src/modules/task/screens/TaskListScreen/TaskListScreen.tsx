@@ -1,29 +1,32 @@
 import { Container, FloatButton, Text, Header, List } from "@/components"
 
 import React, { useCallback } from "react"
-import { FlatList, ListRenderItemInfo, RefreshControl } from "react-native"
+import { ListRenderItemInfo } from "react-native"
 import TaskItem from "./components/TaskItem/TaskItem"
-import { useAppTheme, useRouteParams } from "@/hooks"
+import { useRouteParams } from "@/hooks"
 import { useTaskListScreenViewController } from "./taskListScreen.viewController"
 import { Task } from "@/modules/task/model"
 
 export const TaskListScreen: React.FC = () => {
 	const params = useRouteParams("TaskList")
 	const { adminId, id, title } = params!.classroom
-	const theme = useAppTheme()
+
 	const {
 		currentUserIsAdmin,
 		isLoading,
 		taskList,
 		handleNavigateToCreateTask,
 		refresh,
+		handleNavigateToTaskDetails,
 	} = useTaskListScreenViewController({
 		classroomAdminId: adminId,
 		classroomId: id,
 	})
 
 	const TaskListItem = useCallback(
-		({ item }: ListRenderItemInfo<Task>) => <TaskItem task={item} />,
+		({ item }: ListRenderItemInfo<Task>) => (
+			<TaskItem onPress={() => handleNavigateToTaskDetails(item)} task={item} />
+		),
 		[]
 	)
 	return (

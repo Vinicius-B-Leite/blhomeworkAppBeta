@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@/testUtils"
 import { useCreateSubject } from "../useCreateSubject.modelView"
-import { taskApi } from "../../api"
+import { taskApi } from "@/modules/task/api"
 import { mocks } from "./__mocks__/taskModelViewMocks"
 import { useCreateTask } from "../useCreateTask.modelView"
 import mock from "react-native-safe-area-context/jest/mock"

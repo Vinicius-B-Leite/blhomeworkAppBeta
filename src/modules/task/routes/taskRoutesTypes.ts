@@ -1,5 +1,5 @@
 import { ClassroomType } from "@/modules/classroom/models"
-import { Subject } from "../model"
+import { Subject, Task } from "../model"
 
 export type TaskRoutesTypes = {
 	TaskList: {
@@ -14,5 +14,8 @@ export type TaskRoutesTypes = {
 	}
 	CreateSubject: {
 		classroomId: string
+	}
+	TaskDetails: {
+		task: Task
 	}
 }

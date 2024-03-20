@@ -29,6 +29,7 @@ export type Task = {
 	deadLine: Date
 	description?: string
 	subject: Subject
+	uploads: Upload[] | null
 }
 
 export type Subject = {
@@ -45,9 +46,23 @@ export type SubjectApiResponse = {
 	color_rgb: string
 }
 
-export type Upload = {
+export type File = {
 	name: string
 	uri: string
 	extension: string
 	base64: string
+}
+
+export type UploadApiResponse = {
+	id: string
+	type: string
+	path_url: string
+	task_id?: string
+}
+
+export type Upload = {
+	id: string
+	type: string
+	donwloadUrl: string
+	taskId: string | null
 }

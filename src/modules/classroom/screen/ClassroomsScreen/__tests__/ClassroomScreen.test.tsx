@@ -3,6 +3,7 @@ import { mocks } from "./__mocks__/classroomsScreen"
 import { act, fireEvent, renderScreen, screen } from "@/testUtils"
 import { ClassroomsScreen } from "../ClassroomsScreen"
 import { authStorage } from "@/modules/auth/storage"
+import { taskApi } from "@/modules/task/api"
 
 const mockNavigate = jest.fn()
 jest.mock("@react-navigation/native", () => {
@@ -18,6 +19,9 @@ describe("integration: ClassroomScreen", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
 		jest.restoreAllMocks()
+	})
+	beforeAll(() => {
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 	})
 	it("should show all classrooms", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)

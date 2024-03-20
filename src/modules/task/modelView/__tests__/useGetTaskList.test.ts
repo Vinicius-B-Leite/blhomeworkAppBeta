@@ -30,7 +30,8 @@ describe("modelView: useGetTaskListModelView", () => {
 		})
 	})
 	it("should return taskList and isLoading", async () => {
-		jest.spyOn(taskApi, "getTaskList").mockResolvedValueOnce(mocks.tasks)
+		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 
 		const { result } = renderHook(() =>
 			useGetTaskListModelView({
@@ -41,8 +42,11 @@ describe("modelView: useGetTaskListModelView", () => {
 
 		await waitFor(() => {
 			expect(result.current.isLoading).toBe(false)
+
 			expect(result.current.taskList).toEqual(
-				mocks.tasks.map(taskAdapter.taskApiResponseToTask)
+				mocks.tasks.map((task) =>
+					taskAdapter.taskApiResponseToTask(task, undefined)
+				)
 			)
 		})
 		screen.unmount()

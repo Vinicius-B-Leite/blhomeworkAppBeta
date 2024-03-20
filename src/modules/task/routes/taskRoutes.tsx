@@ -3,6 +3,7 @@ import {
 	CreateSubjectScreen,
 	CreateTaskScreen,
 	SubjectsScreen,
+	TaskDetailsScreen,
 	TaskListScreen,
 } from "@/modules/task/screens"
 import { TaskRoutesTypes } from "./taskRoutesTypes"
@@ -16,6 +17,7 @@ export const TaskRoutes: React.FC = () => {
 			<Stack.Screen name="CreateTask" component={CreateTaskScreen} />
 			<Stack.Screen name="Subjects" component={SubjectsScreen} />
 			<Stack.Screen name="CreateSubject" component={CreateSubjectScreen} />
+			<Stack.Screen name="TaskDetails" component={TaskDetailsScreen} />
 		</Stack.Navigator>
 	)
 }

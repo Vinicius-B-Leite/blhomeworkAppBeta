@@ -1,15 +1,32 @@
-import { taskApi } from "@/modules/task/api"
+import { createTaskProps, taskApi } from "@/modules/task/api"
 import { taskAdapter } from "./taskAdapter"
-import { Subject, Task, Upload } from "./taskTypes"
+import { Subject, Task, File } from "./taskTypes"
 import { UploadFileProps, api } from "@/api"
 import { getExtension } from "@/utils"
 import { mimeTypes } from "@/constant"
 
+const getUploads = async (taskId: string) => {
+	try {
+		const data = await taskApi.getUploads(taskId)
+
+		return data.map(taskAdapter.uploadApiResponseToUpload)
+	} catch (error) {
+		throw error
+	}
+}
+
 const getTaskList = async (classroomId: string) => {
 	try {
-		const data = await taskApi.getTaskList(classroomId)
+		const taskList = await taskApi.getTaskList(classroomId)
+		const uploadList = await Promise.all(
+			taskList.map(async (task) => {
+				return await getUploads(task.id)
+			})
+		)
 
-		return data.map(taskAdapter.taskApiResponseToTask)
+		return taskList.map((task) =>
+			taskAdapter.taskApiResponseToTask(task, uploadList.flat())
+		)
 	} catch (error) {
 		throw error
 	}
@@ -36,10 +53,10 @@ const getSubjectList = async (classroomId: string) => {
 }
 
 const createTask = async (
-	task: Omit<Task, "id" | "subject">,
+	task: createTaskProps["task"],
 	classroomId: string,
 	subjectId: string,
-	uploads?: Upload[]
+	uploads?: File[]
 ) => {
 	try {
 		const data = await taskApi.createTask({
@@ -67,10 +84,10 @@ const createTask = async (
 			}) || []
 
 		if (files.length > 0) {
-			const res = await Promise.all(files.map((file) => api.uploadFile(file)))
-			if (res.length > 0) {
+			const uploads = await Promise.all(files.map((file) => api.uploadFile(file)))
+			if (uploads.length > 0) {
 				await Promise.all(
-					res.map(async (file) => {
+					uploads.map(async (file) => {
 						await taskApi.createUpload(file.downloadUrl, file.type, data.id)
 					})
 				)

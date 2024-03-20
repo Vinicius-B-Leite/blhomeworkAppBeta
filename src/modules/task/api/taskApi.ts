@@ -75,6 +75,17 @@ export const taskApi: TaskApi = {
 		if (error) {
 			throw new Error(error.message)
 		}
-		console.log(data, error)
+	},
+	getUploads: async (taskId) => {
+		const { data, error } = await supabase
+			.from("upload")
+			.select()
+			.eq("task_id", taskId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data?.length > 0 ? data : []
 	},
 }

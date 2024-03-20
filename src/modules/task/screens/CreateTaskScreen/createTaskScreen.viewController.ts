@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { CreateTaskScreenSchema, createTaskScreenSchema } from "./createTaskScreenSchema"
 import { useState } from "react"
-import { Subject, Upload } from "@/modules/task/model"
+import { Subject, File } from "@/modules/task/model"
 import { useNavigation } from "@react-navigation/native"
 import { useRouteParams } from "@/hooks"
 import { useCreateTask } from "@/modules/task/modelView"
@@ -87,7 +87,7 @@ export function useCreateTaskViewController() {
 		setValue("uploads", [...documentList, ...documents])
 	}
 
-	const removeDocument = (doc: Upload) => {
+	const removeDocument = (doc: File) => {
 		const oldDocuments = getValues("uploads") || []
 		const index = oldDocuments.indexOf(doc)
 		const newDocuments = [...oldDocuments]

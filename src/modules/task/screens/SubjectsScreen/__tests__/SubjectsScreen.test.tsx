@@ -58,10 +58,11 @@ describe("integration: SubjectsScreen", () => {
 
 		const subjectsList = await screen.findByTestId("subjectsList")
 		await waitFor(() => expect(subjectsList.props.data.length).toBe(10))
+		const { refreshControl } = subjectsList.props
 
 		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(list2)
 		await act(() => {
-			subjectsList.props.refresh()
+			refreshControl.props.onRefresh()
 		})
 
 		await waitFor(() => expect(subjectsList.props.data.length).toBe(20))

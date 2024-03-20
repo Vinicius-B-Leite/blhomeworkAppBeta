@@ -3,23 +3,31 @@ import React from "react"
 import { FlatList, FlatListProps, RefreshControl } from "react-native"
 
 type ListProps<ItemT> = Omit<FlatListProps<ItemT>, "refreshControl" | "refreshing"> & {
-	isLoading: boolean
-	refresh: () => void
+	isLoading?: boolean
+	refresh?: () => void
+	enableRefresh?: boolean
 }
-export const List = <ItemT,>(props: ListProps<ItemT>) => {
+export const List = <ItemT,>({
+	isLoading = false,
+	refresh,
+	enableRefresh = true,
+	...props
+}: ListProps<ItemT>) => {
 	const theme = useAppTheme()
 	return (
 		<FlatList
 			showsVerticalScrollIndicator={false}
-			refreshing={props.isLoading}
+			refreshing={isLoading}
 			refreshControl={
-				<RefreshControl
-					refreshing={props.isLoading}
-					onRefresh={props.refresh}
-					colors={[theme.colors.contrast]}
-					tintColor={theme.colors.contrast}
-					testID="refreshControl"
-				/>
+				enableRefresh ? (
+					<RefreshControl
+						refreshing={isLoading}
+						onRefresh={refresh}
+						colors={[theme.colors.contrast]}
+						tintColor={theme.colors.contrast}
+						testID="refreshControl"
+					/>
+				) : undefined
 			}
 			testID="list"
 			{...props}

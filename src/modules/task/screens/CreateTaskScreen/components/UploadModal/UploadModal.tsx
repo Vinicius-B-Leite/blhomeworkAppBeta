@@ -1,14 +1,15 @@
 import { Box, Icon, List, PressableBox, Text } from "@/components"
+import { mimeTypesArray } from "@/constant"
 import { useAppTheme } from "@/hooks"
-import { Upload } from "@/modules/task/model"
+import { File } from "@/modules/task/model"
 import { Theme } from "@/theme"
 import React, { useCallback } from "react"
 import { ListRenderItemInfo } from "react-native"
 
 type UploadModalProps = {
 	selectDocuments: () => void
-	uploads: Upload[]
-	removeDocument: (doc: Upload) => void
+	uploads: File[]
+	removeDocument: (doc: File) => void
 }
 const UploadModal: React.FC<UploadModalProps> = ({
 	selectDocuments,
@@ -17,22 +18,19 @@ const UploadModal: React.FC<UploadModalProps> = ({
 }) => {
 	const theme = useAppTheme()
 
-	const renderItem = useCallback(({ item, index }: ListRenderItemInfo<Upload>) => {
+	const renderItem = useCallback(({ item, index }: ListRenderItemInfo<File>) => {
 		const extention = item.extension.slice(1)
 
-		const colorMap: { bg: keyof Theme["colors"]; color: keyof Theme["colors"] } = [
-			"png",
-			"jpg",
-			"jpeg",
-		].includes(extention)
-			? {
-					bg: "secondDarkContrast",
-					color: "scondContrast",
-			  }
-			: {
-					bg: "thirdDarkContrast",
-					color: "thirdContrast",
-			  }
+		const colorMap: { bg: keyof Theme["colors"]; color: keyof Theme["colors"] } =
+			mimeTypesArray.includes(extention)
+				? {
+						bg: "secondDarkContrast",
+						color: "scondContrast",
+				  }
+				: {
+						bg: "thirdDarkContrast",
+						color: "thirdContrast",
+				  }
 
 		return (
 			<Box

@@ -2,6 +2,7 @@ import { useAuth } from "@/modules/auth/context"
 import { useGetTaskListModelView } from "@/modules/task/modelView"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
+import { Task } from "../../model"
 
 type UseTaskListScreenViewControllerProps = {
 	classroomAdminId: string
@@ -30,11 +31,21 @@ export function useTaskListScreenViewController({
 		})
 	}
 
+	const handleNavigateToTaskDetails = (task: Task) => {
+		navigation.navigate("TaskRoutes", {
+			screen: "TaskDetails",
+			params: {
+				task,
+			},
+		})
+	}
+
 	return {
 		currentUserIsAdmin: user?.uid == classroomAdminId,
 		taskList,
 		isLoading,
 		handleNavigateToCreateTask,
 		refresh,
+		handleNavigateToTaskDetails,
 	}
 }

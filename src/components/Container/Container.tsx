@@ -18,6 +18,7 @@ type ContainerProps = React.PropsWithChildren &
 		submitButton?: {
 			onPress: () => void
 			isLoading?: boolean
+			title?: string
 		}
 	}
 
@@ -69,7 +70,7 @@ export const Container: React.FC<ContainerProps> = ({
 								<Spinner testID="submitButton-spinner" />
 							) : (
 								<Text preset="pMedium" color={"contrast"}>
-									Criar
+									{submitButton.title || "Criar"}
 								</Text>
 							)}
 						</PressableBox>

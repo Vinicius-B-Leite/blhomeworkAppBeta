@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { taskService, Task, Upload } from "@/modules/task/model"
-import { TASK_QUERY_KEY } from "@/modules/task/api"
+import { taskService, Task, File } from "@/modules/task/model"
+import { TASK_QUERY_KEY, createTaskProps } from "@/modules/task/api"
 import { CoumnModelViewProps } from "@/types"
 import { useNavigation } from "@react-navigation/native"
 
 type MutateProps = {
 	classroomId: string
-	task: Omit<Task, "id" | "subject">
+	task: createTaskProps["task"]
 	subjectId: string
-	files?: Upload[]
+	files?: File[]
 }
 
 type useCreateTaskProps = CoumnModelViewProps<string, void> & {

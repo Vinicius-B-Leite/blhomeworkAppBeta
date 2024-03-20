@@ -2,7 +2,7 @@ import { useAuth } from "@/modules/auth/context"
 import { useGetTaskListModelView } from "@/modules/task/modelView"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
-import { Task } from "../../model"
+import { Task } from "@/modules/task/model"
 
 type UseTaskListScreenViewControllerProps = {
 	classroomAdminId: string

@@ -3,7 +3,7 @@ import { Box, Container, Icon, List, PressableBox, Text } from "@/components"
 import { formatDate } from "@/utils"
 import React, { useCallback } from "react"
 import { ListRenderItemInfo } from "react-native"
-import { Upload } from "../../model"
+import { Upload } from "@/modules/task/model"
 import { useTaskDetailsScreenViewController } from "./taskDetailsScreen.viewController"
 
 export const TaskDetailsScreen: React.FC = () => {

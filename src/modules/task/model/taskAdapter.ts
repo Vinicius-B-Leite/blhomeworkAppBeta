@@ -1,4 +1,4 @@
-import { Task, TaskApiResponse } from "./taskTypes"
+import { Subject, SubjectApiResponse, Task, TaskApiResponse } from "./taskTypes"
 
 const taskApiResponseToTask = (taskApiResponse: TaskApiResponse): Task => {
 	return {
@@ -15,6 +15,16 @@ const taskApiResponseToTask = (taskApiResponse: TaskApiResponse): Task => {
 	}
 }
 
+const subjectApiResponseToSubject = (subjectApiResponse: SubjectApiResponse): Subject => {
+	return {
+		color: subjectApiResponse.color_rgb,
+		id: subjectApiResponse.id,
+		name: subjectApiResponse.title,
+		shortName: subjectApiResponse.short_name,
+	}
+}
+
 export const taskAdapter = {
 	taskApiResponseToTask,
+	subjectApiResponseToSubject,
 }

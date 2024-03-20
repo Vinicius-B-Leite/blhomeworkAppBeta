@@ -2,6 +2,7 @@
 
 import { fireEvent, render, screen } from "@/testUtils"
 import { Container } from "../Container"
+import { Text } from "react-native"
 
 const mockedGoBack = jest.fn()
 jest.mock("@react-navigation/native", () => {
@@ -36,5 +37,53 @@ describe("component: Container", () => {
 
 		fireEvent.press(goBack)
 		expect(mockedGoBack).toHaveBeenCalled()
+	})
+
+	it("should show Submit button if submitButton is passed", async () => {
+		render(
+			<Container
+				goBack={{
+					title: "title",
+				}}
+				submitButton={{
+					onPress: () => {},
+					isLoading: false,
+				}}
+			/>
+		)
+
+		expect(await screen.findByText("Criar")).toBeTruthy()
+	})
+	it("should show RightComponent before submitButton", async () => {
+		render(
+			<Container
+				goBack={{
+					title: "title",
+					righComponent: <Text>Hello</Text>,
+				}}
+				submitButton={{
+					onPress: () => {},
+					isLoading: false,
+				}}
+			/>
+		)
+
+		expect(await screen.findByText("Hello")).toBeTruthy()
+		expect(screen.queryByText("Criar")).not.toBeTruthy()
+	})
+	it("should show spinner  if submitButton loading is true", async () => {
+		render(
+			<Container
+				goBack={{
+					title: "title",
+				}}
+				submitButton={{
+					onPress: () => {},
+					isLoading: true,
+				}}
+			/>
+		)
+
+		expect(await screen.findByTestId("submitButton-spinner")).toBeTruthy()
 	})
 })

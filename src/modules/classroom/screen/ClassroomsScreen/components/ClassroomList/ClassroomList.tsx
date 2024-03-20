@@ -1,8 +1,8 @@
-import { CircleImage, PressableBox, Text } from "@/components"
+import { CircleImage, List, PressableBox, Text } from "@/components"
 import { useAppTheme } from "@/hooks"
 import { ClassroomType } from "@/modules/classroom/models"
 import React, { useCallback } from "react"
-import { FlatList, ListRenderItemInfo, RefreshControl } from "react-native"
+import { ListRenderItemInfo } from "react-native"
 import ImageNotFound from "@/assets/images/ImageNotfound.png"
 type ClassroomListProps = {
 	onSelectClassroom: (classroom: ClassroomType) => void
@@ -40,18 +40,10 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 		)
 	}, [])
 	return (
-		<FlatList
+		<List
 			data={classroomList}
-			refreshing={isRefetching}
-			refreshControl={
-				<RefreshControl
-					refreshing={isRefetching}
-					onRefresh={refresh}
-					colors={[theme.colors.contrast]}
-					tintColor={theme.colors.contrast}
-					testID="refreshControl"
-				/>
-			}
+			isLoading={isRefetching}
+			refresh={refresh}
 			contentContainerStyle={{ paddingVertical: theme.spacing[20] }}
 			renderItem={renderItem}
 			showsVerticalScrollIndicator={false}

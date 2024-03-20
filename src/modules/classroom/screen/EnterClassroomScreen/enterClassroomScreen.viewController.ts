@@ -4,7 +4,7 @@ import {
 	enterClassroomScreenSchema,
 } from "./enterClassroomScreenSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEnterClassroomModelView } from "../../modelView"
+import { useEnterClassroomModelView } from "@/modules/classroom/modelView"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 

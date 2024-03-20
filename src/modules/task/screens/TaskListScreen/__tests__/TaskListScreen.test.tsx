@@ -1,4 +1,10 @@
-import { renderScreen, screen, waitFor, waitForElementToBeRemoved } from "@/testUtils"
+import {
+	fireEvent,
+	renderScreen,
+	screen,
+	waitFor,
+	waitForElementToBeRemoved,
+} from "@/testUtils"
 import { TaskListScreen } from "../TaskListScreen"
 import { taskApi } from "@/modules/task/api"
 import { mocks } from "./__mocks__/tasklistScreenMock"
@@ -15,21 +21,15 @@ jest.mock("@/hooks", () => ({
 	}),
 }))
 
+const mockNavigate = jest.fn()
+jest.mock("@react-navigation/native", () => ({
+	...jest.requireActual("@react-navigation/native"),
+	useNavigation: () => ({ navigate: mockNavigate }),
+}))
 describe("integration: TaskListScreen", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
 		jest.restoreAllMocks()
-	})
-	it("should show spinner when loading", async () => {
-		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
-		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
-
-		renderScreen(<TaskListScreen />)
-
-		const spinner = await screen.findByTestId("spinner")
-		expect(spinner).toBeDefined()
-
-		await waitFor(() => expect(screen.queryByTestId("spinner")).toBeNull())
 	})
 	it("should show task list", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
@@ -51,7 +51,17 @@ describe("integration: TaskListScreen", () => {
 
 		renderScreen(<TaskListScreen />)
 
-		expect(await screen.queryByTestId("float-button")).toBeDefined()
+		const floatButton = await screen.findByTestId("float-button")
+		expect(floatButton).toBeDefined()
+
+		fireEvent.press(floatButton)
+
+		expect(mockNavigate).toHaveBeenCalledWith("TaskRoutes", {
+			screen: "CreateTask",
+			params: {
+				classroomId: "classroom1",
+			},
+		})
 	})
 	it("should not show float button when user is not admin", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue({

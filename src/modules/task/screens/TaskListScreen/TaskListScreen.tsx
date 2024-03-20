@@ -1,18 +1,23 @@
-import { Container, FloatButton, Text, Header } from "@/components"
+import { Container, FloatButton, Text, Header, List } from "@/components"
 
 import React, { useCallback } from "react"
-import { FlatList, ListRenderItemInfo } from "react-native"
+import { FlatList, ListRenderItemInfo, RefreshControl } from "react-native"
 import TaskItem from "./components/TaskItem/TaskItem"
-import { useRouteParams } from "@/hooks"
+import { useAppTheme, useRouteParams } from "@/hooks"
 import { useTaskListScreenViewController } from "./taskListScreen.viewController"
-import { Spinner } from "@/components/Spinner/Spinner"
 import { Task } from "@/modules/task/model"
 
 export const TaskListScreen: React.FC = () => {
 	const params = useRouteParams("TaskList")
 	const { adminId, id, title } = params!.classroom
-
-	const { currentUserIsAdmin, isLoading, taskList } = useTaskListScreenViewController({
+	const theme = useAppTheme()
+	const {
+		currentUserIsAdmin,
+		isLoading,
+		taskList,
+		handleNavigateToCreateTask,
+		refresh,
+	} = useTaskListScreenViewController({
 		classroomAdminId: adminId,
 		classroomId: id,
 	})
@@ -31,19 +36,16 @@ export const TaskListScreen: React.FC = () => {
 				{title}
 			</Text>
 
-			{isLoading ? (
-				<Spinner size={40} testID="spinner" />
-			) : (
-				<FlatList
-					data={taskList}
-					keyExtractor={(item) => item.id}
-					showsVerticalScrollIndicator={false}
-					renderItem={TaskListItem}
-					testID="task-list"
-				/>
-			)}
+			<List
+				data={taskList}
+				keyExtractor={(item) => item.id}
+				renderItem={TaskListItem}
+				isLoading={isLoading}
+				refresh={refresh}
+				testID="task-list"
+			/>
 
-			{currentUserIsAdmin && <FloatButton onPress={() => {}} />}
+			{currentUserIsAdmin && <FloatButton onPress={handleNavigateToCreateTask} />}
 		</Container>
 	)
 }

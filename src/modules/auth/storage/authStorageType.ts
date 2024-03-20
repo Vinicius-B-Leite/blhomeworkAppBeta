@@ -1,4 +1,4 @@
-import { UserType } from "../models"
+import { UserType } from "@/modules/auth/models"
 
 export type AuthStorageType = {
 	updateUser: (user: UserType) => Promise<void>

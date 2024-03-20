@@ -27,11 +27,27 @@ export type Task = {
 	title: string
 	id: string
 	deadLine: Date
-	description: string
-	subject: {
-		name: string
-		id: string
-		shortName: string
-		color: string
-	}
+	description?: string
+	subject: Subject
+}
+
+export type Subject = {
+	name: string
+	id: string
+	shortName: string
+	color: string
+}
+
+export type SubjectApiResponse = {
+	title: string
+	id: string
+	short_name: string
+	color_rgb: string
+}
+
+export type Upload = {
+	name: string
+	uri: string
+	extension: string
+	base64: string
 }

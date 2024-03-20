@@ -11,7 +11,7 @@ type useTaskListModelViewProps = Pick<
 	classroomId: string
 }
 export function useGetTaskListModelView(props: useTaskListModelViewProps) {
-	const { data, error, isPending } = useQuery<unknown, Error, Task[]>({
+	const { data, error, isPending, refetch } = useQuery<unknown, Error, Task[]>({
 		queryKey: [TASK_QUERY_KEY.GET_TASK_LIST, props.classroomId],
 		queryFn: () => taskService.getTaskList(props.classroomId),
 		enabled: !!props.classroomId,
@@ -24,7 +24,10 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 	}, [error])
 
 	return {
-		taskList: data,
+		taskList: data ?? [],
 		isLoading: isPending,
+		refresh: () => {
+			refetch()
+		},
 	}
 }

@@ -5,10 +5,14 @@ import { View } from "react-native"
 import { useAppTheme } from "@/hooks"
 import { Icon } from "@/components"
 import { ClassRoomRoutes } from "@/modules/classroom/routes/classroomRoutes"
+import { ClassroomRouteType } from "@/modules/classroom/routes/classroomRoutesTypes"
 
 const Tab = createBottomTabNavigator()
 
-export const AppRoutes: React.FC = () => {
+type AppRoutesProps = {
+	initialClassroomRouteName?: keyof ClassroomRouteType | undefined
+}
+export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName }) => {
 	const theme = useAppTheme()
 	return (
 		<Tab.Navigator
@@ -23,7 +27,6 @@ export const AppRoutes: React.FC = () => {
 			}}>
 			<Tab.Screen
 				name="ClassroomRoutes"
-				component={ClassRoomRoutes}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<Icon
@@ -32,8 +35,14 @@ export const AppRoutes: React.FC = () => {
 							color={focused ? "contrast" : "darkContrast"}
 						/>
 					),
-				}}
-			/>
+				}}>
+				{(props) => (
+					<ClassRoomRoutes
+						{...props}
+						initialRouteName={initialClassroomRouteName}
+					/>
+				)}
+			</Tab.Screen>
 			<Tab.Screen
 				name="ChatroomRoutes"
 				component={View}

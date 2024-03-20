@@ -62,6 +62,7 @@ export const CreateTaskScreen: React.FC = () => {
 					style={{
 						color: subject ? subject.color : theme.colors.text,
 					}}
+					errorMessage={errors.subject?.message}
 				/>
 
 				<FormInput

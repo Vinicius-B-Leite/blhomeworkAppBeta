@@ -39,9 +39,13 @@ describe("integration: ClassroomScreen", () => {
 
 		renderScreen(<ClassroomsScreen />)
 
+		expect(await screen.findByText("Classroom 1")).toBeVisible()
+		expect(await screen.findByText("Classroom 2")).toBeVisible()
+		expect(await screen.findByText("Classroom 3")).toBeVisible()
+
 		const classroomList = await screen.findByTestId("classroom-list")
 		const { refreshControl } = classroomList.props
-		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValueOnce(
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse.splice(0, 1)
 		)
 		await act(async () => {

@@ -10,18 +10,23 @@ import { TaskRoutes } from "@/modules/task/routes"
 
 const Stack = createNativeStackNavigator<ClassroomRouteType>()
 
-export const ClassRoomRoutes: React.FC = () => {
+type ClassRoomRoutesProps = {
+	initialRouteName?: keyof ClassroomRouteType | undefined
+}
+export const ClassRoomRoutes: React.FC<ClassRoomRoutesProps> = ({ initialRouteName }) => {
 	return (
 		<Stack.Navigator
 			screenOptions={{ headerShown: false }}
-			initialRouteName="ClassroomsScreen">
+			initialRouteName={initialRouteName}>
 			<Stack.Screen name="ClassroomsScreen" component={ClassroomsScreen} />
 			<Stack.Screen
 				name="CreateClassroomScreen"
 				component={CreateClassroomScreen}
 			/>
 			<Stack.Screen name="EnterClassroomScreen" component={EnterClassroomScreen} />
-			<Stack.Screen name="TaskRoutes" component={TaskRoutes} />
+			<Stack.Screen name="TaskRoutes">
+				{(props) => <TaskRoutes {...props} initialRouteName={undefined} />}
+			</Stack.Screen>
 		</Stack.Navigator>
 	)
 }

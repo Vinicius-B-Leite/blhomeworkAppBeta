@@ -1,13 +1,14 @@
 import { Box, Container, Icon, List, PressableBox, Text } from "@/components"
-import { useRouteParams } from "@/hooks"
+
 import { formatDate } from "@/utils"
 import React, { useCallback } from "react"
 import { ListRenderItemInfo } from "react-native"
 import { Upload } from "../../model"
+import { useTaskDetailsScreenViewController } from "./taskDetailsScreen.viewController"
 
 export const TaskDetailsScreen: React.FC = () => {
-	const params = useRouteParams("TaskDetails")
-	const { deadLine, id, subject, title, uploads, description } = params!.task
+	const { deadLine, description, openFile, subject, title, uploads } =
+		useTaskDetailsScreenViewController()
 
 	const renderHeader = useCallback(
 		() => (
@@ -33,6 +34,7 @@ export const TaskDetailsScreen: React.FC = () => {
 		const isPdf = item.type === "pdf"
 		return (
 			<PressableBox
+				onPress={() => openFile({ donwloadUrl: item.donwloadUrl })}
 				flexDirection="row"
 				alignItems="center"
 				bg="secondsBg"
@@ -40,7 +42,10 @@ export const TaskDetailsScreen: React.FC = () => {
 				borderRadius={8}
 				mt={8}
 				gap={12}>
-				<Icon name={isPdf ? "pdf" : "image"} />
+				<Icon
+					name={isPdf ? "pdf" : "image"}
+					testID={isPdf ? "pdf-icon" : "image-icon"}
+				/>
 				<Text preset="pMedium">
 					Arquivo {index + 1}.{item.type}
 				</Text>

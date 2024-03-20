@@ -9,14 +9,9 @@ import { TaskRoutesTypes } from "./taskRoutesTypes"
 
 const Stack = createNativeStackNavigator<TaskRoutesTypes>()
 
-type TaskRoutesProps = {
-	initialRouteName?: keyof TaskRoutesTypes | undefined
-}
-export const TaskRoutes: React.FC<TaskRoutesProps> = ({ initialRouteName }) => {
+export const TaskRoutes: React.FC = () => {
 	return (
-		<Stack.Navigator
-			screenOptions={{ headerShown: false }}
-			initialRouteName={initialRouteName}>
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="TaskList" component={TaskListScreen} />
 			<Stack.Screen name="CreateTask" component={CreateTaskScreen} />
 			<Stack.Screen name="Subjects" component={SubjectsScreen} />

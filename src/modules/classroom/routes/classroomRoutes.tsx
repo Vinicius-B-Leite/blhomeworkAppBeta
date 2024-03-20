@@ -24,9 +24,7 @@ export const ClassRoomRoutes: React.FC<ClassRoomRoutesProps> = ({ initialRouteNa
 				component={CreateClassroomScreen}
 			/>
 			<Stack.Screen name="EnterClassroomScreen" component={EnterClassroomScreen} />
-			<Stack.Screen name="TaskRoutes">
-				{(props) => <TaskRoutes {...props} initialRouteName={undefined} />}
-			</Stack.Screen>
+			<Stack.Screen name="TaskRoutes" component={TaskRoutes} />
 		</Stack.Navigator>
 	)
 }

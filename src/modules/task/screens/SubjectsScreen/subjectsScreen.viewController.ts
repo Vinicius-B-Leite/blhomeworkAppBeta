@@ -1,30 +1,28 @@
 import { useRouteParams } from "@/hooks"
 import { useNavigation } from "@react-navigation/native"
 import { useDeleteSubject, useGetSubjectListModelView } from "@/modules/task/modelView"
-import {
-	useAnimatedHeaderOptionsConfig,
-	useAnimatedHeaderOptionsDispatch,
-	useToastDispatch,
-} from "@/store"
+import { useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
 import { Subject } from "../../model"
 
 export function useSubjectsScreenViewController() {
 	const navigation = useNavigation()
 	const params = useRouteParams("Subjects")
+	const classroomId = params!.classroomId
+	const selectedSubjectId = params?.selectedSubjectId
 	const onSelectSubject = params!.onSelectSubject
 
 	const { showToast } = useToastDispatch()
 	const { showAnimatedHeaderOptions, hideAnimatedHeaderOptions } =
 		useAnimatedHeaderOptionsDispatch()
 	const { deleteSubject, isLoading: isDeleteSubjectLoading } = useDeleteSubject({
-		classroomId: params!.classroomId,
+		classroomId: classroomId,
 		onError: () => {
 			showToast({ message: "Erro ao deletar disciplinas!", type: "error" })
 		},
 	})
 
 	const { isLoading, subjectList, refresh } = useGetSubjectListModelView({
-		classroomId: params!.classroomId,
+		classroomId: classroomId,
 		onError: () => {
 			showToast({ message: "Erro ao buscar disciplinas!", type: "error" })
 		},
@@ -34,7 +32,7 @@ export function useSubjectsScreenViewController() {
 		navigation.navigate("TaskRoutes", {
 			screen: "CreateSubject",
 			params: {
-				classroomId: params!.classroomId,
+				classroomId: classroomId,
 				isUpdate: false,
 			},
 		})
@@ -47,7 +45,18 @@ export function useSubjectsScreenViewController() {
 			rightOptions: [
 				{
 					iconsName: "trash",
-					onPress: () => deleteSubject({ subjectId: subject.id }),
+					onPress: () => {
+						const canDeleteSubject = subject.id !== selectedSubjectId
+						if (canDeleteSubject) {
+							showToast({
+								message:
+									"Você não pode deletar a disciplina selecionada !",
+								type: "error",
+							})
+							return
+						}
+						deleteSubject({ subjectId: subject.id })
+					},
 					isLoading: isDeleteSubjectLoading,
 				},
 				{
@@ -56,7 +65,7 @@ export function useSubjectsScreenViewController() {
 						navigation.navigate("TaskRoutes", {
 							screen: "CreateSubject",
 							params: {
-								classroomId: params!.classroomId,
+								classroomId: classroomId,
 								subject: subject,
 								isUpdate: true,
 							},

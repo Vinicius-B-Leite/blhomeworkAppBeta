@@ -73,6 +73,7 @@ export function useCreateTaskViewController() {
 			params: {
 				onSelectSubject: handleSelectSubject,
 				classroomId: params!.classroomId,
+				selectedSubjectId: watch("subject")?.id,
 			},
 		})
 	}

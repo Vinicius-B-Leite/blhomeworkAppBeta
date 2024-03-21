@@ -19,7 +19,6 @@ export const CreateSubjectScreen: React.FC = () => {
 		subject,
 	} = useCreateSubjectScreenViewController()
 	const theme = useAppTheme()
-	//TODO: impedir de deletar/atualizar uma tarefa que está selecionada
 	//TODO: modificar o nome da tela CreateSubject para UpsertSubjectScreen
 	return (
 		<Container

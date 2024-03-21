@@ -14,22 +14,27 @@ export const CreateSubjectScreen: React.FC = () => {
 		shortName,
 		handleCreateSubject,
 		isLoading,
+		isUpdate,
+		errors,
+		subject,
 	} = useCreateSubjectScreenViewController()
 	const theme = useAppTheme()
-
+	//TODO: impedir de deletar/atualizar uma tarefa que está selecionada
+	//TODO: modificar o nome da tela CreateSubject para UpsertSubjectScreen
 	return (
 		<Container
 			scrollable
 			submitButton={{
 				onPress: () => handleCreateSubject(),
 				isLoading: isLoading,
+				title: isUpdate ? "Salvar" : "Criar",
 			}}
 			goBack={{
-				title: "Criar Disciplina",
+				title: isUpdate ? "Atualizar Disciplina" : "Criar Disciplina",
 			}}>
 			<ColorPicker
 				style={{ width: "100%", marginTop: theme.spacing[36] }}
-				value="red"
+				value={isUpdate ? subject!.color : "red"}
 				onComplete={onSelectColor}>
 				<Panel1 thumbSize={20} />
 

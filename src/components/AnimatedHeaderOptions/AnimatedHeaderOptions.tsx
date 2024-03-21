@@ -5,6 +5,7 @@ import { useAnimatedStyle, useSharedValue } from "react-native-reanimated"
 import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
 import { useAnimatedHeaderOptionsConfig, useAnimatedHeaderOptionsDispatch } from "@/store"
+import { Spinner } from "../Spinner/Spinner"
 
 export const AnimatedHeaderOptions: React.FC = () => {
 	const { top } = useAppSafeArea()
@@ -63,11 +64,20 @@ export const AnimatedHeaderOptions: React.FC = () => {
 				</Text>
 			</PressableBox>
 			<Box flexDirection="row" alignItems="center" gap={14}>
-				{rightOptions.map((option, index) => (
-					<PressableBox key={index} onPress={option.onPress}>
-						<Icon name={option.iconsName} />
-					</PressableBox>
-				))}
+				{rightOptions.map((option, index) =>
+					option.isLoading ? (
+						<Spinner />
+					) : (
+						<PressableBox
+							key={index}
+							onPress={() => {
+								option.onPress()
+								hideAnimatedHeaderOptions()
+							}}>
+							<Icon name={option.iconsName} />
+						</PressableBox>
+					)
+				)}
 			</Box>
 		</AnimatedBox>
 	)

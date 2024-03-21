@@ -9,6 +9,7 @@ export type AnimatedHeaderOptionsConfig = {
 	rightOptions: {
 		iconsName: IconProps["name"]
 		onPress: () => void
+		isLoading?: boolean
 	}[]
 }
 

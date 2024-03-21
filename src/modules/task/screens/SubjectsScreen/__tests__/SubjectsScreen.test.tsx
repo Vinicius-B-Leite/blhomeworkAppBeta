@@ -36,7 +36,7 @@ describe("integration: SubjectsScreen", () => {
 		fireEvent.press(screen.getByText("Criar disciplina"))
 
 		expect(mockNavigate).toHaveBeenCalledWith("TaskRoutes", {
-			params: { classroomId: "1" },
+			params: { classroomId: "1", isUpdate: false },
 			screen: "CreateSubject",
 		})
 	})

@@ -9,6 +9,9 @@ import { useNavigation } from "@react-navigation/native"
 
 export function useCreateSubjectScreenViewController() {
 	const params = useRouteParams("CreateSubject")
+	const classroomId = params!.classroomId
+	const isUpdate = params!.isUpdate
+	const subject = params?.subject
 	const navigation = useNavigation()
 	const { showToast } = useToastDispatch()
 	const {
@@ -20,14 +23,14 @@ export function useCreateSubjectScreenViewController() {
 	} = useForm<CreateSubjectSchema>({
 		resolver: zodResolver(createSubjectSchema),
 		defaultValues: {
-			color: "rgb(255, 0, 0)",
-			name: "",
-			shortName: "",
+			color: isUpdate ? subject!.color : "rgb(255, 0, 0)",
+			name: isUpdate ? subject!.name : "",
+			shortName: isUpdate ? subject!.shortName : "",
 		},
 	})
 
 	const { createSubject, isLoading } = useCreateSubject({
-		classroomId: params!.classroomId,
+		classroomId: classroomId,
 		onSuccess: () => {
 			showToast({ message: "Disciplina criada com sucesso!", type: "success" })
 			navigation.goBack()
@@ -47,7 +50,7 @@ export function useCreateSubjectScreenViewController() {
 				name: data.name,
 				shortName: data.shortName,
 			},
-			classroomId: params!.classroomId,
+			classroomId: classroomId,
 		})
 	})
 	return {
@@ -59,5 +62,7 @@ export function useCreateSubjectScreenViewController() {
 		handleCreateSubject,
 		errors,
 		isLoading,
+		isUpdate,
+		subject,
 	}
 }

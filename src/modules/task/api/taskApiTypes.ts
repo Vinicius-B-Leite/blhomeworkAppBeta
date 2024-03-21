@@ -22,4 +22,5 @@ export type TaskApi = {
 	createTask: (props: createTaskProps) => Promise<TaskApiResponse>
 	createUpload: (pathUrl: string, type: string, taskId: string) => Promise<void>
 	getUploads: (taskId: any) => Promise<UploadApiResponse[]>
+	deltedSubject: (subjectId: string) => Promise<void>
 }

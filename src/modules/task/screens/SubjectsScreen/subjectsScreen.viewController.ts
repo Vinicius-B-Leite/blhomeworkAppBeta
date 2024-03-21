@@ -1,6 +1,6 @@
 import { useRouteParams } from "@/hooks"
 import { useNavigation } from "@react-navigation/native"
-import { useGetSubjectListModelView } from "@/modules/task/modelView"
+import { useDeleteSubject, useGetSubjectListModelView } from "@/modules/task/modelView"
 import {
 	useAnimatedHeaderOptionsConfig,
 	useAnimatedHeaderOptionsDispatch,
@@ -10,12 +10,18 @@ import { Subject } from "../../model"
 
 export function useSubjectsScreenViewController() {
 	const navigation = useNavigation()
-	const onSelectSubject = useRouteParams("Subjects")!.onSelectSubject
-
 	const params = useRouteParams("Subjects")
+	const onSelectSubject = params!.onSelectSubject
+
 	const { showToast } = useToastDispatch()
 	const { showAnimatedHeaderOptions, hideAnimatedHeaderOptions } =
 		useAnimatedHeaderOptionsDispatch()
+	const { deleteSubject, isLoading: isDeleteSubjectLoading } = useDeleteSubject({
+		classroomId: params!.classroomId,
+		onError: () => {
+			showToast({ message: "Erro ao deletar disciplinas!", type: "error" })
+		},
+	})
 
 	const { isLoading, subjectList, refresh } = useGetSubjectListModelView({
 		classroomId: params!.classroomId,
@@ -29,6 +35,7 @@ export function useSubjectsScreenViewController() {
 			screen: "CreateSubject",
 			params: {
 				classroomId: params!.classroomId,
+				isUpdate: false,
 			},
 		})
 	}
@@ -40,11 +47,21 @@ export function useSubjectsScreenViewController() {
 			rightOptions: [
 				{
 					iconsName: "trash",
-					onPress: () => console.log("deletar + " + subject.name),
+					onPress: () => deleteSubject({ subjectId: subject.id }),
+					isLoading: isDeleteSubjectLoading,
 				},
 				{
 					iconsName: "pen",
-					onPress: () => console.log("atualizar + " + subject.name),
+					onPress: () => {
+						navigation.navigate("TaskRoutes", {
+							screen: "CreateSubject",
+							params: {
+								classroomId: params!.classroomId,
+								subject: subject,
+								isUpdate: true,
+							},
+						})
+					},
 				},
 			],
 		})

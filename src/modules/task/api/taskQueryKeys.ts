@@ -3,4 +3,5 @@ export const TASK_QUERY_KEY = {
 	CREATE_SUBJECT: "createSubject",
 	GET_SUBJECT_LIST: "getSubject",
 	CREATE_TASK: "createTask",
+	DELETE_SUBJECT: "deleteSubject",
 }

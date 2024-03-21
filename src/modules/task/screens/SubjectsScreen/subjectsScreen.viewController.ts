@@ -1,12 +1,22 @@
 import { useRouteParams } from "@/hooks"
 import { useNavigation } from "@react-navigation/native"
 import { useGetSubjectListModelView } from "@/modules/task/modelView"
-import { useToastDispatch } from "@/store"
+import {
+	useAnimatedHeaderOptionsConfig,
+	useAnimatedHeaderOptionsDispatch,
+	useToastDispatch,
+} from "@/store"
+import { Subject } from "../../model"
 
 export function useSubjectsScreenViewController() {
 	const navigation = useNavigation()
+	const onSelectSubject = useRouteParams("Subjects")!.onSelectSubject
+
 	const params = useRouteParams("Subjects")
 	const { showToast } = useToastDispatch()
+	const { showAnimatedHeaderOptions, hideAnimatedHeaderOptions } =
+		useAnimatedHeaderOptionsDispatch()
+
 	const { isLoading, subjectList, refresh } = useGetSubjectListModelView({
 		classroomId: params!.classroomId,
 		onError: () => {
@@ -23,11 +33,34 @@ export function useSubjectsScreenViewController() {
 		})
 	}
 
+	const onLongPressSubject = (subject: Subject) => {
+		showAnimatedHeaderOptions({
+			title: subject.name,
+			titleColor: subject.color,
+			rightOptions: [
+				{
+					iconsName: "trash",
+					onPress: () => console.log("deletar + " + subject.name),
+				},
+				{
+					iconsName: "pen",
+					onPress: () => console.log("atualizar + " + subject.name),
+				},
+			],
+		})
+	}
+
+	const handleSelectSubject = (subject: Subject) => {
+		hideAnimatedHeaderOptions()
+		onSelectSubject(subject)
+	}
 	return {
 		handleNavigateToCreateSubject,
 		subjectList: subjectList ?? [],
 		isLoading,
 		refresh: () => refresh(),
 		goBack: () => navigation.goBack(),
+		onLongPressSubject,
+		handleSelectSubject,
 	}
 }

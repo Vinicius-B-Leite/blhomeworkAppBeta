@@ -30,7 +30,7 @@ export function useSubjectsScreenViewController() {
 
 	const handleNavigateToCreateSubject = () => {
 		navigation.navigate("TaskRoutes", {
-			screen: "CreateSubject",
+			screen: "UpsertSubjectScreen",
 			params: {
 				classroomId: classroomId,
 				isUpdate: false,
@@ -63,7 +63,7 @@ export function useSubjectsScreenViewController() {
 					iconsName: "pen",
 					onPress: () => {
 						navigation.navigate("TaskRoutes", {
-							screen: "CreateSubject",
+							screen: "UpsertSubjectScreen",
 							params: {
 								classroomId: classroomId,
 								subject: subject,

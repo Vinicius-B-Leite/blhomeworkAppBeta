@@ -1,11 +1,11 @@
 import { Box, Container, FormInput, Text } from "@/components"
 
 import ColorPicker, { Panel1, HueSlider } from "reanimated-color-picker"
-import { useCreateSubjectScreenViewController } from "./createSubjectScreen.viewController"
+import { useUpsertSubjectScreenViewController } from "./upsertSubjectScreen.viewController"
 import { useAppTheme } from "@/hooks"
 import { formatDate } from "@/utils"
 
-export const CreateSubjectScreen: React.FC = () => {
+export const UpsertSubjectScreen: React.FC = () => {
 	const {
 		onSelectColor,
 		selectedColor,
@@ -15,11 +15,10 @@ export const CreateSubjectScreen: React.FC = () => {
 		handleCreateSubject,
 		isLoading,
 		isUpdate,
-		errors,
 		subject,
-	} = useCreateSubjectScreenViewController()
+	} = useUpsertSubjectScreenViewController()
 	const theme = useAppTheme()
-	//TODO: modificar o nome da tela CreateSubject para UpsertSubjectScreen
+
 	return (
 		<Container
 			scrollable

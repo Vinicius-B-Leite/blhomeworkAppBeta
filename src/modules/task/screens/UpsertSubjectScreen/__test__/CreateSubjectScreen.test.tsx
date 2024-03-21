@@ -1,5 +1,5 @@
 import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
-import { CreateSubjectScreen } from "../CreateSubjectScreen"
+import { UpsertSubjectScreen } from "../UpsertSubjectScreen"
 import { taskApi } from "@/modules/task/api"
 
 jest.mock("@/hooks", () => {
@@ -19,9 +19,9 @@ jest.mock("@react-navigation/native", () => {
 		}),
 	}
 })
-describe("integration: CreateSubjectScreen", () => {
+describe("integration: UpsertSubjectScreen", () => {
 	it("should show error message in inputs when submit with empty fields", async () => {
-		renderScreen(<CreateSubjectScreen />)
+		renderScreen(<UpsertSubjectScreen />)
 
 		const colorInput = screen.getByPlaceholderText("rgb(0, 0, 0)")
 		const shortNameInput = screen.getByPlaceholderText("MAT")
@@ -51,7 +51,7 @@ describe("integration: CreateSubjectScreen", () => {
 	})
 
 	it("should show color format error message", async () => {
-		renderScreen(<CreateSubjectScreen />)
+		renderScreen(<UpsertSubjectScreen />)
 
 		const colorInput = screen.getByPlaceholderText("rgb(0, 0, 0)")
 		const submitButton = screen.getByText("Criar")
@@ -73,7 +73,7 @@ describe("integration: CreateSubjectScreen", () => {
 
 	it("should show toast error when submit has an error", async () => {
 		jest.spyOn(taskApi, "createSubject").mockRejectedValue({ error: "error" })
-		renderScreen(<CreateSubjectScreen />)
+		renderScreen(<UpsertSubjectScreen />)
 
 		const colorInput = screen.getByPlaceholderText("rgb(0, 0, 0)")
 		const shortNameInput = screen.getByPlaceholderText("MAT")
@@ -96,7 +96,7 @@ describe("integration: CreateSubjectScreen", () => {
 			title: "Matemática",
 			short_name: "MAT",
 		})
-		renderScreen(<CreateSubjectScreen />)
+		renderScreen(<UpsertSubjectScreen />)
 
 		const colorInput = screen.getByPlaceholderText("rgb(0, 0, 0)")
 		const shortNameInput = screen.getByPlaceholderText("MAT")

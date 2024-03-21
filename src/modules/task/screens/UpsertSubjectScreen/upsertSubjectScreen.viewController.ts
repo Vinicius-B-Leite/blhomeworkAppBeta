@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { CreateSubjectSchema, createSubjectSchema } from "./createSubjectSchema"
+import { CreateSubjectSchema, createSubjectSchema } from "./upsertSubjectSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useCreateSubject, useupdateSubject } from "@/modules/task/modelView"
 import { useRouteParams } from "@/hooks"
@@ -7,8 +7,8 @@ import { returnedResults } from "reanimated-color-picker"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 
-export function useCreateSubjectScreenViewController() {
-	const params = useRouteParams("CreateSubject")
+export function useUpsertSubjectScreenViewController() {
+	const params = useRouteParams("UpsertSubjectScreen")
 	const classroomId = params!.classroomId
 	const isUpdate = params!.isUpdate
 	const subject = params?.subject

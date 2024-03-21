@@ -27,7 +27,7 @@ export function useCreateTaskViewController() {
 	})
 	const navigation = useNavigation()
 	const [showDatePicker, setShowDatePicker] = useState(false)
-	const params = useRouteParams("CreateSubject")
+	const params = useRouteParams("CreateTask")
 	const documentList = watch("uploads") ?? []
 	const { showToast } = useToastDispatch()
 	const { createTaskt, isLoading } = useCreateTask({

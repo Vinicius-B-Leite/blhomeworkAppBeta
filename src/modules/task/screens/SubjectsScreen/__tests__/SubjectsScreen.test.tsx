@@ -37,7 +37,7 @@ describe("integration: SubjectsScreen", () => {
 
 		expect(mockNavigate).toHaveBeenCalledWith("TaskRoutes", {
 			params: { classroomId: "1", isUpdate: false },
-			screen: "CreateSubject",
+			screen: "UpsertSubjectScreen",
 		})
 	})
 	it("should show error toast when getSubjectList fails", async () => {

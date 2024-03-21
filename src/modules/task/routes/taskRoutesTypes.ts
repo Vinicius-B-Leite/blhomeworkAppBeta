@@ -13,7 +13,7 @@ export type TaskRoutesTypes = {
 		classroomId: string
 		selectedSubjectId?: string
 	}
-	CreateSubject:
+	UpsertSubjectScreen:
 		| {
 				classroomId: string
 				subject?: Subject

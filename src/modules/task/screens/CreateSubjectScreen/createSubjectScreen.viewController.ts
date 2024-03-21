@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { CreateSubjectSchema, createSubjectSchema } from "./createSubjectSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useCreateSubject } from "@/modules/task/modelView"
+import { useCreateSubject, useupdateSubject } from "@/modules/task/modelView"
 import { useRouteParams } from "@/hooks"
 import { returnedResults } from "reanimated-color-picker"
 import { useToastDispatch } from "@/store"
@@ -29,7 +29,7 @@ export function useCreateSubjectScreenViewController() {
 		},
 	})
 
-	const { createSubject, isLoading } = useCreateSubject({
+	const { createSubject, isLoading: isCreateSubjectLoading } = useCreateSubject({
 		classroomId: classroomId,
 		onSuccess: () => {
 			showToast({ message: "Disciplina criada com sucesso!", type: "success" })
@@ -39,11 +39,32 @@ export function useCreateSubjectScreenViewController() {
 			showToast({ message: "Erro ao criar disciplina!", type: "error" })
 		},
 	})
+	const { isLoading: isUpdateSubjectLoading, updateSubject } = useupdateSubject({
+		classroomId: classroomId,
+		onSuccess: () => {
+			showToast({ message: "Disciplina atualizada com sucesso!", type: "success" })
+			navigation.goBack()
+		},
+		onError: (error) => {
+			showToast({ message: "Erro ao atualizar disciplina!", type: "error" })
+		},
+	})
 	const onSelectColor = ({ rgb }: returnedResults) => {
 		setValue("color", rgb)
 	}
 
 	const handleCreateSubject = handleSubmit((data) => {
+		if (isUpdate) {
+			updateSubject({
+				subject: {
+					id: subject!.id,
+					color: data.color,
+					name: data.name,
+					shortName: data.shortName,
+				},
+			})
+			return
+		}
 		createSubject({
 			subject: {
 				color: data.color,
@@ -61,7 +82,7 @@ export function useCreateSubjectScreenViewController() {
 		control,
 		handleCreateSubject,
 		errors,
-		isLoading,
+		isLoading: isCreateSubjectLoading || isUpdateSubjectLoading,
 		isUpdate,
 		subject,
 	}

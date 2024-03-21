@@ -107,10 +107,21 @@ const deleteSubject = async (subjectId: string) => {
 		throw error
 	}
 }
+
+const updateSubject = async (subject: Subject) => {
+	try {
+		const data = await taskApi.updateSubject(subject)
+
+		return taskAdapter.subjectApiResponseToSubject(data)
+	} catch (error) {
+		throw error
+	}
+}
 export const taskService = {
 	getTaskList,
 	createSubject,
 	getSubjectList,
 	createTask,
 	deleteSubject,
+	updateSubject,
 }

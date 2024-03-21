@@ -1,4 +1,3 @@
-import { UploadFileProps } from "@/api"
 import {
 	Subject,
 	SubjectApiResponse,
@@ -23,4 +22,5 @@ export type TaskApi = {
 	createUpload: (pathUrl: string, type: string, taskId: string) => Promise<void>
 	getUploads: (taskId: any) => Promise<UploadApiResponse[]>
 	deltedSubject: (subjectId: string) => Promise<void>
+	updateSubject: (subject: Subject) => Promise<SubjectApiResponse>
 }

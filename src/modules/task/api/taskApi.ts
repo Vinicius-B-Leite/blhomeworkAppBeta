@@ -101,4 +101,22 @@ export const taskApi: TaskApi = {
 			throw new Error(error.message)
 		}
 	},
+	updateSubject: async (subject) => {
+		const { data, error } = await supabase
+			.from("subject")
+			.update({
+				title: subject.name,
+				color_rgb: subject.color,
+				short_name: subject.shortName,
+				updated_at: new Date().toISOString(),
+			})
+			.eq("id", subject.id)
+			.select()
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data?.length > 0 ? data[0] : null
+	},
 }

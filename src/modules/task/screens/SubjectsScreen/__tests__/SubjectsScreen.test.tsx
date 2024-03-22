@@ -161,4 +161,36 @@ describe("integration: SubjectsScreen", () => {
 			expect(screen.getByText("Erro ao deletar disciplinas!")).toBeTruthy()
 		})
 	})
+	it("should navigate to upsert subject when clicked on update option on animated header", async () => {
+		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(mocks.subjects)
+
+		renderScreen(<SubjectsScreen />)
+
+		const math = await screen.findByText("Matemática")
+		await act(async () => {
+			fireEvent(math, "longPress")
+		})
+
+		await waitFor(() => expect(screen.getByTestId("back-button")).toBeTruthy())
+		const updateButton = await screen.findByTestId("pen")
+
+		await act(async () => {
+			await fireEvent.press(updateButton)
+		})
+
+		const { color_rgb, id, short_name, title } = mocks.subjects[0]
+		expect(mockNavigate).toHaveBeenCalledWith("TaskRoutes", {
+			params: {
+				classroomId: "1",
+				isUpdate: true,
+				subject: {
+					color: color_rgb,
+					id: id,
+					name: title,
+					shortName: short_name,
+				},
+			},
+			screen: "UpsertSubjectScreen",
+		})
+	})
 })

@@ -30,32 +30,34 @@ export const UpsertSubjectScreen: React.FC = () => {
 			goBack={{
 				title: isUpdate ? "Atualizar Disciplina" : "Criar Disciplina",
 			}}>
-			<ColorPicker
-				style={{ width: "100%", marginTop: theme.spacing[36] }}
-				value={isUpdate ? subject!.color : "red"}
-				onComplete={onSelectColor}>
-				<Panel1 thumbSize={20} />
+			<Box testID="colorPicker">
+				<ColorPicker
+					style={{ width: "100%", marginTop: theme.spacing[36] }}
+					value={isUpdate ? subject!.color : "red"}
+					onComplete={onSelectColor}>
+					<Panel1 thumbSize={20} />
 
-				<Box flexDirection="row" alignItems="center" gap={14} mt={14}>
-					<Box
-						width={60}
-						height={60}
-						borderRadius={9999}
-						style={{ backgroundColor: selectedColor }}
-					/>
-					<Box flex={1} gap={8}>
-						<HueSlider
-							thumbShape="doubleTriangle"
-							thumbColor={theme.colors.text}
+					<Box flexDirection="row" alignItems="center" gap={14} mt={14}>
+						<Box
+							width={60}
+							height={60}
+							borderRadius={9999}
+							style={{ backgroundColor: selectedColor }}
 						/>
-						<FormInput
-							control={control}
-							name="color"
-							placeholder="rgb(0, 0, 0)"
-						/>
+						<Box flex={1} gap={8}>
+							<HueSlider
+								thumbShape="doubleTriangle"
+								thumbColor={theme.colors.text}
+							/>
+							<FormInput
+								control={control}
+								name="color"
+								placeholder="rgb(0, 0, 0)"
+							/>
+						</Box>
 					</Box>
-				</Box>
-			</ColorPicker>
+				</ColorPicker>
+			</Box>
 
 			<Box flexDirection="row" gap={14} marginVertical={24} flexWrap="wrap">
 				<Box flex={0.3}>

@@ -2,7 +2,7 @@ import { useRouteParams } from "@/hooks"
 import { useNavigation } from "@react-navigation/native"
 import { useDeleteSubject, useGetSubjectListModelView } from "@/modules/task/modelView"
 import { useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
-import { Subject } from "../../model"
+import { Subject } from "@/modules/task/model"
 
 export function useSubjectsScreenViewController() {
 	const navigation = useNavigation()

@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@/testUtils"
 import { useupdateSubject } from "../useUpdateSubject.modelView"
-import { taskApi } from "../../api"
+import { taskApi } from "@/modules/task/api"
 
 const mockinvalidateQueries = jest.fn()
 jest.mock("@tanstack/react-query", () => {

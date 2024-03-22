@@ -54,7 +54,8 @@ export const AnimatedHeaderOptions: React.FC = () => {
 				flexDirection="row"
 				alignItems="center"
 				flex={1}
-				gap={12}>
+				gap={12}
+				testID="back-button">
 				<Icon name="left" />
 				<Text
 					preset="pLarge"
@@ -74,7 +75,7 @@ export const AnimatedHeaderOptions: React.FC = () => {
 								option.onPress()
 								hideAnimatedHeaderOptions()
 							}}>
-							<Icon name={option.iconsName} />
+							<Icon name={option.iconsName} testID={option.iconsName} />
 						</PressableBox>
 					)
 				)}

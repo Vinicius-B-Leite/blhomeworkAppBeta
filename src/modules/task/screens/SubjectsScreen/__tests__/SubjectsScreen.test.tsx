@@ -1,4 +1,11 @@
-import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
+import {
+	act,
+	fireEvent,
+	renderScreen,
+	screen,
+	waitFor,
+	waitForElementToBeRemoved,
+} from "@/testUtils"
 import { SubjectsScreen } from "../SubjectsScreen"
 import { taskApi } from "@/modules/task/api"
 import { mocks } from "./__mocks__/subjectScreenMock"
@@ -7,7 +14,11 @@ import { taskAdapter } from "@/modules/task/model"
 const mockOnSelectSubject = jest.fn()
 jest.mock("@/hooks", () => ({
 	...jest.requireActual("@/hooks"),
-	useRouteParams: () => ({ onSelectSubject: mockOnSelectSubject, classroomId: "1" }),
+	useRouteParams: () => ({
+		onSelectSubject: mockOnSelectSubject,
+		classroomId: "1",
+		selectedSubjectId: "2",
+	}),
 }))
 
 const mockNavigate = jest.fn()
@@ -17,6 +28,9 @@ jest.mock("@react-navigation/native", () => ({
 	useNavigation: () => ({ navigate: mockNavigate, goBack: mockGoBack }),
 }))
 describe("integration: SubjectsScreen", () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
 	it("should show the subjects list and select one", async () => {
 		jest.spyOn(taskApi, "getSubjectList").mockResolvedValue(mocks.subjects)
 		renderScreen(<SubjectsScreen />)
@@ -71,5 +85,80 @@ describe("integration: SubjectsScreen", () => {
 		renderScreen(<SubjectsScreen />)
 		fireEvent.press(screen.getByTestId("backIcon"))
 		expect(mockGoBack).toHaveBeenCalled()
+	})
+
+	it("should delete subject", async () => {
+		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(mocks.subjects)
+		jest.spyOn(taskApi, "deltedSubject").mockImplementation()
+
+		renderScreen(<SubjectsScreen />)
+
+		const math = await screen.findByText("Matemática")
+		await act(async () => {
+			fireEvent(math, "longPress")
+		})
+
+		await waitFor(() => expect(screen.getByTestId("back-button")).toBeTruthy())
+		const deleteButton = await screen.findByTestId("trash")
+
+		let subjectWithoutMath = mocks.subjects.filter(
+			(subject) => subject.title !== "Matemática"
+		)
+		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(subjectWithoutMath)
+
+		await act(async () => {
+			await fireEvent.press(deleteButton)
+		})
+
+		await waitFor(() => {
+			expect(screen.queryByText("Matemática")).toBeNull()
+		})
+	})
+	it("should show toast error if subject to delete is selected on create task form", async () => {
+		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(mocks.subjects)
+		jest.spyOn(taskApi, "deltedSubject").mockImplementation()
+
+		renderScreen(<SubjectsScreen />)
+
+		const math = await screen.findByText("Ciências")
+		await act(async () => {
+			fireEvent(math, "longPress")
+		})
+
+		await waitFor(() => expect(screen.getByTestId("back-button")).toBeTruthy())
+		const deleteButton = await screen.findByTestId("trash")
+
+		await act(async () => {
+			await fireEvent.press(deleteButton)
+		})
+
+		await waitFor(() => {
+			expect(
+				screen.getByText("Você não pode deletar a disciplina selecionada!")
+			).toBeTruthy()
+		})
+		screen.unmount()
+	})
+	it("should show generic error message if happend some erro in delete subject", async () => {
+		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(mocks.subjects)
+		jest.spyOn(taskApi, "deltedSubject").mockRejectedValue({ message: "Error" })
+
+		renderScreen(<SubjectsScreen />)
+
+		const math = await screen.findByText("Matemática")
+		await act(async () => {
+			fireEvent(math, "longPress")
+		})
+
+		await waitFor(() => expect(screen.getByTestId("back-button")).toBeTruthy())
+		const deleteButton = await screen.findByTestId("trash")
+
+		await act(async () => {
+			await fireEvent.press(deleteButton)
+		})
+
+		await waitFor(() => {
+			expect(screen.getByText("Erro ao deletar disciplinas!")).toBeTruthy()
+		})
 	})
 })

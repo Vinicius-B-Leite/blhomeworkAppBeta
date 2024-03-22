@@ -47,15 +47,16 @@ export function useSubjectsScreenViewController() {
 					iconsName: "trash",
 					onPress: () => {
 						const canDeleteSubject = subject.id !== selectedSubjectId
+
 						if (canDeleteSubject) {
-							showToast({
-								message:
-									"Você não pode deletar a disciplina selecionada !",
-								type: "error",
-							})
+							deleteSubject({ subjectId: subject.id })
+
 							return
 						}
-						deleteSubject({ subjectId: subject.id })
+						showToast({
+							message: "Você não pode deletar a disciplina selecionada!",
+							type: "error",
+						})
 					},
 					isLoading: isDeleteSubjectLoading,
 				},

@@ -1,4 +1,4 @@
-import { Toast } from "@/components"
+import { AnimatedHeaderOptions, Toast } from "@/components"
 import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
 import { dark } from "@/theme"
 import { NavigationContainer } from "@react-navigation/native"
@@ -28,6 +28,7 @@ const IntegrationProviders = ({ children }: React.PropsWithChildren) => {
 				<ThemeProvider theme={dark}>
 					<ContextsProviders>
 						<NavigationContainer>{children}</NavigationContainer>
+						<AnimatedHeaderOptions />
 						<Toast />
 					</ContextsProviders>
 				</ThemeProvider>

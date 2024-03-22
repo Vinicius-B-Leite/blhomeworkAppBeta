@@ -41,7 +41,9 @@ describe("modelView: useGetClassrooms", () => {
 			await result.current.refresh()
 		})
 
-		expect(result.current.classrooms).toEqual(mocks.classroomParsed.splice(0, 1))
+		await waitFor(() =>
+			expect(result.current.classrooms).toEqual(mocks.classroomParsed.splice(0, 1))
+		)
 	})
 
 	it("should return an empty array", async () => {

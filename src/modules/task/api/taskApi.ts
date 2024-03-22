@@ -36,6 +36,7 @@ export const taskApi: TaskApi = {
 			.from("subject")
 			.select()
 			.eq("classroom_id", classroomId)
+			.is("deleted_at", null)
 
 		if (error) {
 			throw new Error(error.message)
@@ -87,5 +88,35 @@ export const taskApi: TaskApi = {
 		}
 
 		return data?.length > 0 ? data : []
+	},
+	deltedSubject: async (subjectId) => {
+		const { error } = await supabase
+			.from("subject")
+			.update({
+				deleted_at: new Date().toISOString(),
+			})
+			.eq("id", subjectId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+	},
+	updateSubject: async (subject) => {
+		const { data, error } = await supabase
+			.from("subject")
+			.update({
+				title: subject.name,
+				color_rgb: subject.color,
+				short_name: subject.shortName,
+				updated_at: new Date().toISOString(),
+			})
+			.eq("id", subject.id)
+			.select()
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data?.length > 0 ? data[0] : null
 	},
 }

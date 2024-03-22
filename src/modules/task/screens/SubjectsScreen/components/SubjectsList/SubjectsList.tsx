@@ -1,12 +1,14 @@
 import { Box, Icon, List, PressableBox, Text } from "@/components"
 import { useAppTheme } from "@/hooks"
 import { Subject } from "@/modules/task/model"
+import { useAnimatedHeaderOptionsDispatch } from "@/store"
 import React, { useCallback } from "react"
 import { ListRenderItemInfo } from "react-native"
 
 type SubjectsListProps = {
 	subjects: Subject[]
 	onSelectSubject: (subject: Subject) => void
+	onLongPressSubject: (subject: Subject) => void
 	onListHeaderPress: () => void
 	isLoading: boolean
 	refresh: () => void
@@ -18,13 +20,17 @@ const SubjectsList: React.FC<SubjectsListProps> = ({
 	onListHeaderPress,
 	isLoading,
 	refresh,
+
+	onLongPressSubject,
 }) => {
-	const theme = useAppTheme()
 	const renderItem = useCallback(
 		({ item }: ListRenderItemInfo<Subject>) => (
 			<PressableBox
+				onLongPress={() => onLongPressSubject(item)}
 				onPress={() => onSelectSubject(item)}
-				style={{ backgroundColor: item.color }}
+				style={{
+					backgroundColor: item.color,
+				}}
 				p={14}
 				borderRadius={8}
 				mt={14}>

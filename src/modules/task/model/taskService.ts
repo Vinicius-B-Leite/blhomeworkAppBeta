@@ -99,9 +99,29 @@ const createTask = async (
 		throw error
 	}
 }
+
+const deleteSubject = async (subjectId: string) => {
+	try {
+		await taskApi.deltedSubject(subjectId)
+	} catch (error) {
+		throw error
+	}
+}
+
+const updateSubject = async (subject: Subject) => {
+	try {
+		const data = await taskApi.updateSubject(subject)
+
+		return taskAdapter.subjectApiResponseToSubject(data)
+	} catch (error) {
+		throw error
+	}
+}
 export const taskService = {
 	getTaskList,
 	createSubject,
 	getSubjectList,
 	createTask,
+	deleteSubject,
+	updateSubject,
 }

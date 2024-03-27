@@ -55,7 +55,12 @@ const UploadModal: React.FC<UploadModalProps> = ({
 				</Box>
 
 				<PressableBox onPress={() => removeDocument(item)} p={4}>
-					<Icon name="close" color="alert" size={24} />
+					<Icon
+						name="close"
+						color="alert"
+						size={24}
+						testID={`delete-${index}`}
+					/>
 				</PressableBox>
 			</Box>
 		)

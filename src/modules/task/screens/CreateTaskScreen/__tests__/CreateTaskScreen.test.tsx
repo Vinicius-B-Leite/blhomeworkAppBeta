@@ -7,13 +7,16 @@ import { AppRoutes } from "@/routes/appRoutes"
 
 import { classroomApi } from "@/modules/classroom/api"
 import { authStorage } from "@/modules/auth/storage"
+import { api } from "@/api"
 
+jest.mock("@/modules/task/utils")
 describe("integration: CreateTaskScreen", () => {
-	beforeAll(() => {
-		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+	beforeEach(() => {
+		jest.clearAllMocks()
 	})
 	it("should show message error in empty inputs", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -39,10 +42,12 @@ describe("integration: CreateTaskScreen", () => {
 		expect(await screen.findByText("Mínimo de 3 caracteres")).toBeTruthy()
 		expect(await screen.findByText("Disciplina é obrigatória")).toBeTruthy()
 		expect(await screen.findByText("Data de entrega é obrigatória")).toBeTruthy()
+		screen.unmount()
 	})
 
 	it("it should create a task with title, subject and deadline", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -87,10 +92,83 @@ describe("integration: CreateTaskScreen", () => {
 		await act(() => fireEvent.press(createButton))
 
 		expect(await screen.findByText(mocks.tasks[2].title)).toBeTruthy()
+		screen.unmount()
 	})
+	it("it should create a task with title, description,subject, uploads and deadline", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+		jest.spyOn(api, "uploadFile").mockResolvedValue({
+			downloadUrl: "http://example.com",
+			type: "image/png",
+		})
+		jest.spyOn(taskApi, "createUpload").mockImplementation()
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(taskApi, "getTaskList").mockResolvedValueOnce(mocks.tasks.slice(0, 2))
+		jest.spyOn(taskApi, "getSubjectList").mockResolvedValue(mocks.subjects)
+		jest.spyOn(taskApi, "createTask").mockResolvedValue(mocks.tasks[2])
+		jest.spyOn(require("@/modules/task/utils"), "getDocuments").mockResolvedValue(
+			mocks.documents
+		)
 
+		renderScreen(<AppRoutes initialClassroomRouteName="ClassroomsScreen" />)
+
+		const firstClassroom = await screen.findByText("Classroom 1")
+		await act(() => {
+			fireEvent.press(firstClassroom)
+		})
+
+		const floatingButton = await screen.findByTestId("float-button")
+		await act(() => {
+			fireEvent.press(floatingButton)
+		})
+		const title = await screen.findByPlaceholderText("Título")
+		const subject = await screen.findByPlaceholderText("Disciplina")
+		const description = await screen.findByPlaceholderText("Descrição")
+		fireEvent.changeText(title, mocks.tasks[2].title)
+
+		await act(() => fireEvent.press(subject))
+
+		const parsedSubject = taskAdapter.subjectApiResponseToSubject(mocks.subjects[0])
+		await waitFor(() => expect(screen.getByText("Disciplinas da sala")).toBeTruthy())
+		const firstSubject = await screen.findByText(parsedSubject.name)
+
+		fireEvent.press(firstSubject)
+
+		fireEvent.changeText(description, mocks.tasks[2].description)
+
+		const deadLine = await screen.findByText("Entrega")
+		await act(() => fireEvent.press(deadLine))
+
+		const datePicker = await screen.findByTestId("dateTimePicker")
+		fireEvent(datePicker, "onChange", null, new Date(mocks.tasks[2].dead_line))
+
+		const uploadButton = await screen.findByText("Material de apoio")
+		fireEvent.press(uploadButton)
+
+		await act(async () =>
+			fireEvent.press(await screen.findByText("Selecione um arquivo"))
+		)
+
+		const file = await screen.findByTestId("delete-1")
+		await act(() => fireEvent.press(file))
+
+		await waitFor(() =>
+			expect(screen.queryByText(mocks.classroomParsed[1].title)).toBeNull()
+		)
+
+		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
+
+		const createButton = await screen.findByText("Criar")
+		await act(() => fireEvent.press(createButton))
+
+		expect(await screen.findByText(mocks.tasks[2].title)).toBeTruthy()
+		screen.unmount()
+	})
 	it("it should show a toast error if something wrong happend", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -135,5 +213,6 @@ describe("integration: CreateTaskScreen", () => {
 		await act(() => fireEvent.press(createButton))
 
 		expect(await screen.findByText("Erro ao criar tarefa!")).toBeTruthy()
+		screen.unmount()
 	})
 })

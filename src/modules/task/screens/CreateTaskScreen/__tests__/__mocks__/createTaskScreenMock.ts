@@ -161,10 +161,31 @@ const user: UserType = {
 	username: "fake-username",
 }
 
+const documents = [
+	{
+		name: "file 1 ",
+		uri: "file://file1.png",
+		extension: "png",
+		base64: "base64",
+	},
+	{
+		name: "file 2 ",
+		uri: "file://file2.png",
+		extension: "png",
+		base64: "base64",
+	},
+	{
+		name: "file 3 ",
+		uri: "file://file3.png",
+		extension: "png",
+		base64: "base64",
+	},
+]
 export const mocks = {
 	subjects,
 	classroomApiResponse,
 	classroomParsed,
 	user,
 	tasks,
+	documents,
 }

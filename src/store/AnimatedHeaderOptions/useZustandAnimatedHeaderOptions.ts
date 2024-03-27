@@ -11,14 +11,18 @@ export type AnimatedHeaderOptionsConfig = {
 		onPress: () => void
 		isLoading?: boolean
 	}[]
+	onClose?: () => void
 }
 
+type showAnimatedHeaderOptionsProps = Omit<AnimatedHeaderOptionsConfig, "visible"> & {
+	onClose?: () => void
+}
 export type UseAnimatedHeaderOPtions = {
 	config: AnimatedHeaderOptionsConfig
 	showAnimatedHeaderOptions: ({
 		rightOptions,
 		title,
-	}: Omit<AnimatedHeaderOptionsConfig, "visible">) => void
+	}: showAnimatedHeaderOptionsProps) => void
 	hideAnimatedHeaderOptions: () => void
 }
 
@@ -34,13 +38,12 @@ export const useZustandAnimatedHeaderOptions = create<UseAnimatedHeaderOPtions>(
 			set({
 				config: { visible: false, rightOptions: [], title: "", titleColor: "" },
 			}),
-		showAnimatedHeaderOptions: ({ rightOptions, title, titleColor }) =>
+		showAnimatedHeaderOptions: ({ titleColor, ...rest }) =>
 			set({
 				config: {
-					rightOptions,
 					visible: true,
-					title,
 					titleColor: titleColor || "",
+					...rest,
 				},
 			}),
 	})

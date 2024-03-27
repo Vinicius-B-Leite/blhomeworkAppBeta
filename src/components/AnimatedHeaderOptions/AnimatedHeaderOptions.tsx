@@ -11,9 +11,14 @@ export const AnimatedHeaderOptions: React.FC = () => {
 	const { top } = useAppSafeArea()
 	const theme = useAppTheme()
 	const animatedOpacity = useSharedValue(0)
-	const { rightOptions, title, visible, titleColor } = useAnimatedHeaderOptionsConfig()
+	const { rightOptions, title, visible, titleColor, onClose } =
+		useAnimatedHeaderOptionsConfig()
 	const { hideAnimatedHeaderOptions } = useAnimatedHeaderOptionsDispatch()
 
+	const handleGoBack = () => {
+		onClose?.()
+		hideAnimatedHeaderOptions()
+	}
 	const animatedStyle = useAnimatedStyle(() => ({
 		opacity: animatedOpacity.value,
 	}))
@@ -50,7 +55,7 @@ export const AnimatedHeaderOptions: React.FC = () => {
 				animatedStyle,
 			]}>
 			<PressableBox
-				onPress={hideAnimatedHeaderOptions}
+				onPress={handleGoBack}
 				flexDirection="row"
 				alignItems="center"
 				flex={1}
@@ -72,8 +77,8 @@ export const AnimatedHeaderOptions: React.FC = () => {
 						<PressableBox
 							key={index}
 							onPress={() => {
-								option.onPress()
 								hideAnimatedHeaderOptions()
+								option.onPress()
 							}}>
 							<Icon name={option.iconsName} testID={option.iconsName} />
 						</PressableBox>

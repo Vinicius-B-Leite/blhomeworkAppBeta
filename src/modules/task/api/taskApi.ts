@@ -7,6 +7,7 @@ export const taskApi: TaskApi = {
 			.from("task")
 			.select("*, classroom ( * ), subject ( * )")
 			.eq("classroom_id", classroomId)
+			.is("deleted_at", null)
 
 		if (error) {
 			throw new Error(error.message)
@@ -118,5 +119,17 @@ export const taskApi: TaskApi = {
 		}
 
 		return data?.length > 0 ? data[0] : null
+	},
+	deleteTask: async (taskId) => {
+		const { error } = await supabase
+			.from("task")
+			.update({
+				deleted_at: new Date().toISOString(),
+			})
+			.eq("id", taskId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
 	},
 }

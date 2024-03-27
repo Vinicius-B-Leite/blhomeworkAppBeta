@@ -18,6 +18,8 @@ export const TaskListScreen: React.FC = () => {
 		handleNavigateToCreateTask,
 		refresh,
 		handleNavigateToTaskDetails,
+		curretnTaskInAnimatedHeader,
+		handleOpenTaskOptions,
 	} = useTaskListScreenViewController({
 		classroomAdminId: adminId,
 		classroomId: id,
@@ -25,9 +27,17 @@ export const TaskListScreen: React.FC = () => {
 
 	const TaskListItem = useCallback(
 		({ item }: ListRenderItemInfo<Task>) => (
-			<TaskItem onPress={() => handleNavigateToTaskDetails(item)} task={item} />
+			<TaskItem
+				onLongPress={() => handleOpenTaskOptions(item)}
+				onPress={() => handleNavigateToTaskDetails(item)}
+				task={item}
+				shouldShowDarkMask={
+					!!curretnTaskInAnimatedHeader &&
+					curretnTaskInAnimatedHeader.id !== item.id
+				}
+			/>
 		),
-		[]
+		[curretnTaskInAnimatedHeader]
 	)
 	return (
 		<Container>

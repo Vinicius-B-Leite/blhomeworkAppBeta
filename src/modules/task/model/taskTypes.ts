@@ -21,6 +21,9 @@ export type TaskApiResponse = {
 	}
 	subject_id: string
 	title: string
+	created_at: string
+	updated_at: string | null
+	deleted_at: string | null
 }
 
 export type Task = {

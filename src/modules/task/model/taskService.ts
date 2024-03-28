@@ -139,7 +139,7 @@ const updateTask = async (
 			id: task.id,
 			subjectId,
 		})
-		if (files) {
+		if (files && files?.length > 0) {
 			const filesAlreadyInBucket = files?.filter((file) => {
 				const isFileInBucket = file.uri.includes("http")
 				return isFileInBucket

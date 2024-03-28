@@ -1,8 +1,8 @@
 import { act, renderHook, waitFor } from "@/testUtils"
 import { useupdateTask } from "../useUpdateTask.modelView"
-import { TASK_QUERY_KEY, taskApi } from "../../api"
+import { TASK_QUERY_KEY, taskApi } from "@/modules/task/api"
 import { mocks } from "./__mocks__/taskModelViewMocks"
-import { taskAdapter } from "../../model/taskAdapter"
+import { taskAdapter } from "@/modules/task/model/taskAdapter"
 
 const mockinvalidateQueries = jest.fn()
 jest.mock("@tanstack/react-query", () => ({

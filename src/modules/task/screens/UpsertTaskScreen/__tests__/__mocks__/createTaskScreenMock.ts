@@ -103,6 +103,9 @@ const tasks: TaskApiResponse[] = [
 		},
 		subject_id: "subject_id_1",
 		title: "Título da tarefa 1",
+		created_at: "2022-01-01",
+		updated_at: null,
+		deleted_at: null,
 	},
 	{
 		classroom: {
@@ -127,6 +130,9 @@ const tasks: TaskApiResponse[] = [
 		},
 		subject_id: "subject_id_2",
 		title: "Título da tarefa 2",
+		created_at: "2022-01-01",
+		updated_at: null,
+		deleted_at: null,
 	},
 	{
 		classroom: {
@@ -151,6 +157,9 @@ const tasks: TaskApiResponse[] = [
 		},
 		subject_id: "subject_id_3",
 		title: "Título da tarefa 3",
+		created_at: "2022-01-01",
+		updated_at: null,
+		deleted_at: null,
 	},
 ]
 const user: UserType = {

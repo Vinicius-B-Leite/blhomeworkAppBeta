@@ -1,8 +1,10 @@
 import { useAuth } from "@/modules/auth/context"
-import { useGetTaskListModelView } from "@/modules/task/modelView"
-import { useToastDispatch } from "@/store"
-import { useNavigation } from "@react-navigation/native"
+import { useDeleteTask, useGetTaskListModelView } from "@/modules/task/modelView"
+import { useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
+import { useNavigation, useTheme } from "@react-navigation/native"
 import { Task } from "@/modules/task/model"
+import { useAppTheme } from "@/hooks"
+import { useState } from "react"
 
 type UseTaskListScreenViewControllerProps = {
 	classroomAdminId: string
@@ -15,6 +17,17 @@ export function useTaskListScreenViewController({
 	const { user } = useAuth()
 	const navigation = useNavigation()
 	const { showToast } = useToastDispatch()
+	const theme = useAppTheme()
+	const [curretnTaskInAnimatedHeader, setCurrentTaskInAnimatedHeader] =
+		useState<Task | null>(null)
+	const { deleteTask } = useDeleteTask({
+		classroomId,
+		onError: () => {
+			showToast({ message: "Erro ao deletar tarefa", type: "error" })
+		},
+	})
+	const { hideAnimatedHeaderOptions, showAnimatedHeaderOptions } =
+		useAnimatedHeaderOptionsDispatch()
 	const { taskList, isLoading, refresh } = useGetTaskListModelView({
 		classroomId,
 		onError: () => {
@@ -24,9 +37,10 @@ export function useTaskListScreenViewController({
 
 	const handleNavigateToCreateTask = () => {
 		navigation.navigate("TaskRoutes", {
-			screen: "CreateTask",
+			screen: "UpsertTask",
 			params: {
 				classroomId,
+				isUpdate: false,
 			},
 		})
 	}
@@ -40,12 +54,56 @@ export function useTaskListScreenViewController({
 		})
 	}
 
+	const userIsClassroomAdim = user?.uid == classroomAdminId
+	const handleOpenTaskOptions = (task: Task) => {
+		if (!userIsClassroomAdim) {
+			return
+		}
+
+		setCurrentTaskInAnimatedHeader(task)
+
+		showAnimatedHeaderOptions({
+			title: task.title,
+			titleColor: theme.colors.text,
+			onClose: () => {
+				setCurrentTaskInAnimatedHeader(null)
+			},
+			rightOptions: [
+				{
+					iconsName: "trash",
+					isLoading: false,
+					onPress: () => {
+						setCurrentTaskInAnimatedHeader(null)
+						deleteTask({ taskId: task.id })
+					},
+				},
+				{
+					iconsName: "pen",
+					isLoading: false,
+					onPress: () => {
+						setCurrentTaskInAnimatedHeader(null)
+						navigation.navigate("TaskRoutes", {
+							screen: "UpsertTask",
+							params: {
+								classroomId,
+								task,
+								isUpdate: true,
+							},
+						})
+					},
+				},
+			],
+		})
+	}
+
 	return {
-		currentUserIsAdmin: user?.uid == classroomAdminId,
+		currentUserIsAdmin: userIsClassroomAdim,
 		taskList,
 		isLoading,
 		handleNavigateToCreateTask,
 		refresh,
 		handleNavigateToTaskDetails,
+		handleOpenTaskOptions,
+		curretnTaskInAnimatedHeader,
 	}
 }

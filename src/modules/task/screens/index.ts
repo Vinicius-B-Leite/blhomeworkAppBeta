@@ -1,4 +1,4 @@
-export * from "./CreateTaskScreen/CreateTaskScreen"
+export * from "./UpsertTaskScreen/UpsertTaskScreen"
 export * from "./SubjectsScreen/SubjectsScreen"
 export * from "./TaskDetailsScreen/TaskDetailsScreen"
 export * from "./UpsertSubjectScreen/UpsertSubjectScreen"

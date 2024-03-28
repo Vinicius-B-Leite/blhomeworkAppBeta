@@ -5,9 +5,17 @@ export type TaskRoutesTypes = {
 	TaskList: {
 		classroom: ClassroomType
 	}
-	CreateTask: {
-		classroomId: string
-	}
+	UpsertTask:
+		| {
+				classroomId: string
+				task?: Task
+				isUpdate: false
+		  }
+		| {
+				classroomId: string
+				task: Task
+				isUpdate: true
+		  }
 	Subjects: {
 		onSelectSubject: (subject: Subject) => void
 		classroomId: string

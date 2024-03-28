@@ -2,14 +2,14 @@ import { Box, Container, FormInput, Icon, Input, Text } from "@/components"
 import React, { useCallback, useRef } from "react"
 import Options from "./components/Options/Options"
 
-import { useCreateTaskViewController } from "./createTaskScreen.viewController"
+import { useUpsertTaskViewController } from "./UpsertTaskScreen.viewController"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { formatDate } from "@/utils"
 import { useAppTheme } from "@/hooks"
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet"
 import UploadModal from "./components/UploadModal/UploadModal"
 
-export const CreateTaskScreen: React.FC = () => {
+export const UpsertTaskScreen: React.FC = () => {
 	const {
 		control,
 		errors,
@@ -25,7 +25,8 @@ export const CreateTaskScreen: React.FC = () => {
 		navigateToSubjects,
 		documentList,
 		removeDocument,
-	} = useCreateTaskViewController()
+		isUpdate,
+	} = useUpsertTaskViewController()
 
 	const bottomSheetRef = useRef<BottomSheet>(null)
 
@@ -37,9 +38,10 @@ export const CreateTaskScreen: React.FC = () => {
 				submitButton={{
 					onPress: handleCreateTask,
 					isLoading: isLoading,
+					title: isUpdate ? "Salvar" : "Criar",
 				}}
 				goBack={{
-					title: "Criar Tarefa",
+					title: isUpdate ? "Atualizar Tarefa" : "Criar Tarefa",
 				}}>
 				<FormInput
 					control={control}

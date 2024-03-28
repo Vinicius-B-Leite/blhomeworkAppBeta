@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { AnimatedBox, Box, PressableBox } from "../Box/Box"
 import { useAppSafeArea, useAppTheme } from "@/hooks"
-import { useAnimatedStyle, useSharedValue } from "react-native-reanimated"
+import { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
 import { useAnimatedHeaderOptionsConfig, useAnimatedHeaderOptionsDispatch } from "@/store"
@@ -11,15 +11,21 @@ export const AnimatedHeaderOptions: React.FC = () => {
 	const { top } = useAppSafeArea()
 	const theme = useAppTheme()
 	const animatedOpacity = useSharedValue(0)
-	const { rightOptions, title, visible, titleColor } = useAnimatedHeaderOptionsConfig()
+	const { rightOptions, title, visible, titleColor, onClose } =
+		useAnimatedHeaderOptionsConfig()
 	const { hideAnimatedHeaderOptions } = useAnimatedHeaderOptionsDispatch()
 
+	const handleGoBack = () => {
+		onClose?.()
+		hideAnimatedHeaderOptions()
+	}
 	const animatedStyle = useAnimatedStyle(() => ({
 		opacity: animatedOpacity.value,
 	}))
 
 	const runAnimation = (opt: "hide" | "show") => {
-		animatedOpacity.value = opt === "show" ? 1 : 0
+		const toValue = opt === "hide" ? 0 : 1
+		animatedOpacity.value = withTiming(toValue, { duration: 500 })
 	}
 
 	useEffect(() => {
@@ -50,7 +56,7 @@ export const AnimatedHeaderOptions: React.FC = () => {
 				animatedStyle,
 			]}>
 			<PressableBox
-				onPress={hideAnimatedHeaderOptions}
+				onPress={handleGoBack}
 				flexDirection="row"
 				alignItems="center"
 				flex={1}
@@ -72,8 +78,8 @@ export const AnimatedHeaderOptions: React.FC = () => {
 						<PressableBox
 							key={index}
 							onPress={() => {
-								option.onPress()
 								hideAnimatedHeaderOptions()
+								option.onPress()
 							}}>
 							<Icon name={option.iconsName} testID={option.iconsName} />
 						</PressableBox>

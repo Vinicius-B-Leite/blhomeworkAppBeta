@@ -24,6 +24,9 @@ const tasks: TaskApiResponse[] = [
 		},
 		subject_id: "subject1",
 		title: "Task Title 1",
+		created_at: "2022-01-01",
+		updated_at: null,
+		deleted_at: null,
 	},
 ]
 

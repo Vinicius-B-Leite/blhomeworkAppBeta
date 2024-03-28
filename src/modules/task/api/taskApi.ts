@@ -7,6 +7,7 @@ export const taskApi: TaskApi = {
 			.from("task")
 			.select("*, classroom ( * ), subject ( * )")
 			.eq("classroom_id", classroomId)
+			.is("deleted_at", null)
 
 		if (error) {
 			throw new Error(error.message)
@@ -118,5 +119,43 @@ export const taskApi: TaskApi = {
 		}
 
 		return data?.length > 0 ? data[0] : null
+	},
+	deleteTask: async (taskId) => {
+		const { error } = await supabase
+			.from("task")
+			.update({
+				deleted_at: new Date().toISOString(),
+			})
+			.eq("id", taskId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+	},
+	updateTask: async (task) => {
+		const { data, error } = await supabase
+			.from("task")
+			.update({
+				title: task.title,
+				description: task.description,
+				dead_line: task.deadLine.toISOString(),
+				subject_id: task.subjectId,
+				updated_at: new Date().toISOString(),
+			})
+			.eq("id", task.id)
+			.select("*, classroom ( * ), subject ( * )")
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data?.length > 0 ? data[0] : null
+	},
+	deleteUpload: async (uploadId) => {
+		const { error } = await supabase.from("upload").delete().eq("id", uploadId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
 	},
 }

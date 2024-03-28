@@ -56,9 +56,10 @@ describe("integration: TaskListScreen", () => {
 		fireEvent.press(floatButton)
 
 		expect(mockNavigate).toHaveBeenCalledWith("TaskRoutes", {
-			screen: "CreateTask",
+			screen: "UpsertTask",
 			params: {
 				classroomId: "classroom1",
+				isUpdate: false,
 			},
 		})
 	})

@@ -117,6 +117,82 @@ const updateSubject = async (subject: Subject) => {
 		throw error
 	}
 }
+
+const deleteTask = async (taskId: string) => {
+	try {
+		await taskApi.deleteTask(taskId)
+	} catch (error) {
+		throw error
+	}
+}
+
+const updateTask = async (
+	task: Omit<Task, "subject" | "uploads">,
+	subjectId: string,
+	files?: File[]
+) => {
+	try {
+		const data = await taskApi.updateTask({
+			deadLine: task.deadLine,
+			title: task.title,
+			description: task.description,
+			id: task.id,
+			subjectId,
+		})
+		if (files && files?.length > 0) {
+			const filesAlreadyInBucket = files?.filter((file) => {
+				const isFileInBucket = file.uri.includes("http")
+				return isFileInBucket
+			})
+			const filesToUpload = files?.filter((file) => {
+				const isFileInBucket = file.uri.includes("http")
+				return !isFileInBucket
+			})
+
+			const filesUploaded = await Promise.all(
+				filesToUpload?.map(async (file) => {
+					return await api.uploadFile({
+						uri: file.uri,
+						base64: file.base64,
+						bucketName: "task",
+						contentType: getExtension(file.uri).split(
+							"."
+						)[1] as keyof typeof mimeTypes,
+					})
+				}) || []
+			)
+
+			if (filesUploaded.length > 0) {
+				await Promise.all(
+					filesUploaded.map(async (file) => {
+						await taskApi.createUpload(file.downloadUrl, file.type, data.id)
+					})
+				)
+			}
+
+			const allFiles = await getUploads(data.id)
+			const filesUrls = [
+				...filesAlreadyInBucket.map((f) => f.uri),
+				...filesUploaded.map((f) => f.downloadUrl),
+			]
+
+			const filesToDelete = allFiles.filter(
+				(file) => !filesUrls.includes(file.donwloadUrl)
+			)
+
+			if (filesToDelete.length > 0) {
+				await Promise.all(
+					filesToDelete.map(async (file) => {
+						await taskApi.deleteUpload(file.id)
+					})
+				)
+			}
+		}
+		return taskAdapter.taskApiResponseToTask(data)
+	} catch (error) {
+		throw error
+	}
+}
 export const taskService = {
 	getTaskList,
 	createSubject,
@@ -124,4 +200,6 @@ export const taskService = {
 	createTask,
 	deleteSubject,
 	updateSubject,
+	deleteTask,
+	updateTask,
 }

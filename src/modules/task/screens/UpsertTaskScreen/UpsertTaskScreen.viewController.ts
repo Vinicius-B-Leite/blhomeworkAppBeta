@@ -1,15 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { CreateTaskScreenSchema, createTaskScreenSchema } from "./createTaskScreenSchema"
+import { CreateTaskScreenSchema, createTaskScreenSchema } from "./upsertTaskScreenSchmea"
 import { useState } from "react"
 import { Subject, File } from "@/modules/task/model"
 import { useNavigation } from "@react-navigation/native"
 import { useRouteParams } from "@/hooks"
-import { useCreateTask } from "@/modules/task/modelView"
+import { useCreateTask, useupdateTask } from "@/modules/task/modelView"
 import { useToastDispatch } from "@/store"
 import { getDocuments } from "@/modules/task/utils"
 
-export function useCreateTaskViewController() {
+export function useUpsertTaskViewController() {
+	const navigation = useNavigation()
+	const [showDatePicker, setShowDatePicker] = useState(false)
+	const params = useRouteParams("UpsertTask")
+	const classroomId = params!.classroomId
+	const isUpdate = params!.isUpdate
+	const taskUpdating = params?.task
 	const {
 		control,
 		formState: { errors },
@@ -20,26 +26,57 @@ export function useCreateTaskViewController() {
 	} = useForm<CreateTaskScreenSchema>({
 		resolver: zodResolver(createTaskScreenSchema),
 		defaultValues: {
-			title: "",
-			description: "",
+			title: isUpdate ? taskUpdating!.title : "",
+			description: isUpdate ? taskUpdating!.description : "",
+			deadLine: isUpdate ? taskUpdating!.deadLine : undefined,
+			subject: isUpdate ? taskUpdating!.subject : undefined,
+			uploads: isUpdate
+				? taskUpdating!.uploads?.map((upload) => ({
+						base64: "",
+						extension: upload.type,
+						name: upload.id,
+						uri: upload.donwloadUrl,
+				  }))
+				: [],
 		},
 		mode: "onSubmit",
 	})
-	const navigation = useNavigation()
-	const [showDatePicker, setShowDatePicker] = useState(false)
-	const params = useRouteParams("CreateTask")
 	const documentList = watch("uploads") ?? []
+
 	const { showToast } = useToastDispatch()
 	const { createTaskt, isLoading } = useCreateTask({
-		classroomId: params!.classroomId,
+		classroomId: classroomId,
 		onError: () => {
 			showToast({ message: "Erro ao criar tarefa!", type: "error" })
 		},
 	})
-
+	const { updateTask, isLoading: isUpdateLoading } = useupdateTask({
+		classroomId: classroomId,
+		onError: (message) => {
+			showToast({ message, type: "error" })
+		},
+		onSuccess: () => {
+			showToast({ message: "Tarefa atualizada com sucesso!", type: "success" })
+			navigation.goBack()
+		},
+	})
 	const handleCreateTask = handleSubmit((data) => {
+		if (isUpdate) {
+			updateTask({
+				task: {
+					title: data.title,
+					description: data.description,
+					deadLine: data.deadLine,
+					id: taskUpdating!.id,
+					subjectId: data.subject.id,
+					files: documentList,
+				},
+			})
+			return
+		}
+
 		createTaskt({
-			classroomId: params!.classroomId,
+			classroomId: classroomId,
 			task: {
 				title: data.title,
 				description: data.description,
@@ -72,7 +109,7 @@ export function useCreateTaskViewController() {
 			screen: "Subjects",
 			params: {
 				onSelectSubject: handleSelectSubject,
-				classroomId: params!.classroomId,
+				classroomId: classroomId,
 				selectedSubjectId: watch("subject")?.id,
 			},
 		})
@@ -90,7 +127,8 @@ export function useCreateTaskViewController() {
 
 	const removeDocument = (doc: File) => {
 		const oldDocuments = getValues("uploads") || []
-		const index = oldDocuments.indexOf(doc)
+		const index = oldDocuments.findIndex((d) => d.uri === doc.uri)
+
 		const newDocuments = [...oldDocuments]
 		newDocuments.splice(index, 1)
 
@@ -98,7 +136,7 @@ export function useCreateTaskViewController() {
 	}
 	return {
 		control,
-		isLoading,
+		isLoading: isUpdateLoading || isLoading,
 		errors,
 		handleCreateTask,
 		handleSelectDate,
@@ -111,5 +149,6 @@ export function useCreateTaskViewController() {
 		selectDocuments,
 		documentList,
 		removeDocument,
+		isUpdate,
 	}
 }

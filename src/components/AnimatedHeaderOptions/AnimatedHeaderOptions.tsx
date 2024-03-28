@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { AnimatedBox, Box, PressableBox } from "../Box/Box"
 import { useAppSafeArea, useAppTheme } from "@/hooks"
-import { useAnimatedStyle, useSharedValue } from "react-native-reanimated"
+import { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
 import { useAnimatedHeaderOptionsConfig, useAnimatedHeaderOptionsDispatch } from "@/store"
@@ -24,7 +24,8 @@ export const AnimatedHeaderOptions: React.FC = () => {
 	}))
 
 	const runAnimation = (opt: "hide" | "show") => {
-		animatedOpacity.value = opt === "show" ? 1 : 0
+		const toValue = opt === "hide" ? 0 : 1
+		animatedOpacity.value = withTiming(toValue, { duration: 500 })
 	}
 
 	useEffect(() => {

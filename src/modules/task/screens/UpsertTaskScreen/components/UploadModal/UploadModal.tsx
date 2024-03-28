@@ -19,7 +19,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
 	const theme = useAppTheme()
 
 	const renderItem = useCallback(({ item, index }: ListRenderItemInfo<File>) => {
-		const extention = item.extension.slice(1)
+		const extention = item.extension.replace(".", "")
 
 		const colorMap: { bg: keyof Theme["colors"]; color: keyof Theme["colors"] } =
 			mimeTypesArray.includes(extention)

@@ -37,9 +37,10 @@ export function useTaskListScreenViewController({
 
 	const handleNavigateToCreateTask = () => {
 		navigation.navigate("TaskRoutes", {
-			screen: "CreateTask",
+			screen: "UpsertTask",
 			params: {
 				classroomId,
+				isUpdate: false,
 			},
 		})
 	}
@@ -81,8 +82,14 @@ export function useTaskListScreenViewController({
 					isLoading: false,
 					onPress: () => {
 						setCurrentTaskInAnimatedHeader(null)
-
-						console.log("edit")
+						navigation.navigate("TaskRoutes", {
+							screen: "UpsertTask",
+							params: {
+								classroomId,
+								task,
+								isUpdate: true,
+							},
+						})
 					},
 				},
 			],

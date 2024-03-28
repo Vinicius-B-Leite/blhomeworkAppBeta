@@ -6,4 +6,5 @@ export const TASK_QUERY_KEY = {
 	DELETE_SUBJECT: "deleteSubject",
 	DELETE_TASK: "deleteTask",
 	UPDATE_SUBJECT: "updateSubject",
+	UPDATE_TASK: "updateTask",
 }

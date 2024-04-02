@@ -20,5 +20,7 @@ export * from "./WarningSvg"
 export * from "./CloseSvg"
 export * from "./TrashSvg"
 export * from "./PenSvg"
+export * from "./SettingsSvg"
+export * from "./ShareSvg"
 
 export * from "./iconTypes"

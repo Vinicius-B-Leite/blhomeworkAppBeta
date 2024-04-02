@@ -100,4 +100,16 @@ export const classroomApi: ClassroomApi = {
 
 		return data
 	},
+	getStudents: async (classroomId: string) => {
+		const { data, error } = await supabase
+			.from("student")
+			.select("user ( * )")
+			.eq("classroom_id", classroomId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data
+	},
 }

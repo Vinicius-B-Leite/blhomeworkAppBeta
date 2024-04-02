@@ -20,3 +20,19 @@ export type ClassroomApiResponse = {
 		} | null
 	}
 }
+
+export type StudentApiResponse = {
+	user: {
+		avatar_url: string | null
+		email: string
+		id: string
+		user_name: string
+	}
+}
+
+export type Student = {
+	avatarUrl: string | null
+	email: string
+	id: string
+	userName: string
+}

@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import React from "react"
 import {
+	ClassroomSettingsScreen,
 	ClassroomsScreen,
 	CreateClassroomScreen,
 	EnterClassroomScreen,
@@ -25,6 +26,10 @@ export const ClassRoomRoutes: React.FC<ClassRoomRoutesProps> = ({ initialRouteNa
 			/>
 			<Stack.Screen name="EnterClassroomScreen" component={EnterClassroomScreen} />
 			<Stack.Screen name="TaskRoutes" component={TaskRoutes} />
+			<Stack.Screen
+				name="ClassroomSettingsScreen"
+				component={ClassroomSettingsScreen}
+			/>
 		</Stack.Navigator>
 	)
 }

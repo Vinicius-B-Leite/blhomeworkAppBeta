@@ -1,10 +1,16 @@
 import { useGetClassrooms } from "@/modules/classroom/modelView"
-import { useToastDispatch } from "@/store"
+import { useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 import { ClassroomType } from "@/modules/classroom/models"
+import { useAuth } from "@/modules/auth/context"
+import { useAppTheme } from "@/hooks"
 
 export function useClassroomScreenViewController() {
 	const { showToast } = useToastDispatch()
+	const { user } = useAuth()
+	const theme = useAppTheme()
+	const { showAnimatedHeaderOptions, hideAnimatedHeaderOptions } =
+		useAnimatedHeaderOptionsDispatch()
 	const navigation = useNavigation()
 
 	const { classrooms, isLoading, refresh } = useGetClassrooms({
@@ -14,6 +20,7 @@ export function useClassroomScreenViewController() {
 	})
 
 	const handleNavigateToTasks = (classroom: ClassroomType) => {
+		hideAnimatedHeaderOptions()
 		navigation.navigate("TaskRoutes", {
 			screen: "TaskList",
 			params: { classroom },
@@ -29,6 +36,26 @@ export function useClassroomScreenViewController() {
 			screen: "EnterClassroomScreen",
 		})
 	}
+	const handleOpenAnimatedHeader = (classroom: ClassroomType) => {
+		const isAdmin = user!.uid === classroom.adminId
+		if (isAdmin) {
+			showAnimatedHeaderOptions({
+				title: classroom.title,
+				titleColor: theme.colors.text,
+				rightOptions: [
+					{
+						iconsName: "settings",
+						onPress: () => {
+							navigation.navigate("ClassroomRoutes", {
+								screen: "ClassroomSettingsScreen",
+								params: { classroom },
+							})
+						},
+					},
+				],
+			})
+		}
+	}
 
 	return {
 		handleNavigateToTasks,
@@ -37,5 +64,6 @@ export function useClassroomScreenViewController() {
 		refresh,
 		handleNavigateToCreateClassroom,
 		handleNavigateToEnterClassroom,
+		handleOpenAnimatedHeader,
 	}
 }

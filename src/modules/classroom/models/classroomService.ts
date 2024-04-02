@@ -58,4 +58,18 @@ const getClassroomById = async (classroomId: string) => {
 	}
 }
 
-export const classroomService = { getClassrooms, createClassroom, enterClassroom }
+const getStudents = async (classroomId: string) => {
+	try {
+		const response = await classroomApi.getStudents(classroomId)
+
+		return response.map(classroomAdapter.studentApiResponseToStudent)
+	} catch (error) {
+		throw error
+	}
+}
+export const classroomService = {
+	getClassrooms,
+	createClassroom,
+	enterClassroom,
+	getStudents,
+}

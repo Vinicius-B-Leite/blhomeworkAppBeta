@@ -1,4 +1,4 @@
-import { ClassroomApiResponse } from "@/modules/classroom/models"
+import { ClassroomApiResponse, StudentApiResponse } from "@/modules/classroom/models"
 
 export type ClassroomApi = {
 	getClassrooms: (userId: string) => Promise<ClassroomApiResponse[]>
@@ -7,4 +7,5 @@ export type ClassroomApi = {
 	createClassroom: (name: string, userId: string, bannerId: string) => Promise<void>
 	enterClassroom: (classroomId: string, userId: string) => Promise<void>
 	getClassroomById: (classroomId: string) => Promise<ClassroomApiResponse[] | null>
+	getStudents: (classroomId: string) => Promise<StudentApiResponse[]>
 }

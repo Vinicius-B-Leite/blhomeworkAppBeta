@@ -20,6 +20,8 @@ import {
 	CloseSvg,
 	PenSvg,
 	TrashSvg,
+	SettingsSvg,
+	ShareSvg,
 } from "@/assets/icons"
 import { PdfSvg } from "@/assets/icons/PdfSvg"
 
@@ -46,4 +48,6 @@ export const iconMap = {
 	pdf: PdfSvg,
 	pen: PenSvg,
 	trash: TrashSvg,
+	settings: SettingsSvg,
+	share: ShareSvg,
 }

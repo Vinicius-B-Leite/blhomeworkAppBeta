@@ -1,4 +1,9 @@
-import { ClassroomApiResponse, ClassroomType } from "./classroomTypes"
+import {
+	ClassroomApiResponse,
+	ClassroomType,
+	Student,
+	StudentApiResponse,
+} from "./classroomTypes"
 
 const classroomApiResponseToClassroom = (
 	classroom: ClassroomApiResponse
@@ -11,6 +16,16 @@ const classroomApiResponseToClassroom = (
 	}
 }
 
+const studentApiResponseToStudent = (student: StudentApiResponse): Student => {
+	return {
+		avatarUrl: student.user?.avatar_url || null,
+		email: student.user.email,
+		id: student.user.id,
+		userName: student.user.user_name,
+	}
+}
+
 export const classroomAdapter = {
 	classroomApiResponseToClassroom,
+	studentApiResponseToStudent,
 }

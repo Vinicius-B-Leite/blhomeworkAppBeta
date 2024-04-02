@@ -1,4 +1,4 @@
-import { supabase } from "@/api"
+import { api, supabase } from "@/api"
 import { ClassroomApi } from "./classroomApiTypes"
 import {
 	ClassroomApiResponse,
@@ -8,6 +8,7 @@ import {
 import uuid from "react-native-uuid"
 import { getExtension } from "@/utils"
 import { decode } from "base64-arraybuffer"
+import { mimeTypes } from "@/constant"
 
 export const classroomApi: ClassroomApi = {
 	getClassrooms: async (userId: string) => {
@@ -22,30 +23,18 @@ export const classroomApi: ClassroomApi = {
 		return data as unknown as ClassroomApiResponse[]
 	},
 	uploadClassroomBanner: async (uri: string, base64: string) => {
-		const fileName = uuid.v4()
-		const extension = getExtension(uri)
-
-		const arrayBuffer = decode(base64)
-		const { data: uploadedFile, error: errorOnUpload } = await supabase.storage
-			.from("classroomsBanners")
-			.upload(`${fileName}${extension}`, arrayBuffer, {
-				contentType: "image/" + extension.split(".")[1],
-			})
-
-		if (errorOnUpload) {
-			throw new Error(errorOnUpload.message)
-		}
-
-		const pathUrl = classroomApi.getFileUrl(uploadedFile.path)
-		if (!pathUrl) {
-			throw new Error("Error to get file url")
-		}
+		const { downloadUrl, type } = await api.uploadFile({
+			base64: base64,
+			bucketName: "classroomsBanners",
+			uri: uri,
+			contentType: getExtension(uri).split(".")[1] as keyof typeof mimeTypes,
+		})
 
 		const { data: uploadData, error: errorOnInsert } = await supabase
 			.from("upload")
 			.insert({
-				path_url: pathUrl,
-				type: "image",
+				path_url: downloadUrl,
+				type: type,
 			})
 			.select()
 

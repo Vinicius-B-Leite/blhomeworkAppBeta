@@ -18,6 +18,13 @@ jest.mock("@react-navigation/native", () => ({
 		goBack: jest.fn(),
 	}),
 }))
+
+jest.mock("@/hooks", () => ({
+	...jest.requireActual("@/hooks"),
+	useRouteParams: () => ({
+		classroom: undefined,
+	}),
+}))
 describe("integration: UpsertClassroomScreen", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()

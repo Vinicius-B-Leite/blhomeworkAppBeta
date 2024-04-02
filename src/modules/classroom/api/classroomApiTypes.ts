@@ -8,4 +8,9 @@ export type ClassroomApi = {
 	enterClassroom: (classroomId: string, userId: string) => Promise<void>
 	getClassroomById: (classroomId: string) => Promise<ClassroomApiResponse[] | null>
 	getStudents: (classroomId: string) => Promise<StudentApiResponse[]>
+	updateClassroom: (
+		classroomId: string,
+		name: string,
+		bannerId?: string
+	) => Promise<ClassroomApiResponse>
 }

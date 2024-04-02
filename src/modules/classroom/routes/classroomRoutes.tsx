@@ -3,8 +3,8 @@ import React from "react"
 import {
 	ClassroomSettingsScreen,
 	ClassroomsScreen,
-	CreateClassroomScreen,
 	EnterClassroomScreen,
+	UpsertClassroomScreen,
 } from "@/modules/classroom/screen"
 import { ClassroomRouteType } from "./classroomRoutesTypes"
 import { TaskRoutes } from "@/modules/task/routes"
@@ -21,8 +21,8 @@ export const ClassRoomRoutes: React.FC<ClassRoomRoutesProps> = ({ initialRouteNa
 			initialRouteName={initialRouteName}>
 			<Stack.Screen name="ClassroomsScreen" component={ClassroomsScreen} />
 			<Stack.Screen
-				name="CreateClassroomScreen"
-				component={CreateClassroomScreen}
+				name="UpsertClassroomScreen"
+				component={UpsertClassroomScreen}
 			/>
 			<Stack.Screen name="EnterClassroomScreen" component={EnterClassroomScreen} />
 			<Stack.Screen name="TaskRoutes" component={TaskRoutes} />

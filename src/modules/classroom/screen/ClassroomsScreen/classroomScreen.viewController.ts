@@ -28,7 +28,7 @@ export function useClassroomScreenViewController() {
 	}
 	const handleNavigateToCreateClassroom = () => {
 		navigation.navigate("ClassroomRoutes", {
-			screen: "CreateClassroomScreen",
+			screen: "UpsertClassroomScreen",
 		})
 	}
 	const handleNavigateToEnterClassroom = () => {
@@ -48,6 +48,15 @@ export function useClassroomScreenViewController() {
 						onPress: () => {
 							navigation.navigate("ClassroomRoutes", {
 								screen: "ClassroomSettingsScreen",
+								params: { classroom },
+							})
+						},
+					},
+					{
+						iconsName: "pen",
+						onPress: () => {
+							navigation.navigate("ClassroomRoutes", {
+								screen: "UpsertClassroomScreen",
 								params: { classroom },
 							})
 						},

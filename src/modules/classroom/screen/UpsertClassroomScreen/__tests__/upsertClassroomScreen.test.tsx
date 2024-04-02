@@ -1,8 +1,8 @@
 import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
-import { CreateClassroomScreen } from "../CreateClassroomScreen"
+import { UpsertClassroomScreen } from "../UpsertClassroomScreen"
 import { classroomApi } from "@/modules/classroom/api"
 import { authStorage } from "@/modules/auth/storage"
-import { mocks } from "./__mocks__/createClassroomScreenMocks"
+import { mocks } from "./__mocks__/upsertClassroomScreenMocks"
 
 jest.mock("@/utils", () => ({
 	...jest.requireActual("@/utils"),
@@ -18,7 +18,7 @@ jest.mock("@react-navigation/native", () => ({
 		goBack: jest.fn(),
 	}),
 }))
-describe("integration: CreateClassroomScreen", () => {
+describe("integration: UpsertClassroomScreen", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
 		jest.restoreAllMocks()
@@ -29,7 +29,7 @@ describe("integration: CreateClassroomScreen", () => {
 
 		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
 
-		renderScreen(<CreateClassroomScreen />)
+		renderScreen(<UpsertClassroomScreen />)
 
 		const input = await screen.findByPlaceholderText("Nome da sala", { exact: false })
 		const button = await screen.findByTestId("create-classroom")
@@ -53,7 +53,7 @@ describe("integration: CreateClassroomScreen", () => {
 			message: "error",
 		})
 
-		renderScreen(<CreateClassroomScreen />)
+		renderScreen(<UpsertClassroomScreen />)
 
 		const input = await screen.findByPlaceholderText("Nome da sala", { exact: false })
 		const button = await screen.findByTestId("create-classroom")
@@ -67,7 +67,7 @@ describe("integration: CreateClassroomScreen", () => {
 		expect(await screen.findByText("Erro ao criar sala!")).toBeTruthy()
 	})
 	it("should show input message error if the name length is less than 3", async () => {
-		renderScreen(<CreateClassroomScreen />)
+		renderScreen(<UpsertClassroomScreen />)
 
 		const input = screen.getByPlaceholderText("Nome da sala")
 		const button = screen.getByTestId("create-classroom")
@@ -82,7 +82,7 @@ describe("integration: CreateClassroomScreen", () => {
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
 		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
 
-		renderScreen(<CreateClassroomScreen />)
+		renderScreen(<UpsertClassroomScreen />)
 
 		const input = await screen.findByPlaceholderText("Nome da sala", { exact: false })
 		const button = await screen.findByTestId("create-classroom")

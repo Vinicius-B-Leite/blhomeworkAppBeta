@@ -1,33 +1,38 @@
 import { useForm } from "react-hook-form"
-import {
-	CreateClassroomScreenSchema,
-	createClassroomScreenSchema,
-} from "./createClassroomScreenSchema"
+import { UpsertClassroomScreenSchema } from "./upsertClassroomScreenSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { useCreateClassroom } from "@/modules/classroom/modelView"
+import { useCreateClassroom, useUpdateClassroom } from "@/modules/classroom/modelView"
 import { CreateClassroomServiceProps } from "@/modules/classroom/models"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 import { pickImage } from "@/utils"
+import { useRouteParams } from "@/hooks"
 
-export function useCreateClassroomScreenModelView() {
+export function useUpsertClassroomScreenModelView() {
 	const { showToast } = useToastDispatch()
 	const navigation = useNavigation()
+	const params = useRouteParams("UpsertClassroomScreen")
+	const classroom = params?.classroom
+	const isUpdatingClassroom = !!classroom
 	const {
 		control,
 		formState: { isValid, errors },
 		handleSubmit,
 		setValue,
 		watch,
-	} = useForm<CreateClassroomScreenSchema>({
-		resolver: zodResolver(createClassroomScreenSchema),
+	} = useForm<UpsertClassroomScreenSchema>({
+		resolver: zodResolver(UpsertClassroomScreenSchema),
 		defaultValues: {
 			bannerUri: {
 				base64: "",
-				uri: "",
+				uri: isUpdatingClassroom
+					? classroom?.bannerUrl
+						? classroom.bannerUrl
+						: undefined
+					: "",
 			},
-			classroomName: "",
+			classroomName: isUpdatingClassroom ? classroom?.title : "",
 		},
 		mode: "onChange",
 	})
@@ -40,8 +45,16 @@ export function useCreateClassroomScreenModelView() {
 			showToast({ message: "Erro ao criar sala!", type: "error" })
 		},
 	})
-
-	const createClassroom = (data: CreateClassroomScreenSchema) => {
+	const { updateClassroom } = useUpdateClassroom({
+		onSuccess: () => {
+			showToast({ message: "Sala atualizada com sucesso!", type: "success" })
+			navigation.goBack()
+		},
+		onError: () => {
+			showToast({ message: "Erro ao atualizar sala!", type: "error" })
+		},
+	})
+	const createClassroom = (data: UpsertClassroomScreenSchema) => {
 		let props: Omit<CreateClassroomServiceProps, "userId"> = {
 			name: data.classroomName,
 		}
@@ -50,6 +63,11 @@ export function useCreateClassroomScreenModelView() {
 				uri: data.bannerUri.uri,
 				base64: data.bannerUri.base64,
 			}
+		}
+
+		if (isUpdatingClassroom) {
+			updateClassroom({ ...props, classroomId: classroom!.id })
+			return
 		}
 		createClassroomModelView(props)
 	}

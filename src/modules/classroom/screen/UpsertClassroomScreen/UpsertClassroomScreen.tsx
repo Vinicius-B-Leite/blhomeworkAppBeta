@@ -9,9 +9,9 @@ import {
 	PressableBox,
 } from "@/components"
 
-import { useCreateClassroomScreenModelView } from "./createClassroomScreen..viewController"
+import { useUpsertClassroomScreenModelView } from "./upsertClassroomScreen..viewController"
 
-export const CreateClassroomScreen: React.FC = () => {
+export const UpsertClassroomScreen: React.FC = () => {
 	const {
 		control,
 		errors,
@@ -20,7 +20,7 @@ export const CreateClassroomScreen: React.FC = () => {
 		selectBannerImage,
 		isLoading,
 		bannerUri,
-	} = useCreateClassroomScreenModelView()
+	} = useUpsertClassroomScreenModelView()
 
 	return (
 		<Container

@@ -80,7 +80,7 @@ describe("integration: ClassroomScreen", () => {
 			await fireEvent.press(floatButton)
 		})
 		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
-			screen: "CreateClassroomScreen",
+			screen: "UpsertClassroomScreen",
 		})
 	})
 	it("should navigate to ENTER Classroom Screen when underline button is pressed", async () => {

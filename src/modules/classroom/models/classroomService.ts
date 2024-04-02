@@ -18,6 +18,7 @@ export type CreateClassroomServiceProps = {
 		uri: string
 		base64: string
 	}
+	classroomId?: string
 }
 const createClassroom = async (classroom: CreateClassroomServiceProps) => {
 	try {
@@ -31,6 +32,33 @@ const createClassroom = async (classroom: CreateClassroomServiceProps) => {
 			bannerId = id
 		}
 		await classroomApi.createClassroom(classroom.name, classroom.userId, bannerId)
+	} catch (error) {
+		throw error
+	}
+}
+
+const updateClassroom = async (
+	classroom: Omit<CreateClassroomServiceProps, "userId">
+) => {
+	try {
+		if (!classroom.classroomId) throw new Error("Classroom id is required")
+
+		let bannerId = ""
+		const wasImageUpdated =
+			classroom.baner && !classroom.baner.uri.includes("https://")
+		if (wasImageUpdated && classroom.baner) {
+			const { id } = await classroomApi.uploadClassroomBanner(
+				classroom.baner.uri,
+				classroom.baner.base64
+			)
+
+			bannerId = id
+		}
+		await classroomApi.updateClassroom(
+			classroom.classroomId,
+			classroom.name,
+			bannerId.length > 0 ? bannerId : undefined
+		)
 	} catch (error) {
 		throw error
 	}
@@ -72,4 +100,5 @@ export const classroomService = {
 	createClassroom,
 	enterClassroom,
 	getStudents,
+	updateClassroom,
 }

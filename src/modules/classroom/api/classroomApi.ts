@@ -1,6 +1,10 @@
 import { supabase } from "@/api"
 import { ClassroomApi } from "./classroomApiTypes"
-import { ClassroomApiResponse } from "@/modules/classroom/models"
+import {
+	ClassroomApiResponse,
+	Student,
+	StudentApiResponse,
+} from "@/modules/classroom/models"
 import uuid from "react-native-uuid"
 import { getExtension } from "@/utils"
 import { decode } from "base64-arraybuffer"
@@ -60,7 +64,7 @@ export const classroomApi: ClassroomApi = {
 		const { data, error } = await supabase
 			.from("classroom")
 			.insert({
-				banner_id: bannerId || null,
+				banner_id: bannerId,
 				name,
 				admin_id: userId,
 			})
@@ -110,6 +114,23 @@ export const classroomApi: ClassroomApi = {
 			throw new Error(error.message)
 		}
 
-		return data
+		return data as unknown as StudentApiResponse[]
+	},
+	updateClassroom: async (classroomId, name, bannerId) => {
+		const { data, error } = await supabase
+			.from("classroom")
+			.update({
+				name: name,
+				banner_id: bannerId,
+				updated_at: new Date().toISOString(),
+			})
+			.eq("id", classroomId)
+			.select()
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data![0]
 	},
 }

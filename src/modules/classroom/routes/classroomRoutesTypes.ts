@@ -4,7 +4,9 @@ import { ClassroomType } from "../models"
 
 export type ClassroomRouteType = {
 	ClassroomsScreen: undefined
-	CreateClassroomScreen: undefined
+	UpsertClassroomScreen?: {
+		classroom?: ClassroomType
+	}
 	EnterClassroomScreen: undefined
 	TaskRoutes: NavigatorScreenParams<TaskRoutesTypes>
 	ClassroomSettingsScreen: {

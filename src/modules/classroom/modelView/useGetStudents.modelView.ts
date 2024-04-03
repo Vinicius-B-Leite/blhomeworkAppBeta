@@ -13,7 +13,7 @@ export function useGetStudents(props: useGetStudentsProps) {
 	const { data, error, refetch, isFetching } = useQuery<Student[], Error>({
 		queryKey: [CLASSROOM_QUERY_KEYS.GET_STUDENTS, props.classroomId],
 		queryFn: () => classroomService.getStudents(props.classroomId),
-		enabled: !!props.classroomId,
+		// enabled: !!props.classroomId,
 	})
 	useEffect(() => {
 		if (error) {

@@ -9,8 +9,9 @@ export const ClassroomSettingsScreen: React.FC = () => {
 	const { shareClassroomCode, classroom, isLoading, refresh, students, userIsAdmin } =
 		useClassroomSettingsScreenViewController()
 
-	const renderItem = useCallback(({ item }: ListRenderItemInfo<Student>) => {
+	const renderItem = useCallback(({ item, index }: ListRenderItemInfo<Student>) => {
 		const userItemIsAdmin = classroom.adminId === item.id
+
 		return (
 			<Box
 				bg="secondsBg"
@@ -21,7 +22,8 @@ export const ClassroomSettingsScreen: React.FC = () => {
 				paddingVertical={14}
 				paddingHorizontal={14}
 				borderRadius={10}
-				mt={14}>
+				mt={14}
+				testID={`student-${index}`}>
 				<Box flexDirection="row" gap={14} alignItems="center" flex={1}>
 					<CircleImage
 						size={40}
@@ -30,12 +32,12 @@ export const ClassroomSettingsScreen: React.FC = () => {
 					<Text preset="pMedium">{item.userName}</Text>
 				</Box>
 				{userItemIsAdmin && (
-					<Text preset="pMedium" color="contrast">
+					<Text preset="pMedium" color="contrast" testID="adm">
 						adm
 					</Text>
 				)}
 				{!userItemIsAdmin && userIsAdmin && (
-					<PressableBox>
+					<PressableBox testID={`trashIcon-${index}`}>
 						<Icon name="trash" size={18} color="alert" />
 					</PressableBox>
 				)}
@@ -48,7 +50,7 @@ export const ClassroomSettingsScreen: React.FC = () => {
 			goBack={{
 				title: "Configurações da sala",
 				righComponent: (
-					<PressableBox onPress={shareClassroomCode}>
+					<PressableBox onPress={shareClassroomCode} testID="shareBtn">
 						<Icon name="share" />
 					</PressableBox>
 				),
@@ -64,6 +66,7 @@ export const ClassroomSettingsScreen: React.FC = () => {
 						  }
 						: ImageNotfound
 				}
+				testID="classroom-banner"
 			/>
 			<Text
 				preset="tSmallBold"

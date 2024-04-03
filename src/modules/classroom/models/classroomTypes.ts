@@ -16,7 +16,7 @@ export type ClassroomApiResponse = {
 		upload: {
 			id: string
 			path_url: string
-			type: "image"
+			type: string
 		} | null
 	}
 }

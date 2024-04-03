@@ -9,23 +9,24 @@ import {
 	PressableBox,
 } from "@/components"
 
-import { useCreateClassroomScreenModelView } from "./createClassroomScreen..viewController"
+import { useUpsertClassroomScreenModelView } from "./upsertClassroomScreen..viewController"
 
-export const CreateClassroomScreen: React.FC = () => {
+export const UpsertClassroomScreen: React.FC = () => {
 	const {
 		control,
 		errors,
 		isValid,
-		handleCreateClassroom,
 		selectBannerImage,
 		isLoading,
 		bannerUri,
-	} = useCreateClassroomScreenModelView()
+		handleUpsertClassroom,
+		isUpdatingClassroom,
+	} = useUpsertClassroomScreenModelView()
 
 	return (
 		<Container
 			goBack={{
-				title: "Criar sala",
+				title: `${isUpdatingClassroom ? "Atualizar" : "Criar"} sala`,
 			}}>
 			<PressableBox
 				onPress={selectBannerImage}
@@ -54,12 +55,12 @@ export const CreateClassroomScreen: React.FC = () => {
 			/>
 
 			<Button
-				onPress={handleCreateClassroom}
+				onPress={handleUpsertClassroom}
 				isloading={isLoading}
 				disabled={!isValid}
 				mt={24}
 				testID="create-classroom">
-				Criar sala
+				{isUpdatingClassroom ? "Atualizar" : "Criar"}
 			</Button>
 		</Container>
 	)

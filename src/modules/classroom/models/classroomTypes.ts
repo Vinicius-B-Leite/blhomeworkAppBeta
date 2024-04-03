@@ -16,7 +16,23 @@ export type ClassroomApiResponse = {
 		upload: {
 			id: string
 			path_url: string
-			type: "image"
+			type: string
 		} | null
 	}
+}
+
+export type StudentApiResponse = {
+	user: {
+		avatar_url: string | null
+		email: string
+		id: string
+		user_name: string
+	}
+}
+
+export type Student = {
+	avatarUrl: string | null
+	email: string
+	id: string
+	userName: string
 }

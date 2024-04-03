@@ -1,4 +1,4 @@
-import { act, renderHook, waitFor } from "@/testUtils"
+import { act, renderHook, screen, waitFor } from "@/testUtils"
 import { useGetClassrooms } from "@/modules/classroom/modelView"
 import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classrooModelViewMocks"
@@ -41,9 +41,8 @@ describe("modelView: useGetClassrooms", () => {
 			await result.current.refresh()
 		})
 
-		await waitFor(() =>
-			expect(result.current.classrooms).toEqual(mocks.classroomParsed.splice(0, 1))
-		)
+		const classroomsParsed = mocks.classroomParsed.splice(0, 1)
+		await waitFor(() => expect(result.current.classrooms).toEqual(classroomsParsed))
 	})
 
 	it("should return an empty array", async () => {

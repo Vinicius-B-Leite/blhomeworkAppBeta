@@ -6,12 +6,14 @@ import { ListRenderItemInfo } from "react-native"
 import ImageNotFound from "@/assets/images/ImageNotfound.png"
 type ClassroomListProps = {
 	onSelectClassroom: (classroom: ClassroomType) => void
+	onLongPressClassroom: (classroom: ClassroomType) => void
 	classroomList: ClassroomType[]
 	isRefetching: boolean
 	refresh: () => Promise<void>
 }
 const ClassroomList: React.FC<ClassroomListProps> = ({
 	onSelectClassroom,
+	onLongPressClassroom,
 	classroomList,
 	isRefetching,
 	refresh,
@@ -21,6 +23,7 @@ const ClassroomList: React.FC<ClassroomListProps> = ({
 		return (
 			<PressableBox
 				onPress={() => onSelectClassroom(item)}
+				onLongPress={() => onLongPressClassroom(item)}
 				flexDirection="row"
 				alignItems="center"
 				p={12}

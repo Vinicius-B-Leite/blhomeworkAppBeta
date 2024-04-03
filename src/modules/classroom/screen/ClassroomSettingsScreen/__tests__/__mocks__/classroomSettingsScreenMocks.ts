@@ -4,69 +4,23 @@ import {
 	StudentApiResponse,
 	classroomAdapter,
 } from "@/modules/classroom/models"
-
-const classroomApiResponse: ClassroomApiResponse[] = [
-	{
-		classroom: {
-			admin_id: "1",
-
-			upload: {
-				path_url: "url1",
-				type: "image",
-				id: "1",
-			},
-			created_at: "2024-03-07",
-			deleted_at: "",
-			id: "1",
-			name: "Classroom 1",
-			updated_at: "2024-03-07",
-		},
-	},
-	{
-		classroom: {
-			admin_id: "1",
-
-			upload: {
-				path_url: "url2",
-				type: "image",
-				id: "1",
-			},
-			created_at: "2024-03-07",
-			deleted_at: "",
-			id: "2",
-			name: "Classroom 2",
-			updated_at: "2024-03-07",
-		},
-	},
-	{
-		classroom: {
-			admin_id: "1",
-
-			upload: {
-				path_url: "url3",
-				type: "image",
-				id: "1",
-			},
-			created_at: "2024-03-07",
-			deleted_at: "",
-			id: "3",
-			name: "Classroom 3",
-			updated_at: "2024-03-07",
-		},
-	},
-]
-
-const classroomParsed = classroomApiResponse.map((classroom) =>
-	classroomAdapter.classroomApiResponseToClassroom(classroom)
-)
 const user: UserType = {
-	email: "fake-email",
-	refreshtoken: "fake-resfresh-token",
-	token: "fake-token",
-	uid: "fake-uid",
-	username: "fake-username",
+	email: "email",
+	refreshtoken: "refreshtoken",
+	token: "token",
+	uid: "uid",
+	username: "username",
+	avatarUrl: "avatarUrl",
 }
 const studentsApiResponse: StudentApiResponse[] = [
+	{
+		user: {
+			avatar_url: "https",
+			email: user.email,
+			id: user.uid,
+			user_name: user.username,
+		},
+	},
 	{
 		user: {
 			avatar_url: "url1",
@@ -148,13 +102,23 @@ const studentsApiResponse: StudentApiResponse[] = [
 		},
 	},
 ]
-const studentsParsed = studentsApiResponse.map(
-	classroomAdapter.studentApiResponseToStudent
-)
-export const mocks = {
-	classroomApiResponse,
-	classroomParsed,
-	user,
-	studentsApiResponse,
-	studentsParsed,
+
+const classroomApiResponse: ClassroomApiResponse = {
+	classroom: {
+		admin_id: user.uid,
+		created_at: "2021-09-01T00:00:00Z",
+		deleted_at: "",
+		id: "classroom123",
+		name: "classroom name",
+		updated_at: "",
+		upload: {
+			id: "upload123",
+			path_url: "url",
+			type: "png",
+		},
+	},
 }
+
+const classroom = classroomAdapter.classroomApiResponseToClassroom(classroomApiResponse)
+
+export const mocks = { studentsApiResponse, classroom, user }

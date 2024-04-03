@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const createClassroomScreenSchema = z.object({
+export const UpsertClassroomScreenSchema = z.object({
 	bannerUri: z
 		.object({
 			uri: z.string(),
@@ -10,4 +10,4 @@ export const createClassroomScreenSchema = z.object({
 	classroomName: z.string().min(3, "Mínimo de 3 caracteres"),
 })
 
-export type CreateClassroomScreenSchema = z.infer<typeof createClassroomScreenSchema>
+export type UpsertClassroomScreenSchema = z.infer<typeof UpsertClassroomScreenSchema>

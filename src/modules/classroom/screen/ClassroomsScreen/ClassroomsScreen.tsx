@@ -12,6 +12,7 @@ export const ClassroomsScreen: React.FC = () => {
 		refresh,
 		handleNavigateToCreateClassroom,
 		handleNavigateToEnterClassroom,
+		handleOpenAnimatedHeader,
 	} = useClassroomScreenViewController()
 
 	return (
@@ -29,6 +30,7 @@ export const ClassroomsScreen: React.FC = () => {
 			<ClassroomList
 				classroomList={classrooms}
 				onSelectClassroom={handleNavigateToTasks}
+				onLongPressClassroom={handleOpenAnimatedHeader}
 				isRefetching={isLoading}
 				refresh={async () => {
 					await refresh()

@@ -1,6 +1,8 @@
+import { useAuth } from "@/modules/auth/context"
 import { useNavigation } from "@react-navigation/native"
 
 export const useHeader = () => {
+	const { user } = useAuth()
 	const navigation = useNavigation()
 	const handleNavigateToProfile = () => {
 		//navigation.navigate("")
@@ -12,5 +14,6 @@ export const useHeader = () => {
 	return {
 		handleNavigateToProfile,
 		handleToggleTheme,
+		userName: user?.username,
 	}
 }

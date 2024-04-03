@@ -1,6 +1,6 @@
 import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classroomsScreen"
-import { act, fireEvent, renderScreen, screen } from "@/testUtils"
+import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
 import { ClassroomsScreen } from "../ClassroomsScreen"
 import { authStorage } from "@/modules/auth/storage"
 import { taskApi } from "@/modules/task/api"
@@ -34,6 +34,7 @@ describe("integration: ClassroomScreen", () => {
 		expect(
 			await screen.findAllByTestId("classroom - ", { exact: false })
 		).toHaveLength(3)
+		screen.unmount()
 	})
 	it("should refresh classroom list", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
@@ -53,11 +54,14 @@ describe("integration: ClassroomScreen", () => {
 			mocks.classroomApiResponse.splice(0, 1)
 		)
 		await act(async () => {
-			refreshControl.props.onRefresh()
+			await refreshControl.props.onRefresh()
 		})
-		expect(await screen.queryByText("Classroom 1")).toBeVisible()
-		expect(await screen.queryByText("Classroom 2")).not.toBeVisible()
-		expect(await screen.queryByText("Classroom 3")).not.toBeVisible()
+
+		await waitFor(async () => {
+			expect(await screen.queryByText("Classroom 1")).toBeVisible()
+			expect(await screen.queryByText("Classroom 2")).not.toBeVisible()
+			expect(await screen.queryByText("Classroom 3")).not.toBeVisible()
+		})
 	})
 	it("should show toast if error", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)

@@ -81,6 +81,28 @@ describe("integration: SubjectsScreen", () => {
 
 		await waitFor(() => expect(subjectsList.props.data.length).toBe(20))
 	})
+	it("should show generic error message if happend some erro in delete subject", async () => {
+		jest.spyOn(taskApi, "getSubjectList").mockResolvedValue(mocks.subjects)
+		jest.spyOn(taskApi, "deltedSubject").mockRejectedValue({ message: "Error" })
+
+		renderScreen(<SubjectsScreen />)
+
+		const math = await screen.findByText("Matemática")
+		await act(async () => {
+			fireEvent(math, "longPress")
+		})
+
+		await waitFor(() => expect(screen.getByTestId("back-button")).toBeTruthy())
+		const deleteButton = await screen.findByTestId("trash")
+
+		await act(async () => {
+			await fireEvent.press(deleteButton)
+		})
+
+		await waitFor(() => {
+			expect(screen.getByText("Erro ao deletar disciplinas!")).toBeTruthy()
+		})
+	})
 	it("should go back when back icon is pressed", () => {
 		renderScreen(<SubjectsScreen />)
 		fireEvent.press(screen.getByTestId("backIcon"))
@@ -114,6 +136,7 @@ describe("integration: SubjectsScreen", () => {
 			expect(screen.queryByText("Matemática")).toBeNull()
 		})
 	})
+
 	it("should show toast error if subject to delete is selected on create task form", async () => {
 		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(mocks.subjects)
 		jest.spyOn(taskApi, "deltedSubject").mockImplementation()
@@ -139,28 +162,7 @@ describe("integration: SubjectsScreen", () => {
 		})
 		screen.unmount()
 	})
-	it("should show generic error message if happend some erro in delete subject", async () => {
-		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(mocks.subjects)
-		jest.spyOn(taskApi, "deltedSubject").mockRejectedValue({ message: "Error" })
 
-		renderScreen(<SubjectsScreen />)
-
-		const math = await screen.findByText("Matemática")
-		await act(async () => {
-			fireEvent(math, "longPress")
-		})
-
-		await waitFor(() => expect(screen.getByTestId("back-button")).toBeTruthy())
-		const deleteButton = await screen.findByTestId("trash")
-
-		await act(async () => {
-			await fireEvent.press(deleteButton)
-		})
-
-		await waitFor(() => {
-			expect(screen.getByText("Erro ao deletar disciplinas!")).toBeTruthy()
-		})
-	})
 	it("should navigate to upsert subject when clicked on update option on animated header", async () => {
 		jest.spyOn(taskApi, "getSubjectList").mockResolvedValueOnce(mocks.subjects)
 

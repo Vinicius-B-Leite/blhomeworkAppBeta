@@ -15,6 +15,13 @@ jest.mock("@react-navigation/native", () => {
 	}
 })
 
+jest.mock("@/modules/auth/context", () => ({
+	...jest.requireActual("@/modules/auth/context"),
+	useAuth: () => ({
+		user: mocks.user,
+	}),
+}))
+
 describe("integration: ClassroomScreen", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
@@ -22,6 +29,62 @@ describe("integration: ClassroomScreen", () => {
 	})
 	beforeAll(() => {
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+	})
+	it("should navigate to ClassroomSettingsScreen when animated header settings icon is pressed", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+
+		renderScreen(<ClassroomsScreen />)
+
+		expect(await screen.findByText(mocks.user.username)).toBeVisible()
+		expect(await screen.findByText("Classroom 1")).toBeVisible()
+		expect(await screen.findByText("Classroom 2")).toBeVisible()
+		expect(await screen.findByText("Classroom 3")).toBeVisible()
+
+		const classroom = await screen.findByText("Classroom 1")
+
+		await act(async () => {
+			await fireEvent(classroom, "longPress")
+		})
+
+		const settings = await screen.findByTestId("settings")
+
+		fireEvent.press(settings)
+
+		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
+			screen: "ClassroomSettingsScreen",
+			params: { classroom: mocks.classroomParsed[0] },
+		})
+		screen.unmount()
+	})
+	it("should navigate to UpsertClassroomScreen when animated header pen icon is pressed", async () => {
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+
+		renderScreen(<ClassroomsScreen />)
+
+		expect(await screen.findByText(mocks.user.username)).toBeVisible()
+		expect(await screen.findByText("Classroom 1")).toBeVisible()
+		expect(await screen.findByText("Classroom 2")).toBeVisible()
+		expect(await screen.findByText("Classroom 3")).toBeVisible()
+
+		const classroom = await screen.findByText("Classroom 1")
+
+		await act(async () => {
+			await fireEvent(classroom, "longPress")
+		})
+
+		const penIcon = await screen.findByTestId("pen")
+
+		fireEvent.press(penIcon)
+
+		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
+			screen: "UpsertClassroomScreen",
+			params: { classroom: mocks.classroomParsed[0] },
+		})
 	})
 	it("should show all classrooms", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
@@ -102,5 +165,6 @@ describe("integration: ClassroomScreen", () => {
 		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
 			screen: "EnterClassroomScreen",
 		})
+		screen.unmount()
 	})
 })

@@ -6,7 +6,7 @@ import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
 
 export const Header: React.FC = () => {
-	const { handleNavigateToProfile, handleToggleTheme } = useHeader()
+	const { handleNavigateToProfile, handleToggleTheme, userName } = useHeader()
 	return (
 		<Box
 			flexDirection="row"
@@ -29,7 +29,7 @@ export const Header: React.FC = () => {
 					numberOfLines={2}
 					ellipsizeMode="tail"
 					style={{ flex: 1 }}>
-					fulano fulano fulano
+					{userName}
 				</Text>
 			</PressableBox>
 

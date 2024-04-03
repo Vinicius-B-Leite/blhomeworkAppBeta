@@ -36,6 +36,7 @@ export function useClassroomScreenViewController() {
 			screen: "EnterClassroomScreen",
 		})
 	}
+
 	const handleOpenAnimatedHeader = (classroom: ClassroomType) => {
 		const isAdmin = user!.uid === classroom.adminId
 		if (isAdmin) {

@@ -106,4 +106,79 @@ describe("integration: UpsertClassroomScreen", () => {
 
 		expect(await screen.findByText("Sala criada com sucesso!")).toBeTruthy()
 	})
+	it('should change "Criar" to "Atualizar" and inputs already fill when editing a classroom', async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
+		jest.spyOn(require("@/hooks"), "useRouteParams").mockReturnValue({
+			classroom: mocks.classroom,
+		})
+
+		renderScreen(<UpsertClassroomScreen />)
+
+		expect(await screen.findByText("Atualizar sala")).toBeTruthy()
+		expect(await screen.findByText("Atualizar")).toBeTruthy()
+
+		const classroomNameInput = await screen.findByPlaceholderText("Nome da sala", {
+			exact: false,
+		})
+		const banner = await screen.findByTestId("select-banner")
+
+		expect(classroomNameInput.props.value).toBe("example_classroom")
+		expect(banner.props.children[0].props.source.uri).toBe("url_banner")
+	})
+	it("should update a classroom and show toast message", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
+		jest.spyOn(classroomApi, "updateClassroom").mockResolvedValue({
+			classroom: mocks.classroomApiResponse.classroom,
+		})
+
+		jest.spyOn(require("@/hooks"), "useRouteParams").mockReturnValue({
+			classroom: mocks.classroom,
+		})
+
+		renderScreen(<UpsertClassroomScreen />)
+
+		const input = await screen.findByPlaceholderText("Nome da sala", { exact: false })
+		const button = await screen.findByTestId("create-classroom")
+		const selectBanner = await screen.findByTestId("select-banner")
+
+		await act(async () => await fireEvent.press(selectBanner))
+
+		fireEvent.changeText(input, "Sala de teste")
+
+		await waitFor(() => expect(button).not.toBeDisabled())
+
+		await act(async () => await fireEvent.press(button))
+
+		expect(await screen.findByText("Sala atualizada com sucesso!")).toBeTruthy()
+		screen.unmount()
+	})
+	it("should show error toast when update classroom fails", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
+		jest.spyOn(classroomApi, "updateClassroom").mockRejectedValue({
+			error: "error",
+		})
+
+		jest.spyOn(require("@/hooks"), "useRouteParams").mockReturnValue({
+			classroom: mocks.classroom,
+		})
+
+		renderScreen(<UpsertClassroomScreen />)
+
+		const input = await screen.findByPlaceholderText("Nome da sala", { exact: false })
+		const button = await screen.findByTestId("create-classroom")
+		const selectBanner = await screen.findByTestId("select-banner")
+
+		await act(async () => await fireEvent.press(selectBanner))
+
+		fireEvent.changeText(input, "Sala de teste")
+
+		await waitFor(() => expect(button).not.toBeDisabled())
+
+		await act(async () => await fireEvent.press(button))
+
+		expect(await screen.findByText("Erro ao atualizar sala!")).toBeTruthy()
+	})
 })

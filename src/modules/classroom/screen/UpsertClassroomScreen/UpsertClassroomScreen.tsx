@@ -16,16 +16,17 @@ export const UpsertClassroomScreen: React.FC = () => {
 		control,
 		errors,
 		isValid,
-		handleCreateClassroom,
 		selectBannerImage,
 		isLoading,
 		bannerUri,
+		handleUpsertClassroom,
+		isUpdatingClassroom,
 	} = useUpsertClassroomScreenModelView()
 
 	return (
 		<Container
 			goBack={{
-				title: "Criar sala",
+				title: `${isUpdatingClassroom ? "Atualizar" : "Criar"} sala`,
 			}}>
 			<PressableBox
 				onPress={selectBannerImage}
@@ -54,12 +55,12 @@ export const UpsertClassroomScreen: React.FC = () => {
 			/>
 
 			<Button
-				onPress={handleCreateClassroom}
+				onPress={handleUpsertClassroom}
 				isloading={isLoading}
 				disabled={!isValid}
 				mt={24}
 				testID="create-classroom">
-				Criar sala
+				{isUpdatingClassroom ? "Atualizar" : "Criar"}
 			</Button>
 		</Container>
 	)

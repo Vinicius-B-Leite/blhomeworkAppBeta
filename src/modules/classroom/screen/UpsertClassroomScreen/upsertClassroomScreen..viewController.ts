@@ -26,11 +26,10 @@ export function useUpsertClassroomScreenModelView() {
 		defaultValues: {
 			bannerUri: {
 				base64: "",
-				uri: isUpdatingClassroom
-					? classroom?.bannerUrl
-						? classroom.bannerUrl
-						: undefined
-					: "",
+				uri:
+					isUpdatingClassroom && classroom.bannerUrl
+						? classroom?.bannerUrl
+						: "",
 			},
 			classroomName: isUpdatingClassroom ? classroom?.title : "",
 		},
@@ -45,7 +44,7 @@ export function useUpsertClassroomScreenModelView() {
 			showToast({ message: "Erro ao criar sala!", type: "error" })
 		},
 	})
-	const { updateClassroom } = useUpdateClassroom({
+	const { updateClassroom, isLoading: isUpdateLoading } = useUpdateClassroom({
 		onSuccess: () => {
 			showToast({ message: "Sala atualizada com sucesso!", type: "success" })
 			navigation.goBack()
@@ -54,7 +53,7 @@ export function useUpsertClassroomScreenModelView() {
 			showToast({ message: "Erro ao atualizar sala!", type: "error" })
 		},
 	})
-	const createClassroom = (data: UpsertClassroomScreenSchema) => {
+	const upsertClassroom = (data: UpsertClassroomScreenSchema) => {
 		let props: Omit<CreateClassroomServiceProps, "userId"> = {
 			name: data.classroomName,
 		}
@@ -85,9 +84,10 @@ export function useUpsertClassroomScreenModelView() {
 		control,
 		isValid,
 		errors,
-		handleCreateClassroom: handleSubmit(createClassroom),
+		handleUpsertClassroom: handleSubmit(upsertClassroom),
 		selectBannerImage,
-		isLoading,
+		isLoading: isLoading || isUpdateLoading,
 		bannerUri: watch("bannerUri.uri"),
+		isUpdatingClassroom,
 	}
 }

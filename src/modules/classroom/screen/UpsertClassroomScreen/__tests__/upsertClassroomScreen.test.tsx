@@ -10,6 +10,7 @@ jest.mock("@/utils", () => ({
 		uri: "uri.png",
 		base64: "base64",
 	}),
+	convertUriToBase64: jest.fn().mockResolvedValue("base64"),
 }))
 
 jest.mock("@react-navigation/native", () => ({

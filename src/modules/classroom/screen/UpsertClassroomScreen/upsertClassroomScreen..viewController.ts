@@ -3,7 +3,7 @@ import { UpsertClassroomScreenSchema } from "./upsertClassroomScreenSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useCreateClassroom, useUpdateClassroom } from "@/modules/classroom/modelView"
-import { CreateClassroomServiceProps } from "@/modules/classroom/models"
+import { UpdateClassroomServiceProps } from "@/modules/classroom/models"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 import { pickImage } from "@/utils"
@@ -53,19 +53,20 @@ export function useUpsertClassroomScreenModelView() {
 			showToast({ message: "Erro ao atualizar sala!", type: "error" })
 		},
 	})
-	const upsertClassroom = (data: UpsertClassroomScreenSchema) => {
-		let props: Omit<CreateClassroomServiceProps, "userId"> = {
+	const upsertClassroom = async (data: UpsertClassroomScreenSchema) => {
+		let props: UpdateClassroomServiceProps = {
 			name: data.classroomName,
 		}
 		if (data.bannerUri?.uri && data.bannerUri?.uri.length > 0) {
-			props.baner = {
-				uri: data.bannerUri.uri,
-				base64: data.bannerUri.base64,
-			}
+			props.bannerUri = data.bannerUri.uri
 		}
 
 		if (isUpdatingClassroom) {
-			updateClassroom({ ...props, classroomId: classroom!.id })
+			updateClassroom({
+				name: props.name,
+				bannerUri: props.bannerUri,
+				classroomId: classroom!.id,
+			})
 			return
 		}
 		createClassroomModelView(props)

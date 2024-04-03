@@ -1,17 +1,5 @@
-import { getExtension } from "@/utils"
+import { convertUriToBase64, getExtension } from "@/utils"
 import * as DocumentPicker from "expo-document-picker"
-import * as FileSystem from "expo-file-system"
-
-async function convertUriToBase64(uri: string) {
-	try {
-		const base64 = await FileSystem.readAsStringAsync(uri, {
-			encoding: FileSystem.EncodingType.Base64,
-		})
-		return base64
-	} catch (error) {
-		return ""
-	}
-}
 
 export async function getDocuments() {
 	const response = await DocumentPicker.getDocumentAsync({

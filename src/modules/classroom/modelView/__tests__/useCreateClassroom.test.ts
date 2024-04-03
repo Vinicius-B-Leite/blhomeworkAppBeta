@@ -6,6 +6,11 @@ jest.mock("@/modules/auth/context", () => ({
 	...jest.requireActual("@/modules/auth/context"),
 	useAuth: () => ({ user: { uid: "uid" } }),
 }))
+
+jest.mock("@/utils", () => ({
+	...jest.requireActual("@/utils"),
+	convertUriToBase64: jest.fn().mockResolvedValue("base64"),
+}))
 describe("modelView: useCreateClassroom", () => {
 	it("should create classroom with banner and call onSuccess", async () => {
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
@@ -20,10 +25,7 @@ describe("modelView: useCreateClassroom", () => {
 
 		result.current.createClassroom({
 			name: "Classroom Name",
-			baner: {
-				base64: "base64",
-				uri: "uri",
-			},
+			bannerUri: "uri",
 		})
 
 		await waitFor(() => expect(mockOnSuccess).toHaveBeenCalled())

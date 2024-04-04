@@ -18,7 +18,7 @@ describe("integration: EnterClassroomScreen", () => {
 	it("should show toast success message if success on enter classroom", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
-			mocks.classroomApiResponse
+			mocks.classroomApiResponse[0].classroom
 		)
 		jest.spyOn(classroomApi, "enterClassroom").mockResolvedValue()
 

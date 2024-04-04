@@ -12,9 +12,9 @@ jest.mock("@/modules/auth/context", () => ({
 describe("modelView: useEnterClassroom", () => {
 	it("should call onSuccess when enter enterClassroom success", async () => {
 		jest.spyOn(classroomApi, "enterClassroom").mockResolvedValue()
-		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue([
-			{ ...mocks.classroomApiResponse[0] },
-		])
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
+			...mocks.classroomApiResponse[0].classroom,
+		})
 
 		const onSuccess = jest.fn()
 

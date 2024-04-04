@@ -10,6 +10,10 @@ export const classroomErrors: Record<string, { field: Fields[]; message: string 
 		field: ["classroomCode"],
 		message: "Código da sala inválido",
 	},
+	"Promote another student to admin before leaving the room": {
+		field: ["classroomCode"],
+		message: "Promova outro aluno a administrador antes de sair da sala",
+	},
 }
 export const getSubapaseClassroomError = (error: string): SubapaseClassroomError => {
 	const isErrorPropsInClassroomErrors = Object.keys(classroomErrors).includes(error)

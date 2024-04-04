@@ -3,7 +3,10 @@ import { classroomService } from "@/modules/classroom/models"
 import { CLASSROOM_QUERY_KEYS } from "@/modules/classroom/api"
 import { useAuth } from "@/modules/auth/context"
 import { CoumnModelViewProps } from "@/types"
-import { SubapaseClassroomError, getSubapaseClassroomError } from "../utils"
+import {
+	SubapaseClassroomError,
+	getSubapaseClassroomError,
+} from "@/modules/classroom/utils"
 
 type UseEnterClassroomModelViewProps = CoumnModelViewProps<SubapaseClassroomError, void>
 
@@ -21,8 +24,6 @@ export function useLeaveModelView(props?: UseEnterClassroomModelViewProps) {
 			})
 		},
 		onError: (error) => {
-			console.log("error", error.message)
-
 			const errorHandled = getSubapaseClassroomError(error.message)
 			props?.onError?.(errorHandled)
 		},

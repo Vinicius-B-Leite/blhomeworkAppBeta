@@ -105,10 +105,12 @@ const getStudents = async (classroomId: string) => {
 
 const leaveClassroom = async (classroomId: string, userId: string) => {
 	try {
-		const classroom = await getClassroomById(classroomId)
-		const isAdmin = classroom?.adminId === userId
+		const [classroom, students] = await Promise.all([
+			getClassroomById(classroomId),
+			getStudents(classroomId),
+		])
 
-		const students = await getStudents(classroomId)
+		const isAdmin = classroom?.adminId === userId
 
 		if (students.length > 1 && isAdmin) {
 			throw new Error("Promote another student to admin before leaving the room")

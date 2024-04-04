@@ -86,7 +86,6 @@ export const classroomApi: ClassroomApi = {
 		if (error && error.message) {
 			throw new Error(error.message)
 		}
-		console.log("data", data)
 
 		return data ? data[0] : null
 	},

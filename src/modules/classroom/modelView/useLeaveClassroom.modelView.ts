@@ -32,7 +32,7 @@ export function useLeaveModelView(props?: UseEnterClassroomModelViewProps) {
 	})
 
 	return {
-		enterClassroom: mutate,
+		leaveClassroom: mutate,
 		isLoading: isPending,
 	}
 }

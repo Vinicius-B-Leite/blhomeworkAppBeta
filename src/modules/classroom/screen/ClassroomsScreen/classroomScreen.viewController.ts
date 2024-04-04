@@ -18,7 +18,7 @@ export function useClassroomScreenViewController() {
 			showToast({ message: "Erro ao buscar as salas!", type: "error" })
 		},
 	})
-	const { enterClassroom } = useLeaveModelView({
+	const { leaveClassroom } = useLeaveModelView({
 		onError: (error) => {
 			showToast({
 				message: error ? error.message : "Erro ao sair da tela!",
@@ -57,7 +57,7 @@ export function useClassroomScreenViewController() {
 			{
 				iconsName: "leave",
 				onPress: () => {
-					enterClassroom({ classroomId: classroom.id })
+					leaveClassroom({ classroomId: classroom.id })
 				},
 			},
 		]

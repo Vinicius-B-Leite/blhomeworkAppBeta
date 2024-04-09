@@ -1,5 +1,5 @@
-import { useGetClassrooms } from "@/modules/classroom/modelView"
-import { useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
+import { useGetClassrooms, useLeaveModelView } from "@/modules/classroom/modelView"
+import { RightOptions, useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 import { ClassroomType } from "@/modules/classroom/models"
 import { useAuth } from "@/modules/auth/context"
@@ -16,6 +16,20 @@ export function useClassroomScreenViewController() {
 	const { classrooms, isLoading, refresh } = useGetClassrooms({
 		onError: () => {
 			showToast({ message: "Erro ao buscar as salas!", type: "error" })
+		},
+	})
+	const { leaveClassroom } = useLeaveModelView({
+		onError: (error) => {
+			showToast({
+				message: error ? error.message : "Erro ao sair da tela!",
+				type: "error",
+			})
+		},
+		onSuccess: () => {
+			showToast({
+				message: "Saiu da sala com sucesso!",
+				type: "success",
+			})
 		},
 	})
 
@@ -39,32 +53,43 @@ export function useClassroomScreenViewController() {
 
 	const handleOpenAnimatedHeader = (classroom: ClassroomType) => {
 		const isAdmin = user!.uid === classroom.adminId
+		let rightOptions: RightOptions[] = [
+			{
+				iconsName: "leave",
+				onPress: () => {
+					leaveClassroom({ classroomId: classroom.id })
+				},
+			},
+		]
+
 		if (isAdmin) {
-			showAnimatedHeaderOptions({
-				title: classroom.title,
-				titleColor: theme.colors.text,
-				rightOptions: [
-					{
-						iconsName: "settings",
-						onPress: () => {
-							navigation.navigate("ClassroomRoutes", {
-								screen: "ClassroomSettingsScreen",
-								params: { classroom },
-							})
-						},
+			rightOptions.push(
+				{
+					iconsName: "pen",
+					onPress: () => {
+						navigation.navigate("ClassroomRoutes", {
+							screen: "UpsertClassroomScreen",
+							params: { classroom },
+						})
 					},
-					{
-						iconsName: "pen",
-						onPress: () => {
-							navigation.navigate("ClassroomRoutes", {
-								screen: "UpsertClassroomScreen",
-								params: { classroom },
-							})
-						},
+				},
+				{
+					iconsName: "settings",
+					onPress: () => {
+						navigation.navigate("ClassroomRoutes", {
+							screen: "ClassroomSettingsScreen",
+							params: { classroom },
+						})
 					},
-				],
-			})
+				}
+			)
 		}
+
+		showAnimatedHeaderOptions({
+			title: classroom.title,
+			titleColor: theme.colors.text,
+			rightOptions,
+		})
 	}
 
 	return {

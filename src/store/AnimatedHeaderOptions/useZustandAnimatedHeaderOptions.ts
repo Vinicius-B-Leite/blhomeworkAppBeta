@@ -2,15 +2,16 @@ import { IconProps } from "@/components"
 
 import { create } from "zustand"
 
+export type RightOptions = {
+	iconsName: IconProps["name"]
+	onPress: () => void
+	isLoading?: boolean
+}
 export type AnimatedHeaderOptionsConfig = {
 	title: string
 	titleColor: string
 	visible: boolean
-	rightOptions: {
-		iconsName: IconProps["name"]
-		onPress: () => void
-		isLoading?: boolean
-	}[]
+	rightOptions: RightOptions[]
 	onClose?: () => void
 }
 

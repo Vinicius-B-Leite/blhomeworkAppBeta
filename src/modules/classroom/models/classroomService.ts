@@ -83,8 +83,11 @@ const getClassroomById = async (classroomId: string) => {
 	try {
 		const data = await classroomApi.getClassroomById(classroomId)
 
-		if (!data) return []
-		return classroomAdapter.classroomApiResponseToClassroom(data[0])
+		if (!data) return null
+
+		return classroomAdapter.classroomApiResponseToClassroom({
+			classroom: data,
+		})
 	} catch (error) {
 		throw error
 	}
@@ -99,10 +102,42 @@ const getStudents = async (classroomId: string) => {
 		throw error
 	}
 }
+
+const leaveClassroom = async (classroomId: string, userId: string) => {
+	try {
+		const [classroom, students] = await Promise.all([
+			getClassroomById(classroomId),
+			getStudents(classroomId),
+		])
+
+		const isAdmin = classroom?.adminId === userId
+
+		if (students.length > 1 && isAdmin) {
+			throw new Error("Promote another student to admin before leaving the room")
+		}
+
+		if (students.length === 1) {
+			await deleteClassroom(classroomId)
+		}
+
+		await classroomApi.leaveClassroom(classroomId, userId)
+	} catch (error) {
+		throw error
+	}
+}
+
+const deleteClassroom = async (classroomId: string) => {
+	try {
+		await classroomApi.deleteClassroom(classroomId)
+	} catch (error) {
+		throw error
+	}
+}
 export const classroomService = {
 	getClassrooms,
 	createClassroom,
 	enterClassroom,
 	getStudents,
 	updateClassroom,
+	leaveClassroom,
 }

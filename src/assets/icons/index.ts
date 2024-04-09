@@ -22,5 +22,6 @@ export * from "./TrashSvg"
 export * from "./PenSvg"
 export * from "./SettingsSvg"
 export * from "./ShareSvg"
+export * from "./LeaveSvg"
 
 export * from "./iconTypes"

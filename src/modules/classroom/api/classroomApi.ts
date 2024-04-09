@@ -1,13 +1,9 @@
 import { api, supabase } from "@/api"
 import { ClassroomApi } from "./classroomApiTypes"
-import {
-	ClassroomApiResponse,
-	Student,
-	StudentApiResponse,
-} from "@/modules/classroom/models"
-import uuid from "react-native-uuid"
+import { ClassroomApiResponse, StudentApiResponse } from "@/modules/classroom/models"
+
 import { getExtension } from "@/utils"
-import { decode } from "base64-arraybuffer"
+
 import { mimeTypes } from "@/constant"
 
 export const classroomApi: ClassroomApi = {
@@ -91,7 +87,7 @@ export const classroomApi: ClassroomApi = {
 			throw new Error(error.message)
 		}
 
-		return data
+		return data ? data[0] : null
 	},
 	getStudents: async (classroomId: string) => {
 		const { data, error } = await supabase
@@ -121,5 +117,32 @@ export const classroomApi: ClassroomApi = {
 		}
 
 		return data![0]
+	},
+	leaveClassroom: async (classroomId, userId) => {
+		const { error } = await supabase
+			.from("student")
+			.delete()
+			.eq("classroom_id", classroomId)
+			.eq("user_id", userId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return
+	},
+	deleteClassroom: async (classroomId) => {
+		const { error } = await supabase
+			.from("classroom")
+			.update({
+				deleted_at: new Date().toISOString(),
+			})
+			.eq("id", classroomId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return
 	},
 }

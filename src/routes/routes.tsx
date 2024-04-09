@@ -6,6 +6,7 @@ import { AuthRoutes } from "@/modules/auth/routes"
 import { NavigationContainer, useTheme } from "@react-navigation/native"
 import { StatusBar } from "react-native"
 import { AppRoutes } from "./appRoutes"
+import Alert from "@/components/Alert/Alert"
 
 export const Routes = () => {
 	const theme = useAppTheme()
@@ -25,6 +26,7 @@ export const Routes = () => {
 				{!!user ? <AppRoutes /> : <AuthRoutes />}
 			</NavigationContainer>
 			<AnimatedHeaderOptions />
+			<Alert />
 			<Toast />
 		</Box>
 	)

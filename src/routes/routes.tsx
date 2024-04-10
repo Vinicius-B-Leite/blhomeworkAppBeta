@@ -1,4 +1,4 @@
-import { AnimatedHeaderOptions, Box, Toast } from "@/components"
+import { Alert, AnimatedHeaderOptions, Box, Toast } from "@/components"
 import { useAppTheme } from "@/hooks/useAppTheme"
 import { useAuth } from "@/modules/auth/context"
 import { AuthRoutes } from "@/modules/auth/routes"
@@ -6,7 +6,6 @@ import { AuthRoutes } from "@/modules/auth/routes"
 import { NavigationContainer, useTheme } from "@react-navigation/native"
 import { StatusBar } from "react-native"
 import { AppRoutes } from "./appRoutes"
-import Alert from "@/components/Alert/Alert"
 
 export const Routes = () => {
 	const theme = useAppTheme()

@@ -1,5 +1,5 @@
-import { AnimatedHeaderOptions, Toast } from "@/components"
-import Alert from "@/components/Alert/Alert"
+import { Alert, AnimatedHeaderOptions, Toast } from "@/components"
+
 import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
 import { dark } from "@/theme"
 import { NavigationContainer } from "@react-navigation/native"

@@ -4,7 +4,7 @@ import { Text } from "../Text/Text"
 import { Button } from "../Button/Button"
 import { useAlertConfig, useAlertDispatch } from "@/store"
 
-const Alert: React.FC = () => {
+export const Alert: React.FC = () => {
 	const { buttons, message, visible, title } = useAlertConfig()
 	const { hideAlert } = useAlertDispatch()
 	if (!visible) return null
@@ -54,5 +54,3 @@ const Alert: React.FC = () => {
 		</PressableBox>
 	)
 }
-
-export default Alert

@@ -1,4 +1,4 @@
-import { AnimatedHeaderOptions, Box, Toast } from "@/components"
+import { Alert, AnimatedHeaderOptions, Box, Toast } from "@/components"
 import { useAppTheme } from "@/hooks/useAppTheme"
 import { useAuth } from "@/modules/auth/context"
 import { AuthRoutes } from "@/modules/auth/routes"
@@ -25,6 +25,7 @@ export const Routes = () => {
 				{!!user ? <AppRoutes /> : <AuthRoutes />}
 			</NavigationContainer>
 			<AnimatedHeaderOptions />
+			<Alert />
 			<Toast />
 		</Box>
 	)

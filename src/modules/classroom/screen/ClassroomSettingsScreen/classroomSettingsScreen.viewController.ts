@@ -4,6 +4,8 @@ import { Share } from "react-native"
 
 import { useGetStudents } from "@/modules/classroom/modelView"
 import { useAuth } from "@/modules/auth/context"
+import { Student } from "@/modules/classroom/models"
+import { useAlertDispatch } from "@/store"
 
 export function useClassroomSettingsScreenViewController() {
 	const params = useRouteParams("ClassroomSettingsScreen")
@@ -11,6 +13,7 @@ export function useClassroomSettingsScreenViewController() {
 	const { isLoading, refresh, students } = useGetStudents({
 		classroomId: params!.classroom.id,
 	})
+	const { showAlert } = useAlertDispatch()
 	const { classroom } = params!
 
 	const shareClassroomCode = async () => {
@@ -21,6 +24,28 @@ export function useClassroomSettingsScreenViewController() {
 		})
 	}
 
+	const removeStudent = async (student: Student) => {
+		const currentUserIsAdmin = classroom.adminId === user!.uid
+
+		if (!currentUserIsAdmin) return
+		showAlert({
+			message: `Deseja remover o aluno ${student.userName} da sala de aula?`,
+			buttons: [
+				{
+					type: "cancel",
+					text: "Não",
+				},
+				{
+					type: "confirm",
+					text: "Sim",
+					onPress: () => {
+						console.log("removing student")
+					},
+				},
+			],
+		})
+	}
+
 	return {
 		shareClassroomCode,
 		classroom,
@@ -28,5 +53,6 @@ export function useClassroomSettingsScreenViewController() {
 		isLoading,
 		refresh,
 		userIsAdmin: classroom.adminId === user!.uid,
+		removeStudent,
 	}
 }

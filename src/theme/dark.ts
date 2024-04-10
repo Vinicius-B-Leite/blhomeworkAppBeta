@@ -20,6 +20,7 @@ export const dark = createTheme({
 		thirdDarkContrast: pallet.lightYellow900,
 
 		alert: pallet.red900,
+		darkAlert: pallet.darkRed900,
 
 		...pallet,
 	},

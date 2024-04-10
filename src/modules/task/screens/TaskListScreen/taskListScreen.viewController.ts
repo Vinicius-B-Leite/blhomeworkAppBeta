@@ -1,6 +1,10 @@
 import { useAuth } from "@/modules/auth/context"
 import { useDeleteTask, useGetTaskListModelView } from "@/modules/task/modelView"
-import { useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
+import {
+	useAlertDispatch,
+	useAnimatedHeaderOptionsDispatch,
+	useToastDispatch,
+} from "@/store"
 import { useNavigation, useTheme } from "@react-navigation/native"
 import { Task } from "@/modules/task/model"
 import { useAppTheme } from "@/hooks"
@@ -18,6 +22,7 @@ export function useTaskListScreenViewController({
 	const navigation = useNavigation()
 	const { showToast } = useToastDispatch()
 	const theme = useAppTheme()
+	const { showAlert } = useAlertDispatch()
 	const [curretnTaskInAnimatedHeader, setCurrentTaskInAnimatedHeader] =
 		useState<Task | null>(null)
 	const { deleteTask } = useDeleteTask({
@@ -73,8 +78,26 @@ export function useTaskListScreenViewController({
 					iconsName: "trash",
 					isLoading: false,
 					onPress: () => {
-						setCurrentTaskInAnimatedHeader(null)
-						deleteTask({ taskId: task.id })
+						showAlert({
+							message: `Deseja realmente deletar a tarefa ${task.title}?`,
+							buttons: [
+								{
+									type: "confirm",
+									text: "Sim",
+									onPress: () => {
+										setCurrentTaskInAnimatedHeader(null)
+										deleteTask({ taskId: task.id })
+									},
+								},
+								{
+									type: "cancel",
+									text: "Não",
+									onPress: () => {
+										setCurrentTaskInAnimatedHeader(null)
+									},
+								},
+							],
+						})
 					},
 				},
 				{

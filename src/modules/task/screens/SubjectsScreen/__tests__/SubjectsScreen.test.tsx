@@ -98,6 +98,9 @@ describe("integration: SubjectsScreen", () => {
 		await act(async () => {
 			await fireEvent.press(deleteButton)
 		})
+		await act(async () => {
+			await fireEvent.press(await screen.findByText("Sim"))
+		})
 
 		await waitFor(() => {
 			expect(screen.getByText("Erro ao deletar disciplinas!")).toBeTruthy()
@@ -132,6 +135,10 @@ describe("integration: SubjectsScreen", () => {
 			await fireEvent.press(deleteButton)
 		})
 
+		await act(async () => {
+			await fireEvent.press(await screen.findByText("Sim"))
+		})
+
 		await waitFor(() => {
 			expect(screen.queryByText("Matemática")).toBeNull()
 		})
@@ -155,6 +162,9 @@ describe("integration: SubjectsScreen", () => {
 			await fireEvent.press(deleteButton)
 		})
 
+		await act(async () => {
+			await fireEvent.press(await screen.findByText("Sim"))
+		})
 		await waitFor(() => {
 			expect(
 				screen.getByText("Você não pode deletar a disciplina selecionada!")

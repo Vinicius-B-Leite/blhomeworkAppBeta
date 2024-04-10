@@ -45,4 +45,7 @@ export const authApi: AuthApi = {
 
 		return
 	},
+	singOut: async () => {
+		const { error } = await supabase.auth.signOut()
+	},
 }

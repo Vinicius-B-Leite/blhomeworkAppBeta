@@ -35,9 +35,15 @@ const resetPasswordsForEmail = async (email: string) => {
 		throw error
 	}
 }
+const logout = async () => {
+	try {
+		await authApi.singOut()
+	} catch (error) {}
+}
 
 export const authService = {
 	singUp,
 	loginWithEmail,
 	resetPasswordsForEmail,
+	logout,
 }

@@ -8,7 +8,7 @@ import { renderComponent } from "@/testUtils/customRender"
 
 jest.mock("@/store")
 
-describe("Alert", () => {
+describe("component: Alert", () => {
 	it("renders correctly when visible", () => {
 		jest.spyOn(require("@/store"), "useAlertConfig").mockReturnValue({
 			buttons: [

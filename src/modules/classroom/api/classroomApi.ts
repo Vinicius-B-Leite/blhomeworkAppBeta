@@ -145,4 +145,30 @@ export const classroomApi: ClassroomApi = {
 
 		return
 	},
+	promoteStudentToClassroomAdmin: async (studentId, classroomId) => {
+		const { error } = await supabase
+			.from("classroom")
+			.update({
+				admin_id: studentId,
+			})
+			.eq("id", classroomId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return
+	},
+	getStudentById: async (studentId) => {
+		const { data, error } = await supabase
+			.from("student")
+			.select("user ( * )")
+			.eq("user_id", studentId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data ? (data[0] as unknown as StudentApiResponse) : null
+	},
 }

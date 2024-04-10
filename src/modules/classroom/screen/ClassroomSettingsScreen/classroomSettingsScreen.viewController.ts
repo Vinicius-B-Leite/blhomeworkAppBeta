@@ -2,7 +2,10 @@ import { useRouteParams } from "@/hooks"
 
 import { Share } from "react-native"
 
-import { useGetStudents } from "@/modules/classroom/modelView"
+import {
+	useGetStudents,
+	usePromoteStudentToClassroomAdmin,
+} from "@/modules/classroom/modelView"
 import { useAuth } from "@/modules/auth/context"
 import { Student } from "@/modules/classroom/models"
 import { useAlertDispatch } from "@/store"
@@ -11,6 +14,9 @@ export function useClassroomSettingsScreenViewController() {
 	const params = useRouteParams("ClassroomSettingsScreen")
 	const { user } = useAuth()
 	const { isLoading, refresh, students } = useGetStudents({
+		classroomId: params!.classroom.id,
+	})
+	const { promoteStudentToClassroomAdmin } = usePromoteStudentToClassroomAdmin({
 		classroomId: params!.classroom.id,
 	})
 	const { showAlert } = useAlertDispatch()

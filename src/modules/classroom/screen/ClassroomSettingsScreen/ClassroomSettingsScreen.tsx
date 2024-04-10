@@ -6,8 +6,15 @@ import { ListRenderItemInfo } from "react-native"
 import { Student } from "@/modules/classroom/models"
 
 export const ClassroomSettingsScreen: React.FC = () => {
-	const { shareClassroomCode, classroom, isLoading, refresh, students, userIsAdmin } =
-		useClassroomSettingsScreenViewController()
+	const {
+		shareClassroomCode,
+		classroom,
+		isLoading,
+		refresh,
+		students,
+		userIsAdmin,
+		removeStudent,
+	} = useClassroomSettingsScreenViewController()
 
 	const renderItem = useCallback(({ item, index }: ListRenderItemInfo<Student>) => {
 		const userItemIsAdmin = classroom.adminId === item.id
@@ -37,7 +44,9 @@ export const ClassroomSettingsScreen: React.FC = () => {
 					</Text>
 				)}
 				{!userItemIsAdmin && userIsAdmin && (
-					<PressableBox testID={`trashIcon-${index}`}>
+					<PressableBox
+						onPress={() => removeStudent(item)}
+						testID={`trashIcon-${index}`}>
 						<Icon name="trash" size={18} color="alert" />
 					</PressableBox>
 				)}

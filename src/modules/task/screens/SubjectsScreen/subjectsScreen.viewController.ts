@@ -1,7 +1,11 @@
 import { useRouteParams } from "@/hooks"
 import { useNavigation } from "@react-navigation/native"
 import { useDeleteSubject, useGetSubjectListModelView } from "@/modules/task/modelView"
-import { useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
+import {
+	useAlertDispatch,
+	useAnimatedHeaderOptionsDispatch,
+	useToastDispatch,
+} from "@/store"
 import { Subject } from "@/modules/task/model"
 
 export function useSubjectsScreenViewController() {
@@ -10,7 +14,7 @@ export function useSubjectsScreenViewController() {
 	const classroomId = params!.classroomId
 	const selectedSubjectId = params?.selectedSubjectId
 	const onSelectSubject = params!.onSelectSubject
-
+	const { showAlert } = useAlertDispatch()
 	const { showToast } = useToastDispatch()
 	const { showAnimatedHeaderOptions, hideAnimatedHeaderOptions } =
 		useAnimatedHeaderOptionsDispatch()
@@ -46,16 +50,34 @@ export function useSubjectsScreenViewController() {
 				{
 					iconsName: "trash",
 					onPress: () => {
-						const canDeleteSubject = subject.id !== selectedSubjectId
+						showAlert({
+							title: "Deletar disciplina",
+							message: `Você tem certeza que deseja deletar a disciplina ${subject.name}?`,
+							buttons: [
+								{
+									text: "Sim",
+									type: "confirm",
+									onPress: () => {
+										const canDeleteSubject =
+											subject.id !== selectedSubjectId
 
-						if (canDeleteSubject) {
-							deleteSubject({ subjectId: subject.id })
+										if (canDeleteSubject) {
+											deleteSubject({ subjectId: subject.id })
 
-							return
-						}
-						showToast({
-							message: "Você não pode deletar a disciplina selecionada!",
-							type: "error",
+											return
+										}
+										showToast({
+											message:
+												"Você não pode deletar a disciplina selecionada!",
+											type: "error",
+										})
+									},
+								},
+								{
+									text: "Não",
+									type: "cancel",
+								},
+							],
 						})
 					},
 					isLoading: isDeleteSubjectLoading,

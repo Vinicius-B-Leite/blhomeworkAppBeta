@@ -1,5 +1,10 @@
 import { useGetClassrooms, useLeaveModelView } from "@/modules/classroom/modelView"
-import { RightOptions, useAnimatedHeaderOptionsDispatch, useToastDispatch } from "@/store"
+import {
+	RightOptions,
+	useAlertDispatch,
+	useAnimatedHeaderOptionsDispatch,
+	useToastDispatch,
+} from "@/store"
 import { useNavigation } from "@react-navigation/native"
 import { ClassroomType } from "@/modules/classroom/models"
 import { useAuth } from "@/modules/auth/context"
@@ -11,6 +16,7 @@ export function useClassroomScreenViewController() {
 	const theme = useAppTheme()
 	const { showAnimatedHeaderOptions, hideAnimatedHeaderOptions } =
 		useAnimatedHeaderOptionsDispatch()
+	const { showAlert } = useAlertDispatch()
 	const navigation = useNavigation()
 
 	const { classrooms, isLoading, refresh } = useGetClassrooms({
@@ -57,7 +63,22 @@ export function useClassroomScreenViewController() {
 			{
 				iconsName: "leave",
 				onPress: () => {
-					leaveClassroom({ classroomId: classroom.id })
+					showAlert({
+						message: "Deseja realmente sair da sala?",
+						buttons: [
+							{
+								type: "confirm",
+								text: "Sim",
+								onPress: () => {
+									leaveClassroom({ classroomId: classroom.id })
+								},
+							},
+							{
+								type: "cancel",
+								text: "Não",
+							},
+						],
+					})
 				},
 			},
 		]

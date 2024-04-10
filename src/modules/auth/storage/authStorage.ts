@@ -8,4 +8,7 @@ export const authStorage: AuthStorageType = {
 	getUser: async () => {
 		return await storage.getItem("auth")
 	},
+	removeUser: async () => {
+		await storage.removeItem("auth")
+	},
 }

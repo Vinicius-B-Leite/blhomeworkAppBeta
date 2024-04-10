@@ -1,9 +1,12 @@
 import { useAuth } from "@/modules/auth/context"
+import { useLogoutModelView } from "@/modules/auth/modelView"
 import { useAlertDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 
 export const useHeader = () => {
 	const { user } = useAuth()
+
+	const { logout } = useLogoutModelView()
 	const navigation = useNavigation()
 	const { showAlert } = useAlertDispatch()
 	const handleNavigateToProfile = () => {
@@ -16,7 +19,7 @@ export const useHeader = () => {
 					type: "confirm",
 					text: "Sim",
 					onPress: () => {
-						console.log("Sair")
+						logout()
 					},
 				},
 				{

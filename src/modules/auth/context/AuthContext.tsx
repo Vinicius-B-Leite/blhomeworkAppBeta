@@ -12,11 +12,13 @@ import { authStorage } from "@/modules/auth/storage"
 export type AuthContextType = {
 	user: UserType | null
 	updateUser: (userUpdated: UserType) => Promise<void>
+	logout: () => Promise<void>
 }
 
 const initialState: AuthContextType = {
 	user: null,
 	updateUser: async () => {},
+	logout: async () => {},
 }
 const AuthContext = createContext<AuthContextType>(initialState)
 
@@ -37,8 +39,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		await authStorage.updateUser(userUpdated)
 	}, [])
 
+	const logout = useCallback(async () => {
+		setUser(null)
+		await authStorage.removeUser()
+	}, [])
+
 	return (
-		<AuthContext.Provider value={{ user, updateUser }}>
+		<AuthContext.Provider value={{ user, updateUser, logout }}>
 			{children}
 		</AuthContext.Provider>
 	)

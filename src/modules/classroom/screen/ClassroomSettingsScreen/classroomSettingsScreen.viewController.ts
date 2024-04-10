@@ -4,7 +4,7 @@ import { Share } from "react-native"
 
 import { useGetStudents } from "@/modules/classroom/modelView"
 import { useAuth } from "@/modules/auth/context"
-import { Student } from "../../models"
+import { Student } from "@/modules/classroom/models"
 import { useAlertDispatch } from "@/store"
 
 export function useClassroomSettingsScreenViewController() {

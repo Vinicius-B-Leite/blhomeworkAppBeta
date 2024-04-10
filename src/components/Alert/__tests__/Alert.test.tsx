@@ -1,9 +1,6 @@
-// FILEPATH: /Users/user/ViniciusLeite/bl-homework/src/components/Alert/__tests__/Alert.test.tsx
-
 import React from "react"
 import { render, fireEvent, screen } from "@/testUtils"
 import { Alert } from "../Alert"
-import { useAlertConfig, useAlertDispatch } from "@/store" // replace with your actual path
 import { renderComponent } from "@/testUtils/customRender"
 
 jest.mock("@/store")

@@ -44,6 +44,7 @@ export function useClassroomSettingsScreenViewController() {
 		const currentUserIsAdmin = classroom.adminId === user!.uid
 
 		if (!currentUserIsAdmin) return
+
 		showAlert({
 			message: `Deseja remover o aluno ${student.userName} da sala de aula?`,
 			buttons: [

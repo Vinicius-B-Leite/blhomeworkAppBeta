@@ -2,9 +2,12 @@ import { getSubapaseClassroomError, classroomErrors } from "../getSupabaseClassr
 
 describe("classroomUtils: getSubapaseClassroomError", () => {
 	it("should return the correct error when the error string matches a key in classroomErrors", () => {
-		const error = "Classroom not found"
-		const result = getSubapaseClassroomError(error)
-		expect(result).toEqual(classroomErrors[error])
+		const errors = Object.keys(classroomErrors)
+
+		errors.forEach((error) => {
+			const result = getSubapaseClassroomError(error)
+			expect(result).toEqual(classroomErrors[error])
+		})
 	})
 
 	it("should return null when the error string does not match any key in classroomErrors", () => {

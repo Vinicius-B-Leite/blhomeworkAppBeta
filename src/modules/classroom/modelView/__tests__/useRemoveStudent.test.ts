@@ -1,25 +1,17 @@
 import { act, renderHook, waitFor } from "@/testUtils"
 import { useRemoveStudentModelView } from "../useRemoveStudent.modelView"
-import { classroomApi } from "../../api"
+import { classroomApi } from "@/modules/classroom/api"
+import { mocks } from "./__mocks__/classrooModelViewMocks"
 
 describe("modelView: useRemoveStudent", () => {
 	it("should remove student from classroom and call onSuccess prop", async () => {
 		jest.spyOn(classroomApi, "getStudentById").mockResolvedValue({
 			user: {
-				id: "studentId",
-				user_name: "studentName",
-				email: "studentEmail",
-				avatar_url: "studentAvatar",
+				...mocks.studentsApiResponse[0].user,
 			},
 		})
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
-			admin_id: "adminId",
-			id: "classroomId",
-			name: "className",
-			upload: null,
-			created_at: "createdAt",
-			updated_at: "updatedAt",
-			deleted_at: "deletedAt",
+			...mocks.classroomApiResponse[0].classroom,
 		})
 		jest.spyOn(classroomApi, "removeStudent").mockResolvedValue()
 
@@ -44,10 +36,7 @@ describe("modelView: useRemoveStudent", () => {
 	it("should call on error with null when it fails with unhandled error", async () => {
 		jest.spyOn(classroomApi, "getStudentById").mockResolvedValue({
 			user: {
-				id: "studentId",
-				user_name: "studentName",
-				email: "studentEmail",
-				avatar_url: "studentAvatar",
+				...mocks.studentsApiResponse[0].user,
 			},
 		})
 		jest.spyOn(classroomApi, "getClassroomById").mockRejectedValue({
@@ -76,10 +65,7 @@ describe("modelView: useRemoveStudent", () => {
 	it("should call on error with handled message when classroom/user not founded", async () => {
 		jest.spyOn(classroomApi, "getStudentById").mockResolvedValue({
 			user: {
-				id: "studentId",
-				user_name: "studentName",
-				email: "studentEmail",
-				avatar_url: "studentAvatar",
+				...mocks.studentsApiResponse[0].user,
 			},
 		})
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(null)

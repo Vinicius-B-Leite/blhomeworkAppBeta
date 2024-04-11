@@ -48,4 +48,18 @@ export const authApi: AuthApi = {
 	singOut: async () => {
 		const { error } = await supabase.auth.signOut()
 	},
+	updateUserTable: async (user) => {
+		const { error } = await supabase.from("user").insert([
+			{
+				id: user.uid,
+				email: user.email,
+				user_name: user.username,
+				avatar_url: user.avatarUrl,
+			},
+		])
+
+		if (error) {
+			throw new Error(error.message)
+		}
+	},
 }

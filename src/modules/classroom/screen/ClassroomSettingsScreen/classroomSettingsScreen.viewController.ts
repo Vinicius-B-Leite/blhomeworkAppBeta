@@ -2,10 +2,10 @@ import { useRouteParams } from "@/hooks"
 
 import { Share } from "react-native"
 
-import { useGetStudents } from "@/modules/classroom/modelView"
+import { useGetStudents, useRemoveStudentModelView } from "@/modules/classroom/modelView"
 import { useAuth } from "@/modules/auth/context"
 import { Student } from "@/modules/classroom/models"
-import { useAlertDispatch } from "@/store"
+import { useAlertDispatch, useToastDispatch } from "@/store"
 
 export function useClassroomSettingsScreenViewController() {
 	const params = useRouteParams("ClassroomSettingsScreen")
@@ -14,7 +14,23 @@ export function useClassroomSettingsScreenViewController() {
 		classroomId: params!.classroom.id,
 	})
 	const { showAlert } = useAlertDispatch()
+	const { showToast } = useToastDispatch()
 	const { classroom } = params!
+	const { removeStudent: removeStudentModelView } = useRemoveStudentModelView({
+		classroomId: classroom.id,
+		onError: (error) => {
+			showToast({
+				message: error?.message || "Ocorreu um erro ao remover o aluno da sala!",
+				type: "error",
+			})
+		},
+		onSuccess: () => {
+			showToast({
+				message: "Aluno removido com sucesso!",
+				type: "success",
+			})
+		},
+	})
 
 	const shareClassroomCode = async () => {
 		const message = `Olá, entre na minha sala de aula com o código: ${classroom.id}`
@@ -28,6 +44,7 @@ export function useClassroomSettingsScreenViewController() {
 		const currentUserIsAdmin = classroom.adminId === user!.uid
 
 		if (!currentUserIsAdmin) return
+
 		showAlert({
 			message: `Deseja remover o aluno ${student.userName} da sala de aula?`,
 			buttons: [
@@ -39,7 +56,7 @@ export function useClassroomSettingsScreenViewController() {
 					type: "confirm",
 					text: "Sim",
 					onPress: () => {
-						console.log("removing student")
+						removeStudentModelView({ studentId: student.id })
 					},
 				},
 			],

@@ -17,4 +17,6 @@ export type ClassroomApi = {
 	) => Promise<ClassroomApiResponse>
 	leaveClassroom: (classroomId: string, userId: string) => Promise<void>
 	deleteClassroom: (classroomId: string) => Promise<void>
+	removeStudent: (classroomId: string, studentId: string) => Promise<void>
+	getStudentById: (studentId: any) => Promise<StudentApiResponse | null>
 }

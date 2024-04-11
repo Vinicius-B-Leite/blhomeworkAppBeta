@@ -145,4 +145,29 @@ export const classroomApi: ClassroomApi = {
 
 		return
 	},
+	removeStudent: async (classroomId, studentId) => {
+		const { error } = await supabase
+			.from("student")
+			.delete()
+			.eq("classroom_id", classroomId)
+			.eq("user_id", studentId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return
+	},
+	getStudentById: async (studentId) => {
+		const { data, error } = await supabase
+			.from("student")
+			.select("user ( * )")
+			.eq("user_id", studentId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data ? (data[0] as unknown as StudentApiResponse) : null
+	},
 }

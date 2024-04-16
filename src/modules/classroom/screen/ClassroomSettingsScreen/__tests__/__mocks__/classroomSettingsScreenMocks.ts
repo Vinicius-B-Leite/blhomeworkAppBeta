@@ -121,4 +121,4 @@ const classroomApiResponse: ClassroomApiResponse = {
 
 const classroom = classroomAdapter.classroomApiResponseToClassroom(classroomApiResponse)
 
-export const mocks = { studentsApiResponse, classroom, user }
+export const mocks = { studentsApiResponse, classroom, user, classroomApiResponse }

@@ -11,7 +11,7 @@ describe("modelView: useRemoveStudent", () => {
 			},
 		})
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
-			...mocks.classroomApiResponse[0].classroom,
+			...mocks.classroomApiResponse[0],
 		})
 		jest.spyOn(classroomApi, "removeStudent").mockResolvedValue()
 

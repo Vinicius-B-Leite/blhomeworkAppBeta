@@ -17,6 +17,10 @@ export const classroomErrors: Record<
 		field: null,
 		message: "Promova outro aluno a administrador antes de sair da sala",
 	},
+	"Student not found": {
+		field: null,
+		message: "Aluno não encontrado",
+	},
 	"Classroom or student not found": {
 		field: null,
 		message: "Sala ou aluno não encontrado",

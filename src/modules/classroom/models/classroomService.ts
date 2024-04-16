@@ -85,9 +85,7 @@ const getClassroomById = async (classroomId: string) => {
 
 		if (!data) return null
 
-		return classroomAdapter.classroomApiResponseToClassroom({
-			classroom: data,
-		})
+		return classroomAdapter.classroomApiResponseToClassroom(data)
 	} catch (error) {
 		throw error
 	}
@@ -147,7 +145,7 @@ const promoteStudentToClassroomAdmin = async (studentId: string, classroomId: st
 	try {
 		const [classroom, student] = await Promise.all([
 			getClassroomById(classroomId),
-			getStudentById(classroomId),
+			getStudentById(studentId),
 		])
 
 		const classroomExist = !!classroom
@@ -169,4 +167,5 @@ export const classroomService = {
 	updateClassroom,
 	leaveClassroom,
 	promoteStudentToClassroomAdmin,
+	getClassroomById,
 }

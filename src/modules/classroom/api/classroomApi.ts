@@ -77,7 +77,7 @@ export const classroomApi: ClassroomApi = {
 	getClassroomById: async (classroomId: string) => {
 		const { data, error, status } = await supabase
 			.from("classroom")
-			.select("*")
+			.select("*, upload (*)")
 			.eq("id", classroomId)
 		const isClassroomNotFound = status === 400 && data === null
 		if (isClassroomNotFound) {
@@ -87,7 +87,7 @@ export const classroomApi: ClassroomApi = {
 			throw new Error(error.message)
 		}
 
-		return data ? data[0] : null
+		return data ? ({ classroom: data[0] } as unknown as ClassroomApiResponse) : null
 	},
 	getStudents: async (classroomId: string) => {
 		const { data, error } = await supabase
@@ -150,6 +150,7 @@ export const classroomApi: ClassroomApi = {
 			.from("classroom")
 			.update({
 				admin_id: studentId,
+				updated_at: new Date().toISOString(),
 			})
 			.eq("id", classroomId)
 

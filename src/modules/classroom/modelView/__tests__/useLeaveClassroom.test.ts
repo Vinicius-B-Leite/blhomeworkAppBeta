@@ -12,9 +12,9 @@ jest.mock("@/modules/auth/context", () => ({
 
 describe("modelView: useLeaveClassroom", () => {
 	it("should call onSuccess when leave classroom success", async () => {
-		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
-			mocks.classroomApiResponse[0].classroom
-		)
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
+			classroom: mocks.classroomApiResponse[0].classroom,
+		})
 		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
 			mocks.studentsApiResponse
 		)
@@ -35,8 +35,10 @@ describe("modelView: useLeaveClassroom", () => {
 
 	it("should call onError with error message if admin try leave and it has more than 1 student", async () => {
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
-			...mocks.classroomApiResponse[0].classroom,
-			admin_id: mocks.user.uid,
+			classroom: {
+				...mocks.classroomApiResponse[0].classroom,
+				admin_id: mocks.user.uid,
+			},
 		})
 		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
 			mocks.studentsApiResponse
@@ -61,9 +63,9 @@ describe("modelView: useLeaveClassroom", () => {
 	})
 
 	it("should delete classroom if it has only 1 student", async () => {
-		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
-			mocks.classroomApiResponse[0].classroom
-		)
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
+			classroom: mocks.classroomApiResponse[0].classroom,
+		})
 		jest.spyOn(classroomApi, "getStudents").mockResolvedValue([
 			mocks.studentsApiResponse[0],
 		])

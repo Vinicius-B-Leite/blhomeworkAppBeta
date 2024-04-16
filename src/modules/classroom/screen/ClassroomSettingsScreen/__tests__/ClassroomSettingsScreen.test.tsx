@@ -1,12 +1,13 @@
 import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classroomSettingsScreenMocks"
 import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
-import { ClassroomSettingsScreen } from "../ClassroomSettingsScreen"
+
 import { Share, ShareAction } from "react-native"
+import { ClassroomSettingsScreen } from "../ClassroomSettingsScreen"
 
 jest.mock("@/hooks", () => ({
 	...jest.requireActual("@/hooks"),
-	useRouteParams: () => ({ classroom: mocks.classroom }),
+	useRouteParams: () => ({ classroomId: mocks.classroom.id }),
 }))
 
 jest.mock("@/modules/auth/context", () => ({
@@ -17,7 +18,13 @@ jest.mock("@/modules/auth/context", () => ({
 }))
 
 describe("integration: ClassroomSettingsScreen", () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
 	it("should show classroom info", async () => {
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
 		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
 			mocks.studentsApiResponse
 		)
@@ -63,6 +70,37 @@ describe("integration: ClassroomSettingsScreen", () => {
 
 		expect(trashIcons).toBeTruthy()
 	})
+	it("should show toast with error if promote student to classroom admin fail", async () => {
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
+			mocks.studentsApiResponse
+		)
+		jest.spyOn(classroomApi, "promoteStudentToClassroomAdmin").mockRejectedValue({
+			error: "some error",
+		})
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(classroomApi, "getStudentById").mockResolvedValue(
+			mocks.studentsApiResponse[0]
+		)
+
+		renderScreen(<ClassroomSettingsScreen />)
+
+		const user1 = await screen.findByText("user1", { exact: false })
+		await act(() => {
+			fireEvent.press(user1)
+		})
+
+		const yesAlertOption = await screen.findByText("Sim")
+		await act(() => {
+			fireEvent.press(yesAlertOption)
+		})
+
+		expect(await screen.findByText("Erro ao promover aluno!"))
+	})
 	it("should show 'adm' label of classroom", async () => {
 		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
 			mocks.studentsApiResponse
@@ -77,6 +115,37 @@ describe("integration: ClassroomSettingsScreen", () => {
 		const admLabels = await screen.findByTestId("adm")
 
 		expect(admLabels).toBeTruthy()
+	})
+
+	it("should can promote student to classroom admin", async () => {
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
+			mocks.studentsApiResponse
+		)
+		jest.spyOn(classroomApi, "promoteStudentToClassroomAdmin").mockResolvedValue()
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(classroomApi, "getStudentById").mockResolvedValue(
+			mocks.studentsApiResponse[0]
+		)
+
+		renderScreen(<ClassroomSettingsScreen />)
+
+		const user1 = await screen.findByText("user1", { exact: false })
+		await act(() => {
+			fireEvent.press(user1)
+		})
+
+		const yesAlertOption = await screen.findByText("Sim")
+		await act(() => {
+			fireEvent.press(yesAlertOption)
+		})
+
+		expect(await screen.findByText("Aluno promovido a administrador"))
+		expect(await screen.queryAllByTestId("trashIcon-", { exact: false }))
 	})
 	it("should not show trash icon for non-admin", async () => {
 		jest.spyOn(require("@/modules/auth/context"), "useAuth").mockReturnValue({
@@ -100,5 +169,20 @@ describe("integration: ClassroomSettingsScreen", () => {
 		})
 
 		expect(trashIcons).toHaveLength(0)
+		screen.unmount()
+	})
+
+	it("should show toast with error if get classroom info fail", async () => {
+		jest.spyOn(classroomApi, "getClassroomById").mockRejectedValueOnce({
+			error: "erro",
+		})
+		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
+			mocks.studentsApiResponse
+		)
+
+		renderScreen(<ClassroomSettingsScreen />)
+
+		expect(await screen.findByText("Erro ao buscar detalhes da sala!")).toBeTruthy()
+		screen.unmount()
 	})
 })

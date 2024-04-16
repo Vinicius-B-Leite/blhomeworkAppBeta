@@ -99,7 +99,7 @@ export function useClassroomScreenViewController() {
 					onPress: () => {
 						navigation.navigate("ClassroomRoutes", {
 							screen: "ClassroomSettingsScreen",
-							params: { classroom },
+							params: { classroomId: classroom.id },
 						})
 					},
 				}

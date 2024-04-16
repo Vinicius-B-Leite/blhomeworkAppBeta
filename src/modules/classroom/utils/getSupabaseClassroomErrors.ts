@@ -17,6 +17,10 @@ export const classroomErrors: Record<
 		field: null,
 		message: "Promova outro aluno a administrador antes de sair da sala",
 	},
+	"Student not found": {
+		field: null,
+		message: "Aluno não encontrado",
+	},
 }
 export const getSubapaseClassroomError = (error: string): SubapaseClassroomError => {
 	const isErrorPropsInClassroomErrors = Object.keys(classroomErrors).includes(error)

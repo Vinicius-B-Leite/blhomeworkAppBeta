@@ -10,6 +10,6 @@ export type ClassroomRouteType = {
 	EnterClassroomScreen: undefined
 	TaskRoutes: NavigatorScreenParams<TaskRoutesTypes>
 	ClassroomSettingsScreen: {
-		classroom: ClassroomType
+		classroomId: string
 	}
 }

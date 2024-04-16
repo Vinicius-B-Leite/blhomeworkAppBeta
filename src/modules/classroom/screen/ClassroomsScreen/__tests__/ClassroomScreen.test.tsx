@@ -55,7 +55,7 @@ describe("integration: ClassroomScreen", () => {
 
 		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
 			screen: "ClassroomSettingsScreen",
-			params: { classroom: mocks.classroomParsed[0] },
+			params: { classroomId: mocks.classroomParsed[0].id },
 		})
 		screen.unmount()
 	})

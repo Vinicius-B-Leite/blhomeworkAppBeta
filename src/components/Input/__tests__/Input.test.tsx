@@ -44,4 +44,21 @@ describe("component: Input", () => {
 		fireEvent.press(await screen.findByPlaceholderText("Some text"))
 		expect(onPress).toHaveBeenCalled()
 	})
+
+	it("should call onPress when the input is pressed", async () => {
+		const onPress = jest.fn()
+		render(
+			<Input
+				placeholder="Some text"
+				RightIcon={<Icon testID="eyeOff" name="eyeOff" />}
+				LeftIcon={<Icon testID="eyeOn" name="eyeOn" />}
+				onPress={onPress}
+			/>
+		)
+
+		const input = await screen.findByPlaceholderText("Some text")
+		fireEvent(input, "pressIn")
+
+		expect(onPress).toHaveBeenCalled()
+	})
 })

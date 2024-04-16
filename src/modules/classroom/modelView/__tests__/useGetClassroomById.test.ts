@@ -1,5 +1,5 @@
 import { useGetClassroomById } from "../useGetClassroomById.modelView"
-import { classroomApi } from "../../api"
+import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classrooModelViewMocks"
 import { renderHook, waitFor } from "@/testUtils"
 

@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@/testUtils"
 import { usePromoteStudentToClassroomAdmin } from "../usePromoteStudentToClassroomAdmin.modelView"
-import { classroomApi } from "../../api"
+import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classrooModelViewMocks"
 
 describe("modelView: usePromoteStudentToClassroomAdmin", () => {

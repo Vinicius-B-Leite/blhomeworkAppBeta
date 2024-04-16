@@ -11,7 +11,9 @@ const singUp = async (user: SingUpProps) => {
 			...user,
 			email: user.email.toLowerCase(),
 		})
-		return authAdapter.authSingupResponseToUser(response)
+		const userParsed = authAdapter.authSingupResponseToUser(response)
+		await authApi.updateUserTable(userParsed)
+		return userParsed
 	} catch (error) {
 		throw error
 	}

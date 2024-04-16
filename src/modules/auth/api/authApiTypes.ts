@@ -1,4 +1,9 @@
-import { SingUpProps, AuthLoginResponse, AuthSingUpResponse } from "@/modules/auth/models"
+import {
+	SingUpProps,
+	AuthLoginResponse,
+	AuthSingUpResponse,
+	UserType,
+} from "@/modules/auth/models"
 
 export type LoginWithEmailProps = {
 	email: string
@@ -10,4 +15,5 @@ export type AuthApi = {
 	loginWithEmail: (props: LoginWithEmailProps) => Promise<AuthLoginResponse>
 	sendEmailToResetPassword: (email: string) => Promise<void>
 	singOut: () => Promise<void>
+	updateUserTable: (user: UserType) => Promise<void>
 }

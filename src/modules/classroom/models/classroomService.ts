@@ -159,6 +159,25 @@ const promoteStudentToClassroomAdmin = async (studentId: string, classroomId: st
 		throw error
 	}
 }
+const removeStudent = async (classroomId: string, studentId: string) => {
+	try {
+		const [classroom, student] = await Promise.all([
+			getClassroomById(classroomId),
+			getStudentById(studentId),
+		])
+
+		const classroomExists = !!classroom
+		const studentExists = !!student
+
+		if (!classroomExists || !studentExists) {
+			throw new Error("Classroom or student not found")
+		}
+
+		await classroomApi.removeStudent(classroomId, studentId)
+	} catch (error) {
+		throw error
+	}
+}
 export const classroomService = {
 	getClassrooms,
 	createClassroom,
@@ -168,4 +187,5 @@ export const classroomService = {
 	leaveClassroom,
 	promoteStudentToClassroomAdmin,
 	getClassroomById,
+	removeStudent,
 }

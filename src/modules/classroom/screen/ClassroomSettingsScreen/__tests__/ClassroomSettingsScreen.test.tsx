@@ -1,8 +1,8 @@
 import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classroomSettingsScreenMocks"
-import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
 
 import { Share, ShareAction } from "react-native"
+import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
 import { ClassroomSettingsScreen } from "../ClassroomSettingsScreen"
 
 jest.mock("@/hooks", () => ({
@@ -20,6 +20,54 @@ jest.mock("@/modules/auth/context", () => ({
 describe("integration: ClassroomSettingsScreen", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
+	})
+	it("should remove student and show alert", async () => {
+		jest.spyOn(classroomApi, "getStudents").mockResolvedValueOnce(
+			mocks.studentsApiResponse
+		)
+		jest.spyOn(classroomApi, "getStudentById").mockResolvedValue({
+			user: {
+				id: mocks.studentsApiResponse[1].user.id,
+				avatar_url: mocks.studentsApiResponse[1].user.avatar_url,
+				email: mocks.studentsApiResponse[1].user.email,
+				user_name: mocks.studentsApiResponse[1].user.user_name,
+			},
+		})
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
+			classroom: {
+				admin_id: mocks.user.uid,
+				name: mocks.classroom.title,
+				id: mocks.classroom.id,
+				created_at: "",
+				upload: null,
+				deleted_at: "",
+				updated_at: "",
+			},
+		})
+
+		jest.spyOn(classroomApi, "removeStudent").mockResolvedValue()
+
+		renderScreen(<ClassroomSettingsScreen />)
+		await waitFor(async () => {
+			const list = screen.queryByTestId("list")
+			expect(list.props.data).toHaveLength(mocks.studentsApiResponse.length)
+		})
+
+		const trashIcon = await screen.findByTestId("trashIcon-1")
+
+		await act(async () => {
+			fireEvent.press(trashIcon)
+		})
+
+		const yesAlertButtonOption = await screen.findByText("Sim")
+
+		await act(() => {
+			fireEvent.press(yesAlertButtonOption)
+		})
+
+		await waitFor(async () => {
+			expect(await screen.findByText("Aluno removido com sucesso!")).toBeTruthy()
+		})
 	})
 	it("should show classroom info", async () => {
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(

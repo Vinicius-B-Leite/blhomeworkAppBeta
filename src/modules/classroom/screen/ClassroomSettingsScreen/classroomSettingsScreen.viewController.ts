@@ -7,6 +7,7 @@ import {
 	useGetClassrooms,
 	useGetStudents,
 	usePromoteStudentToClassroomAdmin,
+	useRemoveStudentModelView,
 } from "@/modules/classroom/modelView"
 import { useAuth } from "@/modules/auth/context"
 import { Student } from "@/modules/classroom/models"
@@ -18,6 +19,7 @@ export function useClassroomSettingsScreenViewController() {
 
 	const { user } = useAuth()
 	const { showToast } = useToastDispatch()
+
 	const { isLoading: isLoadingClassrooms, classroom } = useGetClassroomById({
 		classroomId: classroomId,
 		onError: () => {
@@ -39,10 +41,26 @@ export function useClassroomSettingsScreenViewController() {
 	})
 	const { showAlert } = useAlertDispatch()
 
+	const { removeStudent: removeStudentModelView } = useRemoveStudentModelView({
+		classroomId: classroomId,
+		onError: (error) => {
+			showToast({
+				message: error?.message || "Ocorreu um erro ao remover o aluno da sala!",
+				type: "error",
+			})
+		},
+		onSuccess: () => {
+			showToast({
+				message: "Aluno removido com sucesso!",
+				type: "success",
+			})
+		},
+	})
+
 	const shareClassroomCode = async () => {
 		if (!classroom?.id) return
 
-		const message = `Olá, entre na minha sala de aula com o código: ${classroom.id}`
+		const message = `Olá, entre na minha sala de aula com o código: ${classroomId}`
 		await Share.share({
 			message,
 			title: "Código da sala de aula",
@@ -53,6 +71,7 @@ export function useClassroomSettingsScreenViewController() {
 		const currentUserIsAdmin = classroom?.adminId === user!.uid
 
 		if (!currentUserIsAdmin) return
+
 		showAlert({
 			message: `Deseja remover o aluno ${student.userName} da sala de aula?`,
 			buttons: [
@@ -64,7 +83,7 @@ export function useClassroomSettingsScreenViewController() {
 					type: "confirm",
 					text: "Sim",
 					onPress: () => {
-						console.log("removing student")
+						removeStudentModelView({ studentId: student.id })
 					},
 				},
 			],

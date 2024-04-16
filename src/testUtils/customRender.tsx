@@ -29,8 +29,8 @@ const IntegrationProviders = ({ children }: React.PropsWithChildren) => {
 				<ThemeProvider theme={dark}>
 					<ContextsProviders>
 						<NavigationContainer>{children}</NavigationContainer>
-						<Alert />
 						<AnimatedHeaderOptions />
+						<Alert />
 						<Toast />
 					</ContextsProviders>
 				</ThemeProvider>

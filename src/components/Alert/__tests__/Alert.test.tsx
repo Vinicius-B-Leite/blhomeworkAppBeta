@@ -65,4 +65,24 @@ describe("component: Alert", () => {
 		expect(mockOnPress).toHaveBeenCalled()
 		expect(mockHideAlert).toHaveBeenCalled()
 	})
+
+	it("should show default text button if no buttons text are passed", () => {
+		jest.spyOn(require("@/store"), "useAlertConfig").mockReturnValue({
+			buttons: [
+				{ text: "", type: "confirm", onPress: jest.fn() },
+				{ text: "", type: "cancel", onPress: jest.fn() },
+			],
+			message: "Test message",
+			visible: true,
+			title: "Test title",
+		})
+		jest.spyOn(require("@/store"), "useAlertDispatch").mockReturnValue({
+			hideAlert: jest.fn(),
+		})
+
+		renderComponent(<Alert />)
+
+		expect(screen.getByText("Sim")).toBeTruthy()
+		expect(screen.getByText("Não")).toBeTruthy()
+	})
 })

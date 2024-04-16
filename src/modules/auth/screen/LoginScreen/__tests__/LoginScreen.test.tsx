@@ -14,6 +14,13 @@ import { authErrors } from "@/modules/auth/utils"
 import { authStorage } from "@/modules/auth/storage"
 import { UserType } from "@/modules/auth/models"
 
+const mockNavigate = jest.fn()
+jest.mock("@react-navigation/native", () => ({
+	...jest.requireActual("@react-navigation/native"),
+	useNavigation: () => ({
+		navigate: mockNavigate,
+	}),
+}))
 describe("integration: LoginScreen", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
@@ -100,5 +107,14 @@ describe("integration: LoginScreen", () => {
 			avatarUrl: mocks.user.avatarUrl,
 		}
 		await waitFor(() => expect(mockedUpdateUser).toHaveBeenCalledWith(expectedUser))
+	})
+	it("should navigate to SingUpScreen", async () => {
+		renderScreen(<LoginScreen />)
+
+		await act(() => {
+			fireEvent.press(screen.getByText("Não possui conta? Crie uma aqui."))
+		})
+
+		expect(mockNavigate).toHaveBeenCalledWith("SingUpScreen")
 	})
 })

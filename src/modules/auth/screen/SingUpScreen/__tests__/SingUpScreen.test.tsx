@@ -171,4 +171,17 @@ describe("integration: SingUpScreen", () => {
 			expect(emailInputError).toBeTruthy()
 		})
 	})
+	it('should back to login when press "Já possui uma conta?"', async () => {
+		renderScreen(<SingUpScreen />)
+
+		await act(async () => {
+			await fireEvent.press(
+				await screen.findByText("Já possui uma conta? Faça o login.", {
+					exact: false,
+				})
+			)
+		})
+
+		expect(mockGoBack).toHaveBeenCalled()
+	})
 })

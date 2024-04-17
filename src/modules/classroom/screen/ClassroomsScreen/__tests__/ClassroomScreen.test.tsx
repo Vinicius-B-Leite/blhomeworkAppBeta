@@ -1,6 +1,13 @@
 import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classroomsScreen"
-import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
+import {
+	act,
+	fireEvent,
+	renderScreen,
+	screen,
+	waitFor,
+	waitForElementToBeRemoved,
+} from "@/testUtils"
 import { ClassroomsScreen } from "../ClassroomsScreen"
 import { authStorage } from "@/modules/auth/storage"
 import { taskApi } from "@/modules/task/api"
@@ -167,4 +174,48 @@ describe("integration: ClassroomScreen", () => {
 		})
 		screen.unmount()
 	})
+	it("should can leave classroom", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
+			mocks.classroomApiResponse[1]
+		)
+		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
+			mocks.studentApiResponse
+		)
+		jest.spyOn(classroomApi, "leaveClassroom").mockResolvedValue()
+		jest.spyOn(classroomApi, "deleteClassroom").mockResolvedValue()
+
+		renderScreen(<ClassroomsScreen />)
+
+		const classroom = await screen.findByText("Classroom 2")
+
+		await act(() => {
+			fireEvent(classroom, "longPress")
+		})
+
+		const leaveIcon = await screen.findByTestId("leave")
+		await act(async () => {
+			fireEvent.press(leaveIcon)
+		})
+
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse.filter(
+				(classroom) => classroom.classroom.name !== "Classroom 2"
+			)
+		)
+		expect(await screen.findByText("Deseja realmente sair da sala?")).toBeVisible()
+
+		const yesAlertOption = await screen.findByText("Sim")
+
+		await act(async () => {
+			await fireEvent.press(yesAlertOption)
+		})
+
+		expect(await screen.findByText("Saiu da sala com sucesso!")).toBeVisible()
+
+		await waitFor(() => expect(screen.queryByText("Classroom 2")).toBeNull())
+	}, 20000)
 })

@@ -1,5 +1,9 @@
 import { UserType } from "@/modules/auth/models"
-import { ClassroomApiResponse, classroomAdapter } from "@/modules/classroom/models"
+import {
+	ClassroomApiResponse,
+	StudentApiResponse,
+	classroomAdapter,
+} from "@/modules/classroom/models"
 
 const user: UserType = {
 	avatarUrl: "url_avatar",
@@ -64,8 +68,36 @@ const classroomParsed = classroomApiResponse.map((classroom) =>
 	classroomAdapter.classroomApiResponseToClassroom(classroom)
 )
 
+const studentApiResponse: StudentApiResponse[] = [
+	{
+		user: {
+			avatar_url: "url_avatar",
+			email: "email",
+			id: "id",
+			user_name: "user_name",
+		},
+	},
+	{
+		user: {
+			avatar_url: "url_avatar2",
+			email: "email2",
+			id: "id2",
+			user_name: "user_name2",
+		},
+	},
+	{
+		user: {
+			avatar_url: "url_avatar3",
+			email: "email3",
+			id: "id3",
+			user_name: "user_name3",
+		},
+	},
+]
+
 export const mocks = {
 	classroomApiResponse,
 	classroomParsed,
 	user,
+	studentApiResponse,
 }

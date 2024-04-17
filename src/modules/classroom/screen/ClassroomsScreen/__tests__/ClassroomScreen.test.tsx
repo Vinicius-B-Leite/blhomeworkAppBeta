@@ -92,6 +92,7 @@ describe("integration: ClassroomScreen", () => {
 			screen: "UpsertClassroomScreen",
 			params: { classroom: mocks.classroomParsed[0] },
 		})
+		screen.unmount()
 	})
 	it("should show all classrooms", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
@@ -106,33 +107,7 @@ describe("integration: ClassroomScreen", () => {
 		).toHaveLength(3)
 		screen.unmount()
 	})
-	it("should refresh classroom list", async () => {
-		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
-		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValueOnce(
-			mocks.classroomApiResponse
-		)
 
-		renderScreen(<ClassroomsScreen />)
-
-		expect(await screen.findByText("Classroom 1")).toBeVisible()
-		expect(await screen.findByText("Classroom 2")).toBeVisible()
-		expect(await screen.findByText("Classroom 3")).toBeVisible()
-
-		const classroomList = await screen.findByTestId("classroom-list")
-		const { refreshControl } = classroomList.props
-		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
-			mocks.classroomApiResponse.splice(0, 1)
-		)
-		await act(async () => {
-			await refreshControl.props.onRefresh()
-		})
-
-		await waitFor(async () => {
-			expect(await screen.queryByText("Classroom 1")).toBeVisible()
-			expect(await screen.queryByText("Classroom 2")).not.toBeVisible()
-			expect(await screen.queryByText("Classroom 3")).not.toBeVisible()
-		})
-	})
 	it("should show toast if error", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(classroomApi, "getClassrooms").mockRejectedValue({ message: "error" })
@@ -172,6 +147,53 @@ describe("integration: ClassroomScreen", () => {
 		expect(mockNavigate).toHaveBeenCalledWith("ClassroomRoutes", {
 			screen: "EnterClassroomScreen",
 		})
+		screen.unmount()
+	})
+	it("should show toast error if leave classroom fails", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue(
+			mocks.classroomApiResponse[0]
+		)
+		jest.spyOn(classroomApi, "getStudents").mockResolvedValue(
+			mocks.studentApiResponse
+		)
+		jest.spyOn(classroomApi, "leaveClassroom").mockResolvedValue()
+		jest.spyOn(classroomApi, "deleteClassroom").mockResolvedValue()
+
+		renderScreen(<ClassroomsScreen />)
+
+		const classroom = await screen.findByText("Classroom 2")
+
+		await act(() => {
+			fireEvent(classroom, "longPress")
+		})
+
+		const leaveIcon = await screen.findByTestId("leave")
+		await act(async () => {
+			fireEvent.press(leaveIcon)
+		})
+
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse.filter(
+				(classroom) => classroom.classroom.name !== "Classroom 2"
+			)
+		)
+		expect(await screen.findByText("Deseja realmente sair da sala?")).toBeVisible()
+
+		const yesAlertOption = await screen.findByText("Sim")
+
+		await act(async () => {
+			await fireEvent.press(yesAlertOption)
+		})
+
+		expect(
+			await screen.findByText(
+				"Promova outro aluno a administrador antes de sair da sala"
+			)
+		).toBeVisible()
 		screen.unmount()
 	})
 	it("should can leave classroom", async () => {
@@ -217,5 +239,34 @@ describe("integration: ClassroomScreen", () => {
 		expect(await screen.findByText("Saiu da sala com sucesso!")).toBeVisible()
 
 		await waitFor(() => expect(screen.queryByText("Classroom 2")).toBeNull())
-	}, 20000)
+		screen.unmount()
+	})
+	it("should refresh classroom list", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValueOnce(
+			mocks.classroomApiResponse
+		)
+
+		renderScreen(<ClassroomsScreen />)
+
+		expect(await screen.findByText("Classroom 1")).toBeVisible()
+		expect(await screen.findByText("Classroom 2")).toBeVisible()
+		expect(await screen.findByText("Classroom 3")).toBeVisible()
+
+		const classroomList = await screen.findByTestId("classroom-list")
+		const { refreshControl } = classroomList.props
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValueOnce(
+			mocks.classroomApiResponse.splice(0, 1)
+		)
+		await act(async () => {
+			await refreshControl.props.onRefresh()
+		})
+
+		await waitFor(async () => {
+			expect(await screen.queryByText("Classroom 1")).toBeVisible()
+			expect(await screen.queryByText("Classroom 2")).not.toBeVisible()
+			expect(await screen.queryByText("Classroom 3")).not.toBeVisible()
+		})
+		screen.unmount()
+	})
 })

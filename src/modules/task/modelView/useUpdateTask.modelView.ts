@@ -39,8 +39,6 @@ export function useupdateTask({ onError, onSuccess, classroomId }: useupdateTask
 			})
 		},
 		onError: (error) => {
-			console.log("error", error.message)
-
 			onError?.(error.message)
 		},
 	})

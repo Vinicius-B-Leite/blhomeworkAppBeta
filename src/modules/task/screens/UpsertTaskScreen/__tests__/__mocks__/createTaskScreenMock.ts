@@ -1,4 +1,9 @@
-import { Subject, SubjectApiResponse, TaskApiResponse } from "@/modules/task/model"
+import {
+	Subject,
+	SubjectApiResponse,
+	TaskApiResponse,
+	UploadApiResponse,
+} from "@/modules/task/model"
 import { ClassroomApiResponse, classroomAdapter } from "@/modules/classroom/models"
 import { UserType } from "@/modules/auth/models"
 
@@ -25,10 +30,18 @@ const subjects: SubjectApiResponse[] = [
 	{ title: "Política", id: "20", short_name: "Pol", color_rgb: "#D833FF" },
 ]
 
+const user: UserType = {
+	email: "fake-email",
+	refreshtoken: "fake-resfresh-token",
+	token: "fake-token",
+	uid: "fake-uid",
+	username: "fake-username",
+}
+
 const classroomApiResponse: ClassroomApiResponse[] = [
 	{
 		classroom: {
-			admin_id: "fake-uid",
+			admin_id: user.uid,
 
 			upload: {
 				path_url: "url1",
@@ -60,7 +73,7 @@ const classroomApiResponse: ClassroomApiResponse[] = [
 	},
 	{
 		classroom: {
-			admin_id: "1",
+			admin_id: user.uid,
 
 			upload: {
 				path_url: "url3",
@@ -162,13 +175,6 @@ const tasks: TaskApiResponse[] = [
 		deleted_at: null,
 	},
 ]
-const user: UserType = {
-	email: "fake-email",
-	refreshtoken: "fake-resfresh-token",
-	token: "fake-token",
-	uid: "fake-uid",
-	username: "fake-username",
-}
 
 const documents = [
 	{
@@ -190,11 +196,34 @@ const documents = [
 		base64: "base64",
 	},
 ]
+
+const uploadsApiResponse: UploadApiResponse[] = [
+	{
+		id: "1",
+		path_url: "url1",
+		type: "image",
+		task_id: tasks[1].id,
+	},
+	{
+		id: "2",
+		path_url: "url2",
+		type: "image",
+		task_id: tasks[1].id,
+	},
+	{
+		id: "3",
+		path_url: "url3",
+		type: "image",
+		task_id: tasks[0].id,
+	},
+]
+
 export const mocks = {
 	subjects,
 	classroomApiResponse,
 	classroomParsed,
 	user,
 	tasks,
+	uploadsApiResponse,
 	documents,
 }

@@ -23,5 +23,6 @@ export * from "./PenSvg"
 export * from "./SettingsSvg"
 export * from "./ShareSvg"
 export * from "./LeaveSvg"
+export * from "./SadFaceSvg"
 
 export * from "./iconTypes"

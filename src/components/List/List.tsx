@@ -1,6 +1,7 @@
 import { useAppTheme } from "@/hooks"
 import React from "react"
 import { FlatList, FlatListProps, RefreshControl } from "react-native"
+import EmptyList from "./components/EmptyList"
 
 type ListProps<ItemT> = Omit<FlatListProps<ItemT>, "refreshControl" | "refreshing"> & {
 	isLoading?: boolean
@@ -29,6 +30,7 @@ export const List = <ItemT,>({
 					/>
 				) : undefined
 			}
+			ListEmptyComponent={isLoading ? null : <EmptyList />}
 			testID="list"
 			{...props}
 		/>

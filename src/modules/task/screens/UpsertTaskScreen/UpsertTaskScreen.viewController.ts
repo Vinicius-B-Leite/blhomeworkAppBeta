@@ -54,8 +54,11 @@ export function useUpsertTaskViewController() {
 	})
 	const { updateTask, isLoading: isUpdateLoading } = useupdateTask({
 		classroomId: classroomId,
-		onError: (message) => {
-			showToast({ message, type: "error" })
+		onError: () => {
+			showToast({
+				message: "Ocorreu um erro ao atualizar a tarefa!",
+				type: "error",
+			})
 		},
 		onSuccess: () => {
 			showToast({ message: "Tarefa atualizada com sucesso!", type: "success" })

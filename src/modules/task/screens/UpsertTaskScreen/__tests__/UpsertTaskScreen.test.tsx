@@ -315,6 +315,8 @@ describe("integration: UpsertTaskScreen", () => {
 			fireEvent.press(updateButton)
 		})
 
-		expect(await screen.findByText("Some error")).toBeTruthy()
+		expect(
+			await screen.findByText("Ocorreu um erro ao atualizar a tarefa!")
+		).toBeTruthy()
 	})
 })

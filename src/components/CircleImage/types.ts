@@ -1,4 +1,5 @@
-import { ImageProps as RNImageProps } from "react-native"
+import { ImageProps as ExpoImageProps } from "expo-image"
+
 import { ComunmRestyleProps } from "../constans"
 
-export type ImageProps = ComunmRestyleProps & RNImageProps
+export type ImageProps = ComunmRestyleProps & ExpoImageProps

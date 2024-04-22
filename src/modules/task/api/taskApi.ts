@@ -8,6 +8,7 @@ export const taskApi: TaskApi = {
 			.select("*, classroom ( * ), subject ( * )")
 			.eq("classroom_id", classroomId)
 			.is("deleted_at", null)
+			.gte("dead_line", new Date().toISOString())
 
 		if (error) {
 			throw new Error(error.message)

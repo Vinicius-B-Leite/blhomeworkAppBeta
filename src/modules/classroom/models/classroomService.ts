@@ -1,6 +1,7 @@
 import { classroomApi } from "@/modules/classroom/api"
 import { classroomAdapter } from "./classroomAdapter"
 import { convertUriToBase64 } from "@/utils"
+import { taskApi } from "@/modules/task/api"
 
 const getClassrooms = async (userId: string) => {
 	try {
@@ -21,7 +22,7 @@ export type CreateClassroomServiceProps = {
 const createClassroom = async (classroom: CreateClassroomServiceProps) => {
 	try {
 		let bannerId = ""
-		if (classroom.bannerUri) {
+		if (classroom?.bannerUri) {
 			const base64 = await convertUriToBase64(classroom.bannerUri)
 			const { id } = await classroomApi.uploadClassroomBanner(
 				classroom.bannerUri,
@@ -30,7 +31,23 @@ const createClassroom = async (classroom: CreateClassroomServiceProps) => {
 
 			bannerId = id
 		}
-		await classroomApi.createClassroom(classroom.name, classroom.userId, bannerId)
+		const classroomResponse = await classroomApi.createClassroom(
+			classroom.name,
+			classroom.userId,
+			bannerId
+		)
+		await Promise.all([
+			taskApi.createSubject(classroomResponse.classroom.id, {
+				name: "Matemática",
+				shortName: "MAT",
+				color: "rgb(255, 0, 0)",
+			}),
+			taskApi.createSubject(classroomResponse.classroom.id, {
+				name: "Português",
+				shortName: "POT",
+				color: "rgb(0, 0, 255)",
+			}),
+		])
 	} catch (error) {
 		throw error
 	}

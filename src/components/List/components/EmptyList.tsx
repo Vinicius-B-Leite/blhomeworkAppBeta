@@ -5,7 +5,7 @@ import React from "react"
 
 const EmptyList: React.FC = () => {
 	return (
-		<Box justifyContent="center" alignItems="center">
+		<Box justifyContent="center" alignItems="center" mt={14}>
 			<Icon name="sadFace" color="contrast" />
 			<Text preset="pMedium" mt={4}>
 				A lista está vazia

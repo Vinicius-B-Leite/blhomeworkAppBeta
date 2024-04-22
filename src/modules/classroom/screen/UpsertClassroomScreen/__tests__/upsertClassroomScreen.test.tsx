@@ -3,6 +3,7 @@ import { UpsertClassroomScreen } from "../UpsertClassroomScreen"
 import { classroomApi } from "@/modules/classroom/api"
 import { authStorage } from "@/modules/auth/storage"
 import { mocks } from "./__mocks__/upsertClassroomScreenMocks"
+import { taskApi } from "@/modules/task/api"
 
 jest.mock("@/utils", () => ({
 	...jest.requireActual("@/utils"),
@@ -35,7 +36,10 @@ describe("integration: UpsertClassroomScreen", () => {
 	it("should create a classroom without banner and show toast message", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 
-		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
+		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(taskApi, "createSubject").mockResolvedValue(mocks.subjectApiResponse)
 
 		renderScreen(<UpsertClassroomScreen />)
 
@@ -60,6 +64,7 @@ describe("integration: UpsertClassroomScreen", () => {
 		jest.spyOn(classroomApi, "createClassroom").mockRejectedValue({
 			message: "error",
 		})
+		jest.spyOn(taskApi, "createSubject").mockResolvedValue(mocks.subjectApiResponse)
 
 		renderScreen(<UpsertClassroomScreen />)
 
@@ -88,7 +93,10 @@ describe("integration: UpsertClassroomScreen", () => {
 	it("should create a classroom with banner and show toast message", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
-		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
+		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(taskApi, "createSubject").mockResolvedValue(mocks.subjectApiResponse)
 
 		renderScreen(<UpsertClassroomScreen />)
 
@@ -108,7 +116,11 @@ describe("integration: UpsertClassroomScreen", () => {
 	})
 	it('should change "Criar" to "Atualizar" and inputs already fill when editing a classroom', async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
-		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
+		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(taskApi, "createSubject").mockResolvedValue(mocks.subjectApiResponse)
+
 		jest.spyOn(require("@/hooks"), "useRouteParams").mockReturnValue({
 			classroom: mocks.classroom,
 		})

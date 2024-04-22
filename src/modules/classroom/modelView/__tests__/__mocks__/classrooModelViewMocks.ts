@@ -4,6 +4,7 @@ import {
 	StudentApiResponse,
 	classroomAdapter,
 } from "@/modules/classroom/models"
+import { SubjectApiResponse } from "@/modules/task/model"
 
 const classroomApiResponse: ClassroomApiResponse[] = [
 	{
@@ -151,10 +152,17 @@ const studentsApiResponse: StudentApiResponse[] = [
 const studentsParsed = studentsApiResponse.map(
 	classroomAdapter.studentApiResponseToStudent
 )
+const subjectApiResponse: SubjectApiResponse = {
+	color_rgb: "rgb(255, 0, 0)",
+	id: "1",
+	short_name: "MAT",
+	title: "Matemática",
+}
 export const mocks = {
 	classroomApiResponse,
 	classroomParsed,
 	user,
 	studentsApiResponse,
 	studentsParsed,
+	subjectApiResponse,
 }

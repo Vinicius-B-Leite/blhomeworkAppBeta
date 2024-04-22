@@ -1,6 +1,8 @@
 import { renderHook, waitFor } from "@/testUtils"
 import { useCreateClassroom } from "@/modules/classroom/modelView"
 import { classroomApi } from "@/modules/classroom/api"
+import { mocks } from "./__mocks__/classrooModelViewMocks"
+import { taskApi } from "@/modules/task/api"
 
 jest.mock("@/modules/auth/context", () => ({
 	...jest.requireActual("@/modules/auth/context"),
@@ -13,8 +15,13 @@ jest.mock("@/utils", () => ({
 }))
 describe("modelView: useCreateClassroom", () => {
 	it("should create classroom with banner and call onSuccess", async () => {
+		const createSubject = jest
+			.spyOn(taskApi, "createSubject")
+			.mockResolvedValue(mocks.subjectApiResponse)
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
-		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
+		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
+			mocks.classroomApiResponse[0]
+		)
 		const mockOnSuccess = jest.fn()
 		const { result } = renderHook(() =>
 			useCreateClassroom({
@@ -29,9 +36,12 @@ describe("modelView: useCreateClassroom", () => {
 		})
 
 		await waitFor(() => expect(mockOnSuccess).toHaveBeenCalled())
+		await waitFor(() => expect(createSubject).toHaveBeenCalledTimes(2))
 	})
 	it("should create classroom without banner and call onSuccess", async () => {
-		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue()
+		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
+			mocks.classroomApiResponse[0]
+		)
 		const mockOnSuccess = jest.fn()
 		const { result } = renderHook(() =>
 			useCreateClassroom({

@@ -1,5 +1,6 @@
 import { UserType } from "@/modules/auth/models"
 import { ClassroomApiResponse, ClassroomType } from "@/modules/classroom/models"
+import { SubjectApiResponse } from "@/modules/task/model"
 
 const user: UserType = {
 	avatarUrl: "url_avatar",
@@ -28,9 +29,15 @@ const classroom: ClassroomType = {
 	id: "123456",
 	title: "example_classroom",
 }
-
+const subjectApiResponse: SubjectApiResponse = {
+	color_rgb: "rgb(255, 0, 0)",
+	id: "1",
+	short_name: "MAT",
+	title: "Matemática",
+}
 export const mocks = {
 	user,
 	classroom,
 	classroomApiResponse,
+	subjectApiResponse,
 }

@@ -49,7 +49,7 @@ export const classroomApi: ClassroomApi = {
 		const { data, error } = await supabase
 			.from("classroom")
 			.insert({
-				banner_id: bannerId,
+				banner_id: bannerId ? bannerId : null,
 				name,
 				admin_id: userId,
 			})
@@ -60,7 +60,8 @@ export const classroomApi: ClassroomApi = {
 		}
 
 		await classroomApi.enterClassroom(data![0].id, userId)
-		return
+
+		return { classroom: data[0] }
 	},
 	enterClassroom: async (classroomId: string, userId: string) => {
 		const { error } = await supabase.from("student").insert({

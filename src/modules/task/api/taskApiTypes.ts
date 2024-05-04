@@ -30,4 +30,6 @@ export type TaskApi = {
 		}
 	) => Promise<TaskApiResponse>
 	deleteUpload: (uploadId: string) => Promise<void>
+	markTaskAsDone: (taskId: string, userId: string) => Promise<void>
+	getDoneTaskList: (userId: string) => Promise<{ task_id: string; user_id: string }[]>
 }

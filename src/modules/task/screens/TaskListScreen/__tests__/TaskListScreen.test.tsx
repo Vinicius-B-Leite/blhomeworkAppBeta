@@ -30,9 +30,15 @@ describe("integration: TaskListScreen", () => {
 	beforeAll(() => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 	})
 	it("should show task list", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue({
+			...mocks.user,
+			uid: mocks.tasks[0].classroom.admin_id,
+		})
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 
 		renderScreen(<TaskListScreen />)
 
@@ -42,6 +48,8 @@ describe("integration: TaskListScreen", () => {
 	})
 
 	it("should show float button when user is admin", async () => {
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
+
 		jest.spyOn(authStorage, "getUser").mockResolvedValue({
 			...mocks.user,
 			uid: mocks.tasks[0].classroom.admin_id,
@@ -64,6 +72,8 @@ describe("integration: TaskListScreen", () => {
 		})
 	})
 	it("should not show float button when user is not admin", async () => {
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
+
 		jest.spyOn(authStorage, "getUser").mockResolvedValue({
 			...mocks.user,
 		})

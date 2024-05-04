@@ -55,6 +55,7 @@ export function useTaskListScreenViewController({
 			screen: "TaskDetails",
 			params: {
 				task,
+				classroomId,
 			},
 		})
 	}

@@ -26,17 +26,19 @@ export const TaskListScreen: React.FC = () => {
 	})
 
 	const TaskListItem = useCallback(
-		({ item }: ListRenderItemInfo<Task>) => (
-			<TaskItem
-				onLongPress={() => handleOpenTaskOptions(item)}
-				onPress={() => handleNavigateToTaskDetails(item)}
-				task={item}
-				shouldShowDarkMask={
-					!!curretnTaskInAnimatedHeader &&
-					curretnTaskInAnimatedHeader.id !== item.id
-				}
-			/>
-		),
+		({ item }: ListRenderItemInfo<Task>) => {
+			const isItemSelectedInAnimatedHeader =
+				!!curretnTaskInAnimatedHeader &&
+				curretnTaskInAnimatedHeader.id !== item.id
+			return (
+				<TaskItem
+					onLongPress={() => handleOpenTaskOptions(item)}
+					onPress={() => handleNavigateToTaskDetails(item)}
+					task={item}
+					shouldShowDarkMask={item.isDone || isItemSelectedInAnimatedHeader}
+				/>
+			)
+		},
 		[curretnTaskInAnimatedHeader]
 	)
 	return (
@@ -51,6 +53,7 @@ export const TaskListScreen: React.FC = () => {
 
 			<List
 				data={taskList}
+				extraData={taskList}
 				keyExtractor={(item) => item.id}
 				renderItem={TaskListItem}
 				isLoading={isLoading}

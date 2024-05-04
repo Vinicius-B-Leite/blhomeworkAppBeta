@@ -22,6 +22,7 @@ describe("integration: UpsertTaskScreen", () => {
 	it("should show message error in empty inputs", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -49,10 +50,10 @@ describe("integration: UpsertTaskScreen", () => {
 		expect(await screen.findByText("Data de entrega é obrigatória")).toBeTruthy()
 		screen.unmount()
 	})
-
 	it("it should create a task with title, subject and deadline", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -111,6 +112,8 @@ describe("integration: UpsertTaskScreen", () => {
 			mocks.classroomApiResponse
 		)
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValueOnce(mocks.tasks.slice(0, 2))
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
+
 		jest.spyOn(taskApi, "getSubjectList").mockResolvedValue(mocks.subjects)
 		jest.spyOn(taskApi, "createTask").mockResolvedValue(mocks.tasks[2])
 		jest.spyOn(require("@/modules/task/utils"), "getDocuments").mockResolvedValue(
@@ -174,6 +177,7 @@ describe("integration: UpsertTaskScreen", () => {
 	it("it should show a toast error if something wrong happend", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -227,6 +231,8 @@ describe("integration: UpsertTaskScreen", () => {
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
+
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
 		jest.spyOn(taskApi, "getSubjectList").mockResolvedValue(mocks.subjects)
 		jest.spyOn(taskApi, "updateTask").mockResolvedValue(mocks.tasks[2])
@@ -269,7 +275,6 @@ describe("integration: UpsertTaskScreen", () => {
 		expect(await screen.findByText("Another new title")).toBeTruthy()
 		screen.unmount()
 	})
-
 	it("should show error toast when update a task fails", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
@@ -278,6 +283,7 @@ describe("integration: UpsertTaskScreen", () => {
 			mocks.classroomApiResponse
 		)
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 		jest.spyOn(taskApi, "getSubjectList").mockResolvedValue(mocks.subjects)
 		jest.spyOn(taskApi, "updateTask").mockRejectedValue({ message: "Some error" })
 

@@ -159,4 +159,25 @@ export const taskApi: TaskApi = {
 			throw new Error(error.message)
 		}
 	},
+	markTaskAsDone: async (taskId, userId) => {
+		const { error } = await supabase.from("done_task").insert({
+			task_id: taskId,
+			user_id: userId,
+		})
+		if (error) {
+			throw new Error(error.message)
+		}
+	},
+	getDoneTaskList: async (userId) => {
+		const { data, error } = await supabase
+			.from("done_task")
+			.select("*")
+			.eq("user_id", userId)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data?.length > 0 ? data : []
+	},
 }

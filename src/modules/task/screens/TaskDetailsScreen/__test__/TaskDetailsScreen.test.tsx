@@ -1,15 +1,35 @@
-import { fireEvent, renderScreen, screen } from "@/testUtils"
+import { fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
 import { TaskDetailsScreen } from "../TaskDetailsScreen"
 import { formatDate } from "@/utils"
 import * as WebBrowser from "expo-web-browser"
 import { mocks } from "./__mocks__/taskDetailsMock"
+import { taskApi } from "@/modules/task/api"
 
 jest.mock("@/hooks", () => ({
 	...jest.requireActual("@/hooks"),
 	useRouteParams: () => ({
 		task: mocks.task[0],
+		classroomId: "1",
 	}),
 }))
+
+const mockGoBack = jest.fn()
+jest.mock("@react-navigation/native", () => ({
+	...jest.requireActual("@react-navigation/native"),
+	useNavigation: () => ({
+		goBack: mockGoBack,
+	}),
+}))
+
+jest.mock("@/modules/auth/context", () => ({
+	...jest.requireActual("@/modules/auth/context"),
+	useAuth: () => ({
+		user: {
+			uid: "1",
+		},
+	}),
+}))
+
 describe("integration: TaskDetailsScreen", () => {
 	it("should show the task details correctly", () => {
 		renderScreen(<TaskDetailsScreen />)
@@ -63,5 +83,29 @@ describe("integration: TaskDetailsScreen", () => {
 		})
 		renderScreen(<TaskDetailsScreen />)
 		expect(screen.getByTestId("image-icon")).toBeTruthy()
+	})
+	it("should show error toast when mark a task as done fails", async () => {
+		jest.spyOn(taskApi, "markTaskAsDone").mockRejectedValue({ message: "error" })
+		renderScreen(<TaskDetailsScreen />)
+
+		fireEvent.press(screen.getByText("concluir"))
+
+		await waitFor(() => {
+			expect(screen.getByText("Erro ao concluir tarefa!")).toBeTruthy()
+			expect(mockGoBack).not.toHaveBeenCalled()
+		})
+		screen.unmount()
+	})
+	it("should mark a task as done", async () => {
+		jest.spyOn(taskApi, "markTaskAsDone").mockResolvedValue()
+		renderScreen(<TaskDetailsScreen />)
+
+		fireEvent.press(screen.getByText("concluir"))
+
+		await waitFor(() => {
+			expect(screen.getByText("Tarefa concluída com sucesso!")).toBeTruthy()
+			expect(mockGoBack).toHaveBeenCalled()
+		})
+		screen.unmount()
 	})
 })

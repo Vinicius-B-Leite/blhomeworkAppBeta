@@ -17,9 +17,11 @@ const uploadApiResponseToUpload = (uploadApiResponse: UploadApiResponse): Upload
 }
 const taskApiResponseToTask = (
 	taskApiResponse: TaskApiResponse,
+	doneTasks?: { task_id: string; user_id: string }[],
 	uploads?: Upload[]
 ): Task => {
 	return {
+		isDone: doneTasks?.some((doneTask) => doneTask.task_id === taskApiResponse.id),
 		deadLine: new Date(taskApiResponse.dead_line),
 		description: taskApiResponse.description,
 		id: taskApiResponse.id,

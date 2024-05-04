@@ -26,8 +26,6 @@ export function useDoneTask({ onError, onSuccess, classroomId }: useDoneTaskProp
 			})
 		},
 		onError: (error) => {
-			console.log(error.message)
-
 			onError?.(error.message)
 		},
 	})

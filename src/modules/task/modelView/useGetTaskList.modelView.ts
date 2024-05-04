@@ -21,8 +21,6 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 
 	useEffect(() => {
 		if (error) {
-			console.log("error", error.message)
-
 			props?.onError?.(error.message)
 		}
 	}, [error])

@@ -32,8 +32,9 @@ export const TaskListScreen: React.FC = () => {
 				onPress={() => handleNavigateToTaskDetails(item)}
 				task={item}
 				shouldShowDarkMask={
-					!!curretnTaskInAnimatedHeader &&
-					curretnTaskInAnimatedHeader.id !== item.id
+					item.isDone ||
+					(!!curretnTaskInAnimatedHeader &&
+						curretnTaskInAnimatedHeader.id !== item.id)
 				}
 			/>
 		),
@@ -51,6 +52,7 @@ export const TaskListScreen: React.FC = () => {
 
 			<List
 				data={taskList}
+				extraData={taskList}
 				keyExtractor={(item) => item.id}
 				renderItem={TaskListItem}
 				isLoading={isLoading}

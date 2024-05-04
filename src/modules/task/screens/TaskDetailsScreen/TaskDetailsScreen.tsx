@@ -7,8 +7,17 @@ import { Upload } from "@/modules/task/model"
 import { useTaskDetailsScreenViewController } from "./taskDetailsScreen.viewController"
 
 export const TaskDetailsScreen: React.FC = () => {
-	const { deadLine, description, openFile, subject, title, uploads } =
-		useTaskDetailsScreenViewController()
+	const {
+		deadLine,
+		description,
+		openFile,
+		subject,
+		title,
+		uploads,
+		isLoading,
+		markTaskAsDone,
+		id,
+	} = useTaskDetailsScreenViewController()
 
 	const renderHeader = useCallback(
 		() => (
@@ -58,8 +67,10 @@ export const TaskDetailsScreen: React.FC = () => {
 				title: subject.name,
 			}}
 			submitButton={{
-				onPress: () => {},
-				isLoading: false,
+				onPress: () => {
+					markTaskAsDone({ taskId: id })
+				},
+				isLoading,
 				title: "concluir",
 			}}>
 			<List

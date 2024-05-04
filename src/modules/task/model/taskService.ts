@@ -15,18 +15,26 @@ const getUploads = async (taskId: string) => {
 	}
 }
 
-const getTaskList = async (classroomId: string) => {
+const getTaskList = async (classroomId: string, userId: string) => {
 	try {
-		const taskList = await taskApi.getTaskList(classroomId)
+		const [taskList, doneTasks] = await Promise.all([
+			taskApi.getTaskList(classroomId),
+			taskApi.getDoneTaskList(userId),
+		])
+
 		const uploadList = await Promise.all(
 			taskList.map(async (task) => {
 				return await getUploads(task.id)
 			})
 		)
 
-		return taskList.map((task) =>
-			taskAdapter.taskApiResponseToTask(task, uploadList.flat())
-		)
+		const taskListParsed = taskList
+			.map((task) =>
+				taskAdapter.taskApiResponseToTask(task, doneTasks, uploadList.flat())
+			)
+			.sort((a, b) => (a.isDone ? 1 : -1))
+
+		return taskListParsed
 	} catch (error) {
 		throw error
 	}
@@ -193,6 +201,14 @@ const updateTask = async (
 		throw error
 	}
 }
+
+const markTaskAsDone = async (taskId: string, userId: string) => {
+	try {
+		await taskApi.markTaskAsDone(taskId, userId)
+	} catch (error) {
+		throw error
+	}
+}
 export const taskService = {
 	getTaskList,
 	createSubject,
@@ -202,4 +218,5 @@ export const taskService = {
 	updateSubject,
 	deleteTask,
 	updateTask,
+	markTaskAsDone,
 }

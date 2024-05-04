@@ -34,5 +34,6 @@ export type TaskRoutesTypes = {
 		  }
 	TaskDetails: {
 		task: Task
+		classroomId: string
 	}
 }

@@ -33,6 +33,7 @@ export type Task = {
 	description?: string
 	subject: Subject
 	uploads: Upload[] | null
+	isDone?: boolean
 }
 
 export type Subject = {

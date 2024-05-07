@@ -19,7 +19,9 @@
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#ffffff"
-			}
+			},
+			"permissions": ["android.permission.RECORD_AUDIO"],
+			"package": "com.viniciusbl21.blhomework"
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
@@ -31,7 +33,11 @@
 			[
 				"expo-font",
 				{
-					"fonts": ["node_modules/@expo-google-fonts/inter/Inter_100Thin.ttf"]
+					"fonts": [
+						"node_modules/@expo-google-fonts/poppins/Poppins_400Regular.ttf",
+						"node_modules/@expo-google-fonts/poppins/Poppins_400Regular_Italic.ttf",
+						"node_modules/@expo-google-fonts/poppins/Poppins_700Bold.ttf"
+					]
 				}
 			],
 			[
@@ -40,6 +46,11 @@
 					"photosPermission": "O aplicativo precisa do acesso para selecionar uma foto."
 				}
 			]
-		]
+		],
+		"extra": {
+			"eas": {
+				"projectId": "e4345e61-24e7-4dac-980a-cbc5259ddb6b"
+			}
+		}
 	}
 }

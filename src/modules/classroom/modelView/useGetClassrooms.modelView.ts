@@ -1,27 +1,25 @@
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { useNetInfoInstance } from "@react-native-community/netinfo"
 
 import { CoumnModelViewProps } from "@/types"
 import { useAuth } from "@/modules/auth/context"
 import { ClassroomType, classroomService } from "@/modules/classroom/models"
 import { CLASSROOM_QUERY_KEYS } from "@/modules/classroom/api"
+import { useHandleGet } from "@/hooks"
 
 export function useGetClassrooms(props?: CoumnModelViewProps<string, ClassroomType[]>) {
 	const { user } = useAuth()
-	const { data, error, refetch, isFetching } = useQuery<ClassroomType[], Error>({
+	const { data, isLoading, refresh } = useHandleGet({
+		getFn: () => classroomService.getClassrooms(user!.uid),
 		queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user?.uid],
-		queryFn: () => classroomService.getClassrooms(user!.uid),
 		enabled: !!user?.uid,
+		onError: props?.onError,
 	})
-	useEffect(() => {
-		if (error) {
-			props?.onError && props.onError(error.message)
-		}
-	}, [error])
 
 	return {
 		classrooms: data || [],
-		isLoading: isFetching,
-		refresh: refetch,
+		isLoading: isLoading,
+		refresh: refresh,
 	}
 }

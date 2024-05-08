@@ -3,6 +3,7 @@ import { TASK_QUERY_KEY } from "@/modules/task/api"
 import { CoumnModelViewProps } from "@/types"
 import { Subject, taskService } from "@/modules/task/model"
 import { useEffect } from "react"
+import { useHandleGet } from "@/hooks"
 
 type useSubjectListModelViewProps = Pick<
 	CoumnModelViewProps<string | null, void>,
@@ -11,23 +12,18 @@ type useSubjectListModelViewProps = Pick<
 	classroomId: string
 }
 export function useGetSubjectListModelView(props: useSubjectListModelViewProps) {
-	const { data, error, isPending, refetch } = useQuery<unknown, Error, Subject[]>({
+	const { data, isLoading, refresh } = useHandleGet({
+		getFn: () => taskService.getSubjectList(props.classroomId),
 		queryKey: [TASK_QUERY_KEY.GET_SUBJECT_LIST, props.classroomId],
-		queryFn: () => taskService.getSubjectList(props.classroomId),
+		onError: (error) => props?.onError?.(error),
 		enabled: !!props.classroomId,
 	})
 
-	useEffect(() => {
-		if (error) {
-			props?.onError?.(error.message)
-		}
-	}, [error])
-
 	return {
 		subjectList: data,
-		isLoading: isPending,
+		isLoading: isLoading,
 		refresh: () => {
-			refetch()
+			refresh()
 		},
 	}
 }

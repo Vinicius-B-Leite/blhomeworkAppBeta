@@ -6,8 +6,20 @@ const KEYS = {
 
 export type StorageKeys = keyof typeof KEYS
 
+type CustomKeyProp<K = string> =
+	| {
+			key: StorageKeys
+			customKey?: false
+	  }
+	| {
+			key: false | null | undefined
+			customKey: K
+	  }
 export type StorageType = {
-	getItem: <T>(key: StorageKeys) => Promise<T | null>
-	setItem: <T>(key: StorageKeys, value: T) => Promise<void>
-	removeItem: (key: StorageKeys) => Promise<void>
+	getItem: <T, K = unknown>(props: CustomKeyProp<K>) => Promise<T | null>
+	getAllKeys: () => Promise<readonly string[]>
+	unTypedGetItem: (key: string) => Promise<any>
+	setItem: <T>(key: StorageKeys | string, value: T) => Promise<void>
+	removeItem: (key: CustomKeyProp) => Promise<void>
+	removeAll: () => Promise<void>
 }

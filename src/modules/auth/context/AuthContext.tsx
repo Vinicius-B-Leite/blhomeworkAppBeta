@@ -8,6 +8,7 @@ import {
 } from "react"
 import { UserType } from "@/modules/auth/models"
 import { authStorage } from "@/modules/auth/storage"
+import { storage } from "@/storage"
 
 export type AuthContextType = {
 	user: UserType | null
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const logout = useCallback(async () => {
 		setUser(null)
 		await authStorage.removeUser()
+		await storage.removeAll()
 	}, [])
 
 	return (

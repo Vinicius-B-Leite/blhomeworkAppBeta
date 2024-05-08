@@ -1,29 +1,23 @@
-import { useEffect } from "react"
-import { useQuery } from "@tanstack/react-query"
-
 import { CoumnModelViewProps } from "@/types"
 
-import { ClassroomType, classroomService } from "@/modules/classroom/models"
+import { classroomService } from "@/modules/classroom/models"
 import { CLASSROOM_QUERY_KEYS } from "@/modules/classroom/api"
+import { useHandleGet } from "@/hooks"
 
 type UseGetClassroomByIdProps = CoumnModelViewProps<string, void> & {
 	classroomId: string
 }
 export function useGetClassroomById(props: UseGetClassroomByIdProps) {
-	const { data, error, refetch, isFetching } = useQuery<ClassroomType | null, Error>({
+	const { data, isLoading, refresh } = useHandleGet({
+		getFn: () => classroomService.getClassroomById(props.classroomId),
 		queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS_BY_ID, props.classroomId],
-		queryFn: () => classroomService.getClassroomById(props.classroomId),
 		enabled: !!props.classroomId,
+		onError: props.onError,
 	})
-	useEffect(() => {
-		if (error) {
-			props?.onError && props.onError(error.message)
-		}
-	}, [error])
 
 	return {
-		classroom: data || null,
-		isLoading: isFetching,
-		refresh: refetch,
+		classroom: data,
+		isLoading: isLoading,
+		refresh: refresh,
 	}
 }

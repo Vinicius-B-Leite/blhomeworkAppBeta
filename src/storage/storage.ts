@@ -4,14 +4,42 @@ import { StorageType } from "./storageType"
 const StorageInstand = AsyncStorage
 
 export const storage: StorageType = {
-	getItem: async (key) => {
-		const item = await StorageInstand.getItem(key)
+	/**
+	 * @warning getItem custom key prop - Use it only if you are sure about the key.
+	 */
+	getItem: async ({ key, customKey }) => {
+		let storageKey = ""
+		if (key) {
+			storageKey = key
+		}
+		if (customKey) {
+			storageKey = customKey as string
+		}
+		const item = await StorageInstand.getItem(storageKey)
 		return item ? JSON.parse(item) : null
 	},
 	setItem: async (key, value) => {
 		await StorageInstand.setItem(key, JSON.stringify(value))
 	},
-	removeItem: async (key) => {
-		await StorageInstand.removeItem(key)
+	removeItem: async ({ key, customKey }) => {
+		let storageKey = ""
+		if (key) {
+			storageKey = key
+		}
+		if (customKey) {
+			storageKey = customKey as string
+		}
+		await StorageInstand.removeItem(storageKey)
+	},
+	unTypedGetItem: async (key) => {
+		const item = await StorageInstand.getItem(key)
+		return item ? JSON.parse(item) : null
+	},
+	getAllKeys: async () => {
+		const allItens = await StorageInstand.getAllKeys()
+		return allItens
+	},
+	removeAll: async () => {
+		await StorageInstand.clear()
 	},
 }

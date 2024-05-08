@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query"
 import { TASK_QUERY_KEY } from "@/modules/task/api"
 import { CoumnModelViewProps } from "@/types"
 import { Task, taskService } from "@/modules/task/model"
-import { useEffect } from "react"
+
 import { useAuth } from "@/modules/auth/context"
+import { useHandleGet } from "@/hooks"
 
 type useTaskListModelViewProps = Pick<
 	CoumnModelViewProps<string | null, void>,
@@ -13,23 +14,19 @@ type useTaskListModelViewProps = Pick<
 }
 export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 	const { user } = useAuth()
-	const { data, error, isPending, refetch } = useQuery<unknown, Error, Task[]>({
+
+	const { data, isLoading, refresh } = useHandleGet<Task[]>({
+		getFn: () => taskService.getTaskList(props.classroomId, user?.uid ?? ""),
 		queryKey: [TASK_QUERY_KEY.GET_TASK_LIST, props.classroomId],
-		queryFn: () => taskService.getTaskList(props.classroomId, user?.uid ?? ""),
+		onError: (error) => props?.onError?.(error),
 		enabled: !!props.classroomId,
 	})
 
-	useEffect(() => {
-		if (error) {
-			props?.onError?.(error.message)
-		}
-	}, [error])
-
 	return {
-		taskList: data ?? [],
-		isLoading: isPending,
+		taskList: data || [],
+		isLoading: isLoading,
 		refresh: () => {
-			refetch()
+			refresh()
 		},
 	}
 }

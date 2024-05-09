@@ -44,8 +44,24 @@ describe("modelView: useDoneTask", () => {
 		})
 	})
 
-	it("should mark task as done and call onSuccess prop", async () => {
+	it("should mark task as done and call onSuccess prop and cancell schedule notification", async () => {
 		jest.spyOn(taskApi, "markTaskAsDone").mockResolvedValue()
+		jest.spyOn(
+			require("@/service/notifications"),
+			"getAllScheduleNotifications"
+		).mockResolvedValue([
+			{
+				content: {
+					data: {
+						taskId: "taskId",
+					},
+				},
+				identifier: "identifier",
+			},
+		])
+		const mockCancellNotification = jest
+			.spyOn(require("@/service/notifications"), "cancelScheduleNotification")
+			.mockResolvedValue({})
 
 		const onSuccess = jest.fn()
 		const onError = jest.fn()
@@ -65,6 +81,9 @@ describe("modelView: useDoneTask", () => {
 			expect(onSuccess).toHaveBeenCalled()
 			expect(mockinvalidateQueries).toHaveBeenCalledWith({
 				queryKey: [TASK_QUERY_KEY.GET_TASK_LIST, "classroomId"],
+			})
+			expect(mockCancellNotification).toHaveBeenCalledWith({
+				notificationId: "identifier",
 			})
 		})
 		screen.unmount()

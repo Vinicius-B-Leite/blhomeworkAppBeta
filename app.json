@@ -20,7 +20,10 @@
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#ffffff"
 			},
-			"permissions": ["android.permission.RECORD_AUDIO"],
+			"permissions": [
+				"android.permission.RECORD_AUDIO",
+				"android.permission.SCHEDULE_EXACT_ALARM"
+			],
 			"package": "com.viniciusbl21.blhomework"
 		},
 		"web": {
@@ -44,6 +47,12 @@
 				"expo-image-picker",
 				{
 					"photosPermission": "O aplicativo precisa do acesso para selecionar uma foto."
+				}
+			],
+			[
+				"expo-notifications",
+				{
+					"color": "#ffffff"
 				}
 			]
 		],

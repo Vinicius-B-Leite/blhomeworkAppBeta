@@ -4,6 +4,8 @@ import { useMutation } from "@tanstack/react-query"
 import { CoumnModelViewProps } from "@/types"
 import { useAuth } from "@/modules/auth/context"
 
+import { cancelAllScheduledNotifications } from "@/service/notifications"
+
 export const useLogoutModelView = (
 	props?: Omit<CoumnModelViewProps<void, void>, "onError">
 ) => {
@@ -14,8 +16,9 @@ export const useLogoutModelView = (
 		mutationFn: () => handleSingUp(),
 		retry: false,
 		gcTime: Infinity,
-		onSuccess: () => {
+		onSuccess: async () => {
 			onSuccess && onSuccess()
+			await cancelAllScheduledNotifications()
 		},
 	})
 

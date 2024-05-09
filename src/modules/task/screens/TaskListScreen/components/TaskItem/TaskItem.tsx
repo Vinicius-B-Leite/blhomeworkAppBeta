@@ -44,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 					onLongPress={onLongPress}
 					borderRadius={8}
 					width={"100%"}
-					height={"100%"}
+					height={"85%"}
 					style={{
 						backgroundColor: "rgba(0, 0, 0, .3)",
 						position: "absolute",

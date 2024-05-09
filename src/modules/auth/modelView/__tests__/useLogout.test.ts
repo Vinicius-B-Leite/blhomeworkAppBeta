@@ -10,7 +10,10 @@ jest.mock("@/modules/auth/context", () => ({
 }))
 
 describe("modelView: useLogout", () => {
-	it("should logout and it calls onSuccess correctly", async () => {
+	it("should logout and it calls onSuccess correctly and cancell notifications", async () => {
+		const mockCancelAllScheduledNotifications = jest
+			.spyOn(require("@/service/notifications"), "cancelAllScheduledNotifications")
+			.mockResolvedValue({})
 		const onSuccess = jest.fn()
 		const { result } = renderHook(() =>
 			useLogoutModelView({
@@ -23,5 +26,8 @@ describe("modelView: useLogout", () => {
 		})
 
 		await waitFor(() => expect(mockLogout).toHaveBeenCalledTimes(1))
+		await waitFor(() =>
+			expect(mockCancelAllScheduledNotifications).toHaveBeenCalledTimes(1)
+		)
 	})
 })

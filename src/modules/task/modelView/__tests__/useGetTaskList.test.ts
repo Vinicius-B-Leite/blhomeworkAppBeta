@@ -71,4 +71,52 @@ describe("modelView: useGetTaskListModelView", () => {
 			expect(onError).toHaveBeenCalled()
 		})
 	})
+	it("should schedule notification for each task if the task not already scheduled", async () => {
+		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+		jest.spyOn(
+			require("@/service/notifications"),
+			"getAllScheduleNotifications"
+		).mockResolvedValue([{ content: { data: { taskId: "randomTask" } } }])
+		const mockScheduleNotification = jest
+			.spyOn(require("@/service/notifications"), "scheduleNotification")
+			.mockResolvedValue({})
+
+		const { result } = renderHook(() =>
+			useGetTaskListModelView({
+				classroomId: "classroomId",
+				onError: jest.fn(),
+			})
+		)
+
+		await waitFor(() => {
+			expect(mockScheduleNotification).toHaveBeenCalled()
+		})
+		screen.unmount()
+	})
+	it("should NOT schedule notification if the task already scheduled", async () => {
+		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(mocks.tasks)
+		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
+		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
+		jest.spyOn(
+			require("@/service/notifications"),
+			"getAllScheduleNotifications"
+		).mockResolvedValue([{ content: { data: { taskId: mocks.tasks[0].id } } }])
+		const mockScheduleNotification = jest
+			.spyOn(require("@/service/notifications"), "scheduleNotification")
+			.mockResolvedValue({})
+
+		const { result } = renderHook(() =>
+			useGetTaskListModelView({
+				classroomId: "classroomId",
+				onError: jest.fn(),
+			})
+		)
+
+		await waitFor(() => {
+			expect(mockScheduleNotification).not.toHaveBeenCalled()
+		})
+		screen.unmount()
+	})
 })

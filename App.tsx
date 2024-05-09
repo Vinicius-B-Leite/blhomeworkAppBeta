@@ -32,7 +32,6 @@ export default function App() {
 
 	useEffect(() => {
 		requestNotificationPermisson()
-		getAllScheduleNotifications().then(console.log)
 	})
 	let [fontsLoaded, fontError] = useFonts({
 		Poppins_400Regular,

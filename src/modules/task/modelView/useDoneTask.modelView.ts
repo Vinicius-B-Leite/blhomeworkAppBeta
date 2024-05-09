@@ -42,7 +42,7 @@ export function useDoneTask({ onError, onSuccess, classroomId }: useDoneTaskProp
 		const notificationToCancel = notifications.find(
 			(n) => n.content.data.taskId === taskId
 		)
-		console.log(notificationToCancel)
+
 		if (!notificationToCancel) return
 		cancelScheduleNotification({
 			notificationId: notificationToCancel?.identifier,

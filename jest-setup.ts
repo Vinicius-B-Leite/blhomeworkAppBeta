@@ -44,3 +44,11 @@ jest.mock("@react-native-community/datetimepicker", () => {
 import mockRNCNetInfo from "@react-native-community/netinfo/jest/netinfo-mock.js"
 
 jest.mock("@react-native-community/netinfo", () => mockRNCNetInfo)
+
+jest.mock("@/service/notifications", () => ({
+	getAllScheduleNotifications: jest.fn().mockResolvedValue([]),
+	scheduleNotification: jest.fn().mockResolvedValue({}),
+	initializeNotifications: jest.fn().mockResolvedValue({}),
+	cancelScheduleNotification: jest.fn().mockResolvedValue({}),
+	cancelAllScheduledNotifications: jest.fn().mockResolvedValue({}),
+}))

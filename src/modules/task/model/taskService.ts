@@ -205,6 +205,7 @@ const updateTask = async (
 const markTaskAsDone = async (taskId: string, userId: string) => {
 	try {
 		await taskApi.markTaskAsDone(taskId, userId)
+		return taskId
 	} catch (error) {
 		throw error
 	}

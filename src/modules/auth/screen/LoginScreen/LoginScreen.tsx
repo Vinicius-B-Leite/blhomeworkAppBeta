@@ -15,7 +15,7 @@ export const LoginScreen: React.FC = () => {
 	} = useLoginScreenViewController()
 
 	return (
-		<Container justifyContent="center" alignItems="center" width={"100%"}>
+		<Container justifyContent="center" width={"100%"}>
 			<Logo />
 
 			<FormInput

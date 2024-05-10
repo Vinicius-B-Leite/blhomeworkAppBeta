@@ -8,12 +8,14 @@ type UseHandleGetProps<ReturnDataType> = {
 	queryKey: Array<string | number | boolean | null | undefined>
 	enabled?: boolean
 	onError?: (message: string) => void
+	onSuccess?: (data: ReturnDataType) => void
 }
 export function useHandleGet<ReturnDataType>({
 	getFn,
 	queryKey,
 	enabled = false,
 	onError,
+	onSuccess,
 }: UseHandleGetProps<ReturnDataType>) {
 	const { isConnected } = useNetInfo()
 	const isfethingNetinfo = isConnected === null
@@ -59,6 +61,12 @@ export function useHandleGet<ReturnDataType>({
 			onError?.(error.message)
 		}
 	}, [error])
+
+	useEffect(() => {
+		if (isSuccess && data) {
+			onSuccess?.(data)
+		}
+	}, [isSuccess, data])
 
 	return {
 		data: data ?? null,

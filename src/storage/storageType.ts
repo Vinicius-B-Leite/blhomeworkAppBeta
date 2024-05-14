@@ -1,7 +1,9 @@
+import { THEME_STORAGE_KEY } from "@/contextsProviders"
 import { AUTH_STORAGE_KEY } from "@/modules/auth/storage"
 
 const KEYS = {
 	auth: AUTH_STORAGE_KEY,
+	theme: THEME_STORAGE_KEY,
 }
 
 export type StorageKeys = keyof typeof KEYS

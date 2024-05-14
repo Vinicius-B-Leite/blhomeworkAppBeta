@@ -16,6 +16,7 @@ export * from "./SunSvg"
 export * from "./UploadSvg"
 export * from "./UserSvg"
 export * from "./WarningSvg"
+export * from "./MoonSvg"
 
 export * from "./CloseSvg"
 export * from "./TrashSvg"

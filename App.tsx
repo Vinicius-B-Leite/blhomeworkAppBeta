@@ -1,6 +1,3 @@
-import { Routes } from "@/routes"
-import { dark } from "@/theme"
-import { ThemeProvider } from "@shopify/restyle"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import {
 	useFonts,
@@ -17,15 +14,18 @@ import { LogBox } from "react-native"
 import { useCacheControll } from "@/hooks"
 import { useEffect } from "react"
 import {
-	getAllScheduleNotifications,
 	initializeNotifications,
 	requestNotificationPermisson,
 } from "@/service/notifications"
+import { Index } from "./src"
+import { dark } from "@/theme"
+import * as SplashScreen from "expo-splash-screen"
 
 LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"])
 
 const queryClient = new QueryClient()
 initializeNotifications()
+SplashScreen.preventAutoHideAsync()
 
 export default function App() {
 	useCacheControll()
@@ -44,14 +44,12 @@ export default function App() {
 	}
 
 	return (
-		<GestureHandlerRootView style={{ flex: 1 }}>
+		<GestureHandlerRootView style={{ flex: 1, backgroundColor: dark.colors.bg }}>
 			<QueryClientProvider client={queryClient}>
 				<SafeAreaProvider>
-					<ThemeProvider theme={dark}>
-						<ContextsProviders>
-							<Routes />
-						</ContextsProviders>
-					</ThemeProvider>
+					<ContextsProviders>
+						<Index />
+					</ContextsProviders>
 				</SafeAreaProvider>
 			</QueryClientProvider>
 		</GestureHandlerRootView>

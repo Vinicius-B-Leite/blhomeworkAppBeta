@@ -6,7 +6,7 @@ import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
 
 export const Header: React.FC = () => {
-	const { handleNavigateToProfile, handleToggleTheme, userName } = useHeader()
+	const { handleNavigateToProfile, handleToggleTheme, userName, theme } = useHeader()
 	return (
 		<Box
 			flexDirection="row"
@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
 			</PressableBox>
 
 			<PressableBox onPress={handleToggleTheme}>
-				<Icon name="sun" size={30} />
+				<Icon name={theme === "light" ? "sun" : "moon"} size={30} />
 			</PressableBox>
 		</Box>
 	)

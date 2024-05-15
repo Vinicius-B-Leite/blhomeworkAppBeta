@@ -10,6 +10,7 @@ import {
 import { ThemeContext as ThemeContextType, ThemeOptions } from "./type"
 
 import { storage } from "@/storage"
+import { themeStorage } from "./storage/themeStorage"
 
 export const ThemeContext = createContext({} as ThemeContextType)
 
@@ -27,7 +28,7 @@ export function ThemeContextProvider({ children }: PropsWithChildren) {
 
 	const getThemeFromCache = async () => {
 		setIsLoadingTheme(true)
-		const themeCache = await storage.getItem<ThemeOptions>({ key: "theme" })
+		const themeCache = await themeStorage.getThemeFromCache()
 		if (themeCache) {
 			setTheme(themeCache)
 		}
@@ -46,7 +47,7 @@ export function ThemeContextProvider({ children }: PropsWithChildren) {
 	}
 
 	const saveThemeOnCache = async (theme: ThemeOptions) => {
-		await storage.setItem("theme", theme)
+		await themeStorage.saveThemeOnCache(theme)
 	}
 
 	const toogleTheme = async () => {

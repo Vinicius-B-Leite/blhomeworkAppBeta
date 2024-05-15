@@ -7,6 +7,7 @@ import { Text } from "../Text/Text"
 
 export const Header: React.FC = () => {
 	const { handleNavigateToProfile, handleToggleTheme, userName, theme } = useHeader()
+	const iconName = theme === "light" ? "sun" : "moon"
 	return (
 		<Box
 			flexDirection="row"
@@ -34,7 +35,7 @@ export const Header: React.FC = () => {
 			</PressableBox>
 
 			<PressableBox onPress={handleToggleTheme}>
-				<Icon name={theme === "light" ? "sun" : "moon"} size={30} />
+				<Icon name={iconName} size={30} testID={iconName} />
 			</PressableBox>
 		</Box>
 	)

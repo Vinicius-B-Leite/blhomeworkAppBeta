@@ -1,4 +1,4 @@
-import { useThemeContext } from "@/contextsProviders/ThemeContext/ThemeContext"
+import { useThemeContext } from "@/contextsProviders"
 import { useAuth } from "@/modules/auth/context"
 import { useLogoutModelView } from "@/modules/auth/modelView"
 import { useAlertDispatch } from "@/store"

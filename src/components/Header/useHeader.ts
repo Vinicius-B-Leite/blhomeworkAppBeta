@@ -1,3 +1,4 @@
+import { useThemeContext } from "@/contextsProviders"
 import { useAuth } from "@/modules/auth/context"
 import { useLogoutModelView } from "@/modules/auth/modelView"
 import { useAlertDispatch } from "@/store"
@@ -5,7 +6,7 @@ import { useNavigation } from "@react-navigation/native"
 
 export const useHeader = () => {
 	const { user } = useAuth()
-
+	const { toogleTheme, theme } = useThemeContext()
 	const { logout } = useLogoutModelView()
 	const navigation = useNavigation()
 	const { showAlert } = useAlertDispatch()
@@ -30,12 +31,13 @@ export const useHeader = () => {
 		})
 	}
 	const handleToggleTheme = () => {
-		// TODO: implement theme toggle
+		toogleTheme()
 	}
 
 	return {
 		handleNavigateToProfile,
 		handleToggleTheme,
 		userName: user?.username,
+		theme,
 	}
 }

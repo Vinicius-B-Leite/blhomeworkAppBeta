@@ -13,7 +13,7 @@ type UseHandleGetProps<ReturnDataType> = {
 export function useHandleGet<ReturnDataType>({
 	getFn,
 	queryKey,
-	enabled = false,
+	enabled = true,
 	onError,
 	onSuccess,
 }: UseHandleGetProps<ReturnDataType>) {

@@ -11,6 +11,7 @@ import {
 import { ClassroomsScreen } from "../ClassroomsScreen"
 import { authStorage } from "@/modules/auth/storage"
 import { taskApi } from "@/modules/task/api"
+import { themeStorage } from "@/contextsProviders"
 
 const mockNavigate = jest.fn()
 jest.mock("@react-navigation/native", () => {
@@ -268,5 +269,26 @@ describe("integration: ClassroomScreen", () => {
 			expect(await screen.queryByText("Classroom 3")).not.toBeVisible()
 		})
 		screen.unmount()
+	})
+	it("should toggle theme", async () => {
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
+			mocks.classroomApiResponse
+		)
+		jest.spyOn(themeStorage, "getThemeFromCache").mockResolvedValue("light")
+		const mockSaveThemeOnCache = jest
+			.spyOn(themeStorage, "saveThemeOnCache")
+			.mockResolvedValue()
+
+		renderScreen(<ClassroomsScreen />)
+
+		const sunIcon = await screen.findByTestId("sun")
+
+		await act(() => {
+			fireEvent.press(sunIcon)
+		})
+
+		expect(await screen.findByTestId("moon")).toBeTruthy()
+		expect(mockSaveThemeOnCache).toHaveBeenCalledWith("dark")
 	})
 })

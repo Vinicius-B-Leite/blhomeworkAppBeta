@@ -14,23 +14,27 @@ export type AuthContextType = {
 	user: UserType | null
 	updateUser: (userUpdated: UserType) => Promise<void>
 	logout: () => Promise<void>
+	isLoadingUser: boolean
 }
 
 const initialState: AuthContextType = {
 	user: null,
 	updateUser: async () => {},
 	logout: async () => {},
+	isLoadingUser: true,
 }
 const AuthContext = createContext<AuthContextType>(initialState)
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
 	const [user, setUser] = useState<UserType | null>(null)
+	const [isLoadingUser, setIsLoadingUser] = useState(true)
 
 	useEffect(() => {
 		const getUser = async () => {
+			setIsLoadingUser(true)
 			const userStorage = await authStorage.getUser()
-
 			setUser(userStorage)
+			setIsLoadingUser(false)
 		}
 		getUser()
 	}, [])
@@ -47,7 +51,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	}, [])
 
 	return (
-		<AuthContext.Provider value={{ user, updateUser, logout }}>
+		<AuthContext.Provider value={{ user, updateUser, logout, isLoadingUser }}>
 			{children}
 		</AuthContext.Provider>
 	)

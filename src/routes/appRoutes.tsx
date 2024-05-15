@@ -2,7 +2,7 @@ import React from "react"
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { View } from "react-native"
-import { useAppTheme } from "@/hooks"
+import { useAppSafeArea, useAppTheme } from "@/hooks"
 import { Icon } from "@/components"
 import { ClassRoomRoutes } from "@/modules/classroom/routes/classroomRoutes"
 import { ClassroomRouteType } from "@/modules/classroom/routes/classroomRoutesTypes"
@@ -14,6 +14,7 @@ type AppRoutesProps = {
 }
 export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName }) => {
 	const theme = useAppTheme()
+	const { bottom } = useAppSafeArea()
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -22,6 +23,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName 
 					backgroundColor: theme.colors.secondsBg,
 					borderTopWidth: 0,
 					padding: theme.spacing[12],
+					paddingBottom: bottom,
 				},
 				tabBarShowLabel: false,
 			}}>

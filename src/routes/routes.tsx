@@ -3,14 +3,19 @@ import { useAppTheme } from "@/hooks/useAppTheme"
 import { useAuth } from "@/modules/auth/context"
 import { AuthRoutes } from "@/modules/auth/routes"
 
-import { NavigationContainer, useTheme } from "@react-navigation/native"
+import {
+	NavigationContainer,
+	useTheme as useNavigationTheme,
+} from "@react-navigation/native"
 import { StatusBar } from "react-native"
 import { AppRoutes } from "./appRoutes"
+import { useThemeContext } from "@/contextsProviders"
 
 export const Routes = () => {
 	const theme = useAppTheme()
+	const isDarkTheme = useThemeContext().theme === "dark"
 	const { user } = useAuth()
-	const navigationTheme = useTheme()
+	const navigationTheme = useNavigationTheme()
 
 	navigationTheme.colors.background = theme.colors.bg
 
@@ -18,7 +23,7 @@ export const Routes = () => {
 		<Box bg="bg" flex={1}>
 			<NavigationContainer theme={navigationTheme}>
 				<StatusBar
-					barStyle={"light-content"}
+					barStyle={isDarkTheme ? "light-content" : "dark-content"}
 					translucent
 					backgroundColor={"transparent"}
 				/>

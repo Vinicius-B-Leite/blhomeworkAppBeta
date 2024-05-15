@@ -34,7 +34,7 @@ export const Input: React.FC<InputProps> = ({
 				paddingVertical={14}
 				paddingHorizontal={20}
 				{...boxProps}>
-				<Box testID="inputBox" flexDirection="row" gap={14}>
+				<Box testID="inputBox" alignItems="center" flexDirection="row" gap={14}>
 					{LeftIcon}
 					<TextInput
 						onPressIn={() => onPress?.() || inputRef.current?.focus()}
@@ -43,10 +43,11 @@ export const Input: React.FC<InputProps> = ({
 						placeholderTextColor={theme.colors.secondText}
 						style={[
 							{
+								...textPresets.pMedium,
 								flex: 1,
 								color: theme.colors.text,
-								...textPresets.pMedium,
 								padding: 0,
+								paddingVertical: 0,
 								paddingBottom: 0,
 							},
 							style,

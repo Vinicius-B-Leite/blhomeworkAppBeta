@@ -7,7 +7,7 @@ import { useAppTheme } from "@/hooks"
 export const SunSvg: React.FC<BaseIconProps> = ({ color, size, testID }) => {
 	const theme = useAppTheme()
 	return (
-		<Svg width={size} height={size} viewBox="0 0 25 25" fill="none">
+		<Svg width={size} height={size} viewBox="0 0 25 25" fill="none" testID={testID}>
 			<G clip-path="url(#clip0_305_17)">
 				<Path
 					d="M12.528 17C15.3981 17 17.7247 14.7614 17.7247 12C17.7247 9.23858 15.3981 7 12.528 7C9.65803 7 7.33142 9.23858 7.33142 12C7.33142 14.7614 9.65803 17 12.528 17Z"

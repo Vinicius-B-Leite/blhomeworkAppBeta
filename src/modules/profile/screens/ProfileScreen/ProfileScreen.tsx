@@ -12,7 +12,7 @@ import ImageNotFound from "@/assets/images/ImageNotfound.png"
 import { useProfileScreenViewController } from "./profileScreen.viewController"
 import { string } from "zod"
 
-const ProfileScreen: React.FC = () => {
+export const ProfileScreen: React.FC = () => {
 	const { user, handleToggleTheme, theme, logout, handleNavigateToUpdateProfile } =
 		useProfileScreenViewController()
 
@@ -95,5 +95,3 @@ const ProfileScreen: React.FC = () => {
 		</Container>
 	)
 }
-
-export default ProfileScreen

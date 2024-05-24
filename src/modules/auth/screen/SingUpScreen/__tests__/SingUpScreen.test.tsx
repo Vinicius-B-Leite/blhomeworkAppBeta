@@ -57,7 +57,7 @@ describe("integration: SingUpScreen", () => {
 	})
 	it("should create a user if all fields are valid", async () => {
 		jest.useFakeTimers()
-		jest.spyOn(authApi, "updateUserTable").mockResolvedValue()
+		jest.spyOn(authApi, "insertUserTable").mockResolvedValue()
 		jest.spyOn(authApi, "singUp").mockResolvedValue({
 			session: {
 				access_token: mocks.user.token,

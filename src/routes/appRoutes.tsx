@@ -6,6 +6,7 @@ import { useAppSafeArea, useAppTheme } from "@/hooks"
 import { Icon } from "@/components"
 import { ClassRoomRoutes } from "@/modules/classroom/routes/classroomRoutes"
 import { ClassroomRouteType } from "@/modules/classroom/routes/classroomRoutesTypes"
+import ProfileRoutes from "@/modules/profile/routes/profileRoutes"
 
 const Tab = createBottomTabNavigator()
 
@@ -60,7 +61,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName 
 			/>
 			<Tab.Screen
 				name="ProfileRoutes"
-				component={View}
+				component={ProfileRoutes}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<Icon

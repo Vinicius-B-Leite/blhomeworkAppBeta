@@ -40,8 +40,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	}, [])
 
 	const updateUser = useCallback(async (userUpdated: UserType) => {
-		setUser(userUpdated)
-		await authStorage.updateUser(userUpdated)
+		const newUser: UserType = {
+			email: userUpdated.email,
+			username: userUpdated.username,
+			avatarUrl: userUpdated.avatarUrl,
+			refreshtoken: userUpdated.refreshtoken,
+			token: userUpdated.token,
+			uid: userUpdated.uid,
+		}
+		setUser(newUser)
+		await authStorage.updateUser(newUser)
 	}, [])
 
 	const logout = useCallback(async () => {

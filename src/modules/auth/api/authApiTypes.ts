@@ -15,5 +15,7 @@ export type AuthApi = {
 	loginWithEmail: (props: LoginWithEmailProps) => Promise<AuthLoginResponse>
 	sendEmailToResetPassword: (email: string) => Promise<void>
 	singOut: () => Promise<void>
-	updateUserTable: (user: UserType) => Promise<void>
+	insertUserTable: (
+		user: Pick<UserType, "uid" | "email" | "username" | "avatarUrl">
+	) => Promise<void>
 }

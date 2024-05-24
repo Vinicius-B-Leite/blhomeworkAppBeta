@@ -13,8 +13,17 @@ jest.mock("@/contextsProviders", () => ({
 		toogleTheme: mockToogleTheme,
 	}),
 }))
+
+const mockNavigate = jest.fn()
+jest.mock("@react-navigation/native", () => ({
+	...jest.requireActual("@react-navigation/native"),
+	useNavigation: () => ({
+		navigate: mockNavigate,
+	}),
+}))
+
 describe("components: Header", () => {
-	it("should call show Alert to logout when it was clicked", async () => {
+	it("should navigate to profile screen", async () => {
 		const logoutApi = jest.fn()
 		const logoutStorage = jest.fn()
 
@@ -29,18 +38,11 @@ describe("components: Header", () => {
 		})
 		renderScreen(<Header />)
 
-		const username = await screen.findByText("username")
 		await act(async () => {
-			fireEvent.press(username)
+			fireEvent.press(await screen.findByText("username"))
 		})
 
-		const yesAlertOption = await screen.findByText("Sim")
-		await act(async () => {
-			fireEvent.press(yesAlertOption)
-		})
-
-		expect(logoutApi).toHaveBeenCalledTimes(1)
-		expect(logoutStorage).toHaveBeenCalledTimes(1)
+		expect(mockNavigate).toHaveBeenCalledWith("ProfileRoutes", { screen: "Profile" })
 	})
 	it("should call toggleTheme when click on the icon", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue({

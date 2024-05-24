@@ -14,7 +14,7 @@ const user: UserType = {
 
 describe("modelView: useSingUpModelView", () => {
 	it("should calls onSuccess when mutation is successful", async () => {
-		jest.spyOn(authApi, "updateUserTable").mockResolvedValue()
+		jest.spyOn(authApi, "insertUserTable").mockResolvedValue()
 
 		jest.spyOn(authApi, "singUp").mockResolvedValue({
 			session: {

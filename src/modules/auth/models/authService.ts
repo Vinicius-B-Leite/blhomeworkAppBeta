@@ -12,7 +12,7 @@ const singUp = async (user: SingUpProps) => {
 			email: user.email.toLowerCase(),
 		})
 		const userParsed = authAdapter.authSingupResponseToUser(response)
-		await authApi.updateUserTable(userParsed)
+		await authApi.insertUserTable(userParsed)
 		return userParsed
 	} catch (error) {
 		throw error

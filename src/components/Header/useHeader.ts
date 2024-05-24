@@ -1,33 +1,15 @@
 import { useThemeContext } from "@/contextsProviders"
 import { useAuth } from "@/modules/auth/context"
-import { useLogoutModelView } from "@/modules/auth/modelView"
-import { useAlertDispatch } from "@/store"
+
 import { useNavigation } from "@react-navigation/native"
 
 export const useHeader = () => {
 	const { user } = useAuth()
 	const { toogleTheme, theme } = useThemeContext()
-	const { logout } = useLogoutModelView()
 	const navigation = useNavigation()
-	const { showAlert } = useAlertDispatch()
 	const handleNavigateToProfile = () => {
-		//navigation.navigate("")
-		showAlert({
-			title: "Atenção",
-			message: "Deseja realmente sair da conta?",
-			buttons: [
-				{
-					type: "confirm",
-					text: "Sim",
-					onPress: () => {
-						logout()
-					},
-				},
-				{
-					type: "cancel",
-					text: "Não",
-				},
-			],
+		navigation.navigate("ProfileRoutes", {
+			screen: "Profile",
 		})
 	}
 	const handleToggleTheme = () => {
@@ -38,6 +20,8 @@ export const useHeader = () => {
 		handleNavigateToProfile,
 		handleToggleTheme,
 		userName: user?.username,
+		avatar: user?.avatarUrl,
+
 		theme,
 	}
 }

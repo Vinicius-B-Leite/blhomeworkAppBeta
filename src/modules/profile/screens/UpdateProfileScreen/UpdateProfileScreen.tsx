@@ -12,9 +12,18 @@ import {
 import React from "react"
 import { useUpdateProfileScreenViewController } from "./updateProfile.viewController"
 import NotFoundImage from "@/assets/images/ImageNotfound.png"
+
 export const UpdateProfileScreen: React.FC = () => {
-	const { user, control, errors, submit, isValid, handleSelectImage, avatarUrl } =
-		useUpdateProfileScreenViewController()
+	const {
+		user,
+		control,
+		errors,
+		submit,
+		isValid,
+		handleSelectImage,
+		avatarUrl,
+		isLoading,
+	} = useUpdateProfileScreenViewController()
 
 	return (
 		<Container
@@ -67,7 +76,11 @@ export const UpdateProfileScreen: React.FC = () => {
 						errorMessage={errors.confirmPassword?.message}
 					/>
 
-					<Button onPress={submit} disabled={!isValid} mt={14}>
+					<Button
+						onPress={submit}
+						disabled={!isValid}
+						isloading={isLoading}
+						mt={14}>
 						Salvar
 					</Button>
 				</Box>

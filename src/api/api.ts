@@ -7,15 +7,18 @@ import { mimeTypes } from "@/constant"
 
 export const api: Api = {
 	uploadFile: async (props) => {
-		const { base64, bucketName, contentType, uri } = props
+		const { base64, bucketName, contentType, uri, folder } = props
 		const fileName = uuid.v4().toString()
 		const extension = getExtension(uri)
 
 		const arrayBuffer = decode(base64)
 
+		const path = folder
+			? `${folder}/${fileName}${extension}`
+			: `${fileName}${extension}`
 		const { data: uploadedFile, error: errorOnUpload } = await supabase.storage
 			.from(bucketName)
-			.upload(`${fileName}${extension}`, arrayBuffer, {
+			.upload(path, arrayBuffer, {
 				contentType: mimeTypes[contentType],
 			})
 
@@ -31,5 +34,21 @@ export const api: Api = {
 		}
 
 		return { downloadUrl: pathUrl, type: contentType }
+	},
+	listFilesFromFolder: async ({ bucketName, folder }) => {
+		const { data, error } = await supabase.storage.from(bucketName).list(folder)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data.map((file) => ({ name: file.name }))
+	},
+	removeFiles: async ({ bucketName, filesPath }) => {
+		const { error } = await supabase.storage.from(bucketName).remove(filesPath)
+
+		if (error) {
+			throw new Error(error.message)
+		}
 	},
 }

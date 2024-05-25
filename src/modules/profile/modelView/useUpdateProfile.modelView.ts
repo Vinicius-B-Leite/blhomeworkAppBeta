@@ -8,7 +8,7 @@ import {
 	authenticate,
 	canUseLocalAuthentication,
 	getSubapaseProfileError,
-} from "../utils"
+} from "@/modules/profile/utils"
 import { UserUpdatedReturn } from "../models/profileTypes"
 
 type MutateProps = Omit<Parameters<typeof profileService.updateProfile>[0], "uid"> & {

@@ -72,6 +72,7 @@ export const ProfileScreen: React.FC = () => {
 							: ImageNotFound
 					}
 					size={150}
+					testID="avatar"
 				/>
 				<Text preset="pLargeBold" mt={8}>
 					{user?.username}

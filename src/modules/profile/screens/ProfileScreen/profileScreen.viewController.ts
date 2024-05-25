@@ -5,11 +5,15 @@ import { useNavigation } from "@react-navigation/native"
 
 export function useProfileScreenViewController() {
 	const { user, logout } = useAuth()
+
 	const navigation = useNavigation()
 	const { theme, toogleTheme } = useThemeContext()
 	const { showAlert } = useAlertDispatch()
+	console.log(theme)
 
 	const handleToggleTheme = () => {
+		console.log("handleToggleTheme")
+
 		toogleTheme()
 	}
 

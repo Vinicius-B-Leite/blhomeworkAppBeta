@@ -1,0 +1,33 @@
+name: CD
+
+on:
+    workflow_run:
+        workflows: ["CI"]
+        types:
+            - completed
+
+jobs:
+    CD:
+        name: Continuos Deployment
+        runs-on: ubuntu-latest
+
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "22.x"
+
+            - name: Setup EAS
+              uses: expo/expo-github-action@v8
+              with:
+                  expo-version: lastest
+                  package: npm
+                  token: ${{ secrets.EAS_EXPO_TOKEN }}
+
+            - name: Build
+              run: eas build --platform android --profile preview --non-interactive --no-wait

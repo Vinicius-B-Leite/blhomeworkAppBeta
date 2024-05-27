@@ -20,14 +20,17 @@ jobs:
             - name: Setup Node
               uses: actions/setup-node@v3
               with:
-                  node-version: "22.x"
+                  node-version: "18.x"
 
             - name: Setup EAS
               uses: expo/expo-github-action@v8
               with:
-                  expo-version: latest
+                  eas-version: latest
                   package: npm
                   token: ${{ secrets.EAS_EXPO_TOKEN }}
+
+            - name: Install dependencies
+              run: npm install
 
             - name: Build
               run: npx eas build --platform android --profile preview --non-interactive --no-wait

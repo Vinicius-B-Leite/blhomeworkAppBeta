@@ -17,6 +17,7 @@ export const TaskDetailsScreen: React.FC = () => {
 		isLoading,
 		markTaskAsDone,
 		id,
+		isDone,
 	} = useTaskDetailsScreenViewController()
 
 	const renderHeader = useCallback(
@@ -66,13 +67,17 @@ export const TaskDetailsScreen: React.FC = () => {
 			goBack={{
 				title: subject.name,
 			}}
-			submitButton={{
-				onPress: () => {
-					markTaskAsDone({ taskId: id })
-				},
-				isLoading,
-				title: "concluir",
-			}}>
+			submitButton={
+				!isDone
+					? {
+							onPress: () => {
+								markTaskAsDone({ taskId: id })
+							},
+							isLoading,
+							title: "concluir",
+					  }
+					: undefined
+			}>
 			<List
 				data={uploads}
 				keyExtractor={(item) => item.id.toString()}

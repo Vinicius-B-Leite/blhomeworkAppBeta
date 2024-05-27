@@ -41,6 +41,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 			</PressableBox>
 			{shouldShowDarkMask && (
 				<PressableBox
+					onPress={() => onPress()}
 					onLongPress={onLongPress}
 					borderRadius={8}
 					width={"100%"}

@@ -34,5 +34,6 @@ export function useTaskDetailsScreenViewController() {
 		markTaskAsDone,
 		isLoading,
 		id,
+		isDone,
 	}
 }

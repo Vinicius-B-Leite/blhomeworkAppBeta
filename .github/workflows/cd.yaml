@@ -33,4 +33,4 @@ jobs:
               run: npm install
 
             - name: Build
-              run: npx eas build --platform android --profile preview --non-interactive --no-wait
+              run: eas build --platform android --profile preview --non-interactive --no-wait

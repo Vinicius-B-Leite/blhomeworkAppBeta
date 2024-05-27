@@ -29,8 +29,8 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 			const taskIdsHasNotification = allTaskNotifications.map(
 				(t) => t.content.data.taskId
 			)
-
-			for (const t of task) {
+			const tasksUnDone = task.filter((t) => !t.isDone)
+			for (const t of tasksUnDone) {
 				const taskNotificationAlreadyScheduled = taskIdsHasNotification.includes(
 					t.id
 				)

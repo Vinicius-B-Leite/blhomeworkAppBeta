@@ -18,7 +18,7 @@ export function useUpdateProfileScreenViewController() {
 				type: "success",
 				message: "Perfil atualizado com sucesso!",
 			})
-			navigation.goBack()
+			navigation.navigate("ProfileRoutes", { screen: "Profile" })
 		},
 		onError: (error) => {
 			const message = error?.message || "Ocorreu um erro ao atualizar o perfil!"
@@ -56,6 +56,7 @@ export function useUpdateProfileScreenViewController() {
 
 	const handleSelectImage = async () => {
 		const res = await pickImage()
+
 		setValue("avatar", res?.uri)
 		if (res?.base64) {
 			setValue("base64", res?.base64)

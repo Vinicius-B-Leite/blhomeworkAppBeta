@@ -38,6 +38,7 @@ export const UpdateProfileScreen: React.FC = () => {
 					<CircleImage
 						source={avatarUrl ? { uri: avatarUrl } : NotFoundImage}
 						size={150}
+						testID="avatar-image"
 					/>
 					<Box
 						style={{ position: "absolute", bottom: 20 }}

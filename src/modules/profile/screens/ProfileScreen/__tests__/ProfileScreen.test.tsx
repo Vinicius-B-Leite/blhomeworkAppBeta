@@ -66,8 +66,6 @@ describe("integration: ProfileScreen", () => {
 			fireEvent.press(themeButton)
 		})
 
-		console.log(themeButton.props)
-
 		await waitFor(() =>
 			expect(themeButton.props.style[0].color).toBe(dark.colors.text)
 		)

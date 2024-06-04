@@ -158,7 +158,7 @@ const tasks: TaskApiResponse[] = [
 			updated_at: null,
 		},
 		classroom_id: "classroom_id_3",
-		dead_line: "2024-03-23T12:00:00Z",
+		dead_line: new Date().toISOString(), //"2024-03-23T12:00:00Z",
 		description: "Descrição da tarefa 3",
 		id: "task_id_3",
 		subject: {

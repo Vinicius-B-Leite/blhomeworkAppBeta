@@ -8,6 +8,7 @@ import { formatDate } from "@/utils"
 import { useAppTheme } from "@/hooks"
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet"
 import UploadModal from "./components/UploadModal/UploadModal"
+import CalendarModal from "./components/CalendarModal/CalendarModal"
 
 export const UpsertTaskScreen: React.FC = () => {
 	const {
@@ -26,11 +27,12 @@ export const UpsertTaskScreen: React.FC = () => {
 		documentList,
 		removeDocument,
 		isUpdate,
+		bottomSheetRef,
+		handleOpenBottomSheet,
 	} = useUpsertTaskViewController()
 
-	const bottomSheetRef = useRef<BottomSheet>(null)
-
 	const theme = useAppTheme()
+
 	return (
 		<>
 			<Container
@@ -86,7 +88,7 @@ export const UpsertTaskScreen: React.FC = () => {
 							size: 26,
 						}}
 						text="Material de apoio"
-						onPress={() => bottomSheetRef.current?.expand()}
+						onPress={handleOpenBottomSheet}
 						errorMessage={errors.uploads?.message}
 					/>
 
@@ -101,22 +103,16 @@ export const UpsertTaskScreen: React.FC = () => {
 					/>
 				</Box>
 
-				{showDatePicker && (
-					<DateTimePicker
-						testID="dateTimePicker"
-						value={deadLine ?? new Date()}
-						onChange={(_, date) => {
-							if (date) {
-								handleSelectDate(date)
-							}
-							closeDatePicker()
-						}}
-					/>
-				)}
+				<CalendarModal
+					date={deadLine ?? new Date()}
+					onDateSave={(date) => date && handleSelectDate(date)}
+					closeCalendar={closeDatePicker}
+					visible={showDatePicker}
+				/>
 			</Container>
 			<BottomSheet
 				ref={bottomSheetRef}
-				snapPoints={["80%"]}
+				snapPoints={["95%"]}
 				enablePanDownToClose
 				enableContentPanningGesture={false}
 				index={-1}

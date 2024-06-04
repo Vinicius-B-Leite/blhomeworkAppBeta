@@ -1,4 +1,5 @@
 import { fonts } from "@/theme"
+import { RFValue } from "react-native-responsive-fontsize"
 
 const textVariants = {
 	pSmall: "pSmall",
@@ -16,65 +17,54 @@ const textVariants = {
 
 type TextStyle = {
 	fontSize: number
-	lineHeight: number
+	lineHeight?: number
 	fontFamily: string
 }
 
 export const textPresets: Record<keyof typeof textVariants, TextStyle> = {
 	pSmall: {
-		fontSize: 12,
-		lineHeight: 22,
+		fontSize: RFValue(12),
 		fontFamily: fonts.REGULAR,
 	},
 	pMedium: {
-		fontSize: 16,
-		lineHeight: 26,
+		fontSize: RFValue(14),
 		fontFamily: fonts.REGULAR,
 	},
 	pMediumBold: {
-		fontSize: 16,
-		lineHeight: 26,
+		fontSize: RFValue(14),
 		fontFamily: fonts.BOLD,
 	},
 	pLarge: {
-		fontSize: 20,
-		lineHeight: 30,
+		fontSize: RFValue(18),
 		fontFamily: fonts.REGULAR,
 	},
 	pLargeBold: {
-		fontSize: 20,
-		lineHeight: 30,
+		fontSize: RFValue(18),
 		fontFamily: fonts.BOLD,
 	},
 	tSmall: {
-		fontSize: 24,
-		lineHeight: 34,
+		fontSize: RFValue(22),
 		fontFamily: fonts.REGULAR,
 	},
 	tSmallBold: {
-		fontSize: 24,
-		lineHeight: 34,
+		fontSize: RFValue(22),
 		fontFamily: fonts.BOLD,
 	},
 	tMedium: {
-		fontSize: 28,
-		lineHeight: 38,
+		fontSize: RFValue(26),
 		fontFamily: fonts.REGULAR,
 	},
 	tMediumBold: {
-		fontSize: 28,
-		lineHeight: 38,
+		fontSize: RFValue(26),
 		fontFamily: fonts.BOLD,
 	},
 	tLarge: {
-		fontSize: 32,
-		lineHeight: 42,
+		fontSize: RFValue(30),
 		fontFamily: fonts.REGULAR,
 	},
 
 	tLargeItalic: {
-		fontSize: 32,
-		lineHeight: 42,
+		fontSize: RFValue(30),
 		fontFamily: fonts.REGULAR_ITALIC,
 	},
 }

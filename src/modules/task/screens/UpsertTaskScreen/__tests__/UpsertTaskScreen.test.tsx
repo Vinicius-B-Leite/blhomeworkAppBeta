@@ -8,6 +8,8 @@ import { AppRoutes } from "@/routes/appRoutes"
 import { classroomApi } from "@/modules/classroom/api"
 import { authStorage } from "@/modules/auth/storage"
 import { api } from "@/api"
+import { months } from "@/modules/task/constants"
+import { formatDate } from "@/utils"
 
 jest.mock("@/modules/task/utils")
 
@@ -51,7 +53,6 @@ describe("integration: UpsertTaskScreen", () => {
 		screen.unmount()
 	})
 	it("it should create a task with title, subject and deadline", async () => {
-		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 
@@ -89,8 +90,15 @@ describe("integration: UpsertTaskScreen", () => {
 		const deadLine = await screen.findByText("Entrega")
 		await act(() => fireEvent.press(deadLine))
 
-		const datePicker = await screen.findByTestId("dateTimePicker")
-		fireEvent(datePicker, "onChange", null, new Date(mocks.tasks[2].dead_line))
+		const month = new Date(mocks.tasks[2].dead_line).getMonth()
+		const day = new Date(mocks.tasks[2].dead_line).getDay().toString()
+
+		const selectedMonth = await screen.findByTestId("selected-month")
+
+		await act(() => fireEvent.press(selectedMonth))
+		await act(() => fireEvent.press(screen.getByText(months[month + 1])))
+		await act(() => fireEvent.press(screen.getByText((Number(day) + 1).toString())))
+		await act(() => fireEvent.press(screen.getByText("salvar")))
 
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValueOnce(mocks.tasks)
 
@@ -149,8 +157,15 @@ describe("integration: UpsertTaskScreen", () => {
 		const deadLine = await screen.findByText("Entrega")
 		await act(() => fireEvent.press(deadLine))
 
-		const datePicker = await screen.findByTestId("dateTimePicker")
-		fireEvent(datePicker, "onChange", null, new Date(mocks.tasks[2].dead_line))
+		const month = new Date(mocks.tasks[2].dead_line).getMonth()
+		const day = new Date(mocks.tasks[2].dead_line).getDay().toString()
+
+		const selectedMonth = await screen.findByTestId("selected-month")
+
+		await act(() => fireEvent.press(selectedMonth))
+		await act(() => fireEvent.press(screen.getByText(months[month + 1])))
+		await act(() => fireEvent.press(screen.getByText((Number(day) + 1).toString())))
+		await act(() => fireEvent.press(screen.getByText("salvar")))
 
 		const uploadButton = await screen.findByText("Material de apoio")
 		fireEvent.press(uploadButton)
@@ -213,8 +228,15 @@ describe("integration: UpsertTaskScreen", () => {
 		const deadLine = await screen.findByText("Entrega")
 		await act(() => fireEvent.press(deadLine))
 
-		const datePicker = await screen.findByTestId("dateTimePicker")
-		fireEvent(datePicker, "onChange", null, new Date(mocks.tasks[2].dead_line))
+		const month = new Date(mocks.tasks[2].dead_line).getMonth()
+		const day = new Date(mocks.tasks[2].dead_line).getDay().toString()
+
+		const selectedMonth = await screen.findByTestId("selected-month")
+
+		await act(() => fireEvent.press(selectedMonth))
+		await act(() => fireEvent.press(screen.getByText(months[month + 1])))
+		await act(() => fireEvent.press(screen.getByText((Number(day) + 1).toString())))
+		await act(() => fireEvent.press(screen.getByText("salvar")))
 
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValueOnce(mocks.tasks)
 
@@ -245,7 +267,7 @@ describe("integration: UpsertTaskScreen", () => {
 		})
 
 		await waitFor(() => expect(screen.getByText("Tarefas")).toBeTruthy())
-		const firstTask = await screen.findByText(mocks.tasks[0].title)
+		const firstTask = await screen.findByText(mocks.tasks[2].title)
 
 		await act(async () => {
 			fireEvent(firstTask, "longPress")
@@ -260,6 +282,22 @@ describe("integration: UpsertTaskScreen", () => {
 
 		const titleInput = await screen.findByPlaceholderText("Título")
 		fireEvent.changeText(titleInput, "Another new title")
+
+		const month = new Date(mocks.tasks[2].dead_line).getMonth()
+		const day = new Date(mocks.tasks[2].dead_line).getDay().toString()
+
+		await act(() =>
+			fireEvent.press(
+				screen.getByText(formatDate(new Date(mocks.tasks[2].dead_line)))
+			)
+		)
+
+		const selectedMonth = await screen.findByTestId("selected-month")
+
+		await act(() => fireEvent.press(selectedMonth))
+		await act(() => fireEvent.press(screen.getByText(months[month + 1])))
+		await act(() => fireEvent.press(screen.getByText((Number(day) + 1).toString())))
+		await act(() => fireEvent.press(screen.getByText("salvar")))
 
 		const updateButton = await screen.findByText("Salvar")
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(
@@ -295,7 +333,7 @@ describe("integration: UpsertTaskScreen", () => {
 		})
 
 		await waitFor(() => expect(screen.getByText("Tarefas")).toBeTruthy())
-		const firstTask = await screen.findByText(mocks.tasks[0].title)
+		const firstTask = await screen.findByText(mocks.tasks[2].title)
 
 		await act(async () => {
 			fireEvent(firstTask, "longPress")
@@ -311,10 +349,26 @@ describe("integration: UpsertTaskScreen", () => {
 		const titleInput = await screen.findByPlaceholderText("Título")
 		fireEvent.changeText(titleInput, "Another new title")
 
+		const month = new Date(mocks.tasks[2].dead_line).getMonth()
+		const day = new Date(mocks.tasks[2].dead_line).getDay().toString()
+
+		await act(() =>
+			fireEvent.press(
+				screen.getByText(formatDate(new Date(mocks.tasks[2].dead_line)))
+			)
+		)
+
+		const selectedMonth = await screen.findByTestId("selected-month")
+
+		await act(() => fireEvent.press(selectedMonth))
+		await act(() => fireEvent.press(screen.getByText(months[month + 1])))
+		await act(() => fireEvent.press(screen.getByText((Number(day) + 1).toString())))
+		await act(() => fireEvent.press(screen.getByText("salvar")))
+
 		const updateButton = await screen.findByText("Salvar")
 		jest.spyOn(taskApi, "getTaskList").mockResolvedValue(
 			mocks.tasks.map((t) =>
-				t.title == mocks.tasks[0].title ? { ...t, title: "Another new title" } : t
+				t.title == mocks.tasks[2].title ? { ...t, title: "Another new title" } : t
 			)
 		)
 		await act(async () => {

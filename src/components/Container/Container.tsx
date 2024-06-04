@@ -14,6 +14,7 @@ type ContainerProps = React.PropsWithChildren &
 		goBack?: {
 			title: string
 			righComponent?: React.ReactNode
+			onPress?: () => void
 		}
 		submitButton?: {
 			onPress: () => void
@@ -38,7 +39,13 @@ export const Container: React.FC<ContainerProps> = ({
 
 	const Wrapper = scrollable ? ScrollBox : Box
 
-	const handleGoBack = () => navigation.goBack()
+	const handleGoBack = () => {
+		if (goBack?.onPress) {
+			goBack.onPress()
+			return
+		}
+		navigation.goBack()
+	}
 
 	return (
 		<Box

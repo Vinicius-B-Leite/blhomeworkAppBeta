@@ -1,4 +1,4 @@
-import { Box, Container, FormInput, Icon, Input, Text } from "@/components"
+import { Box, Container, FormInput, Icon, Input, PressableBox, Text } from "@/components"
 import React, { useCallback, useRef } from "react"
 import Options from "./components/Options/Options"
 
@@ -9,6 +9,7 @@ import { useAppTheme } from "@/hooks"
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet"
 import UploadModal from "./components/UploadModal/UploadModal"
 import CalendarModal from "./components/CalendarModal/CalendarModal"
+import { Platform } from "react-native"
 
 export const UpsertTaskScreen: React.FC = () => {
 	const {
@@ -27,15 +28,18 @@ export const UpsertTaskScreen: React.FC = () => {
 		documentList,
 		removeDocument,
 		isUpdate,
+		isBottomSheetOpen,
 		bottomSheetRef,
 		handleOpenBottomSheet,
+		handleCloseBottomSheet,
 	} = useUpsertTaskViewController()
 
 	const theme = useAppTheme()
-
+	const isWeb = Platform.OS === "web"
 	return (
 		<>
 			<Container
+				zIndex={2}
 				scrollable
 				submitButton={{
 					onPress: handleCreateTask,
@@ -110,27 +114,57 @@ export const UpsertTaskScreen: React.FC = () => {
 					visible={showDatePicker}
 				/>
 			</Container>
+
+			{isBottomSheetOpen && (
+				<PressableBox
+					onPress={handleCloseBottomSheet}
+					width={"100%"}
+					height={"100%"}
+					flex={1}
+					style={{
+						position: "absolute",
+						top: 0,
+						left: 0,
+						backgroundColor: "rgba(0, 0, 0, 0.7)",
+					}}
+				/>
+			)}
 			<BottomSheet
 				ref={bottomSheetRef}
-				snapPoints={["95%"]}
+				snapPoints={["80%"]}
+				onClose={handleCloseBottomSheet}
 				enablePanDownToClose
+				enableHandlePanningGesture={!isWeb}
 				enableContentPanningGesture={false}
 				index={-1}
 				backgroundStyle={{
 					backgroundColor: theme.colors.secondsBg,
 				}}
+				style={{ zIndex: 10 }}
 				handleIndicatorStyle={{
 					backgroundColor: theme.colors.text,
 					width: "50%",
+					display: isWeb ? "none" : "flex",
+					marginVertical: theme.spacing[12],
 				}}
 				handleStyle={{
 					backgroundColor: theme.colors.secondsBg,
 				}}>
-				<UploadModal
-					removeDocument={removeDocument}
-					uploads={documentList}
-					selectDocuments={selectDocuments}
-				/>
+				<>
+					{isWeb && (
+						<PressableBox
+							onPress={handleCloseBottomSheet}
+							ml={24}
+							alignSelf="flex-start">
+							<Icon name="close" size={34} />
+						</PressableBox>
+					)}
+					<UploadModal
+						removeDocument={removeDocument}
+						uploads={documentList}
+						selectDocuments={selectDocuments}
+					/>
+				</>
 			</BottomSheet>
 		</>
 	)

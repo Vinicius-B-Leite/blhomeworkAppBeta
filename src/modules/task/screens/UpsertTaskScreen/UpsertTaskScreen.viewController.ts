@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { CreateTaskScreenSchema, createTaskScreenSchema } from "./upsertTaskScreenSchmea"
 import { useRef, useState } from "react"
 import { Subject, File } from "@/modules/task/model"
@@ -14,6 +14,7 @@ import { Keyboard } from "react-native"
 export function useUpsertTaskViewController() {
 	const navigation = useNavigation()
 	const [showDatePicker, setShowDatePicker] = useState(false)
+	const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
 	const params = useRouteParams("UpsertTask")
 	const classroomId = params!.classroomId
 	const isUpdate = params!.isUpdate
@@ -146,8 +147,13 @@ export function useUpsertTaskViewController() {
 	const handleOpenBottomSheet = () => {
 		bottomSheetRef.current?.expand()
 		Keyboard.dismiss()
+		setIsBottomSheetOpen(true)
 	}
+	const handleCloseBottomSheet = () => {
+		bottomSheetRef.current?.close()
 
+		setIsBottomSheetOpen(false)
+	}
 	return {
 		control,
 		isLoading: isUpdateLoading || isLoading,
@@ -166,5 +172,7 @@ export function useUpsertTaskViewController() {
 		isUpdate,
 		bottomSheetRef,
 		handleOpenBottomSheet,
+		handleCloseBottomSheet,
+		isBottomSheetOpen,
 	}
 }

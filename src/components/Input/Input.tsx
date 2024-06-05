@@ -28,7 +28,7 @@ export const Input: React.FC<InputProps> = ({
 		<>
 			<PressableBox
 				onPress={() => onPress?.() || inputRef.current?.focus()}
-				activeOpacity={0}
+				activeOpacity={1}
 				width={"100%"}
 				bg="secondsBg"
 				borderRadius={10}

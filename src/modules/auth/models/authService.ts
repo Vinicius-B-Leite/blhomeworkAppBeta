@@ -42,10 +42,19 @@ const logout = async () => {
 		await authApi.singOut()
 	} catch (error) {}
 }
+const getUserData = async (uid: string) => {
+	try {
+		const response = await authApi.getUserData(uid)
+		return response
+	} catch (error) {
+		throw error
+	}
+}
 
 export const authService = {
 	singUp,
 	loginWithEmail,
 	resetPasswordsForEmail,
 	logout,
+	getUserData,
 }

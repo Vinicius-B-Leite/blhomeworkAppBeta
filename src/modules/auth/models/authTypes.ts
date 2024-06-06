@@ -7,6 +7,13 @@ export type UserType = {
 	refreshtoken: string
 }
 
+export type AuthTableResponde = {
+	avatar_url: string | null | undefined
+	email: string
+	id: string
+	user_name: string
+}
+
 type AuthUserResponse = {
 	app_metadata: {
 		provider: string

@@ -26,16 +26,23 @@ describe("components: Header", () => {
 	it("should navigate to profile screen", async () => {
 		const logoutApi = jest.fn()
 		const logoutStorage = jest.fn()
-
-		jest.spyOn(authApi, "singOut").mockImplementation(logoutApi)
-		jest.spyOn(storage, "removeItem").mockImplementation(logoutStorage)
-		jest.spyOn(authStorage, "getUser").mockResolvedValue({
+		const user = {
 			email: "email",
 			username: "username",
 			refreshtoken: "refreshtoken",
 			token: "token",
 			uid: "uid",
+		}
+		jest.spyOn(authApi, "singOut").mockImplementation(logoutApi)
+		jest.spyOn(storage, "removeItem").mockImplementation(logoutStorage)
+		jest.spyOn(authStorage, "getUser").mockResolvedValue(user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: user.email,
+			user_name: user.username,
+			avatar_url: "avatar_url",
+			id: user.uid,
 		})
+
 		renderScreen(<Header />)
 
 		await act(async () => {

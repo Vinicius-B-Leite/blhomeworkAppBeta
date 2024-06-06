@@ -62,4 +62,13 @@ export const authApi: AuthApi = {
 			throw new Error(error.message)
 		}
 	},
+	getUserData: async (uid: string) => {
+		const { data, error } = await supabase.from("user").select().eq("id", uid)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data[0]
+	},
 }

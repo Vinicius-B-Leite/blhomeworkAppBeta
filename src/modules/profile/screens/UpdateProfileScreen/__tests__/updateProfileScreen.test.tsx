@@ -4,6 +4,7 @@ import { authStorage } from "@/modules/auth/storage"
 import { updateProfileMock } from "./__mocks__/updateProfileScreenMocks"
 import { profileApi } from "@/modules/profile/api"
 import { api } from "@/api"
+import { authApi } from "@/modules/auth/api"
 
 jest.mock("@/utils/pickImage")
 jest.mock("@/modules/profile/utils/localAuthetication")
@@ -15,6 +16,14 @@ jest.mock("@react-navigation/native", () => ({
 	}),
 }))
 describe("integration: UpdateProfileScreen", () => {
+	beforeAll(() => {
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: updateProfileMock.user.email,
+			user_name: updateProfileMock.user.username,
+			avatar_url: updateProfileMock.user.avatarUrl,
+			id: updateProfileMock.user.uid,
+		})
+	})
 	it("should show error message when update profile fails", async () => {
 		const newAvatar = "file:///B38919D3-3937-453E-A52C-35CB7606A268.jpg"
 

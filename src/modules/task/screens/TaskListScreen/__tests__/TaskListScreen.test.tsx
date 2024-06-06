@@ -9,6 +9,7 @@ import { TaskListScreen } from "../TaskListScreen"
 import { taskApi } from "@/modules/task/api"
 import { mocks } from "./__mocks__/tasklistScreenMock"
 import { authStorage } from "@/modules/auth/storage"
+import { authApi } from "@/modules/auth/api"
 
 jest.mock("@/hooks", () => ({
 	...jest.requireActual("@/hooks"),
@@ -31,6 +32,12 @@ describe("integration: TaskListScreen", () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 	})
 	it("should show task list", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue({

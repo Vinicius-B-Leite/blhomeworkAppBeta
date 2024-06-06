@@ -12,6 +12,7 @@ import { ClassroomsScreen } from "../ClassroomsScreen"
 import { authStorage } from "@/modules/auth/storage"
 import { taskApi } from "@/modules/task/api"
 import { themeStorage } from "@/contextsProviders"
+import { authApi } from "@/modules/auth/api"
 
 const mockNavigate = jest.fn()
 jest.mock("@react-navigation/native", () => {
@@ -40,6 +41,12 @@ describe("integration: ClassroomScreen", () => {
 	})
 	it("should navigate to ClassroomSettingsScreen when animated header settings icon is pressed", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
@@ -96,6 +103,13 @@ describe("integration: ClassroomScreen", () => {
 		screen.unmount()
 	})
 	it("should show all classrooms", async () => {
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
+
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -112,7 +126,12 @@ describe("integration: ClassroomScreen", () => {
 	it("should show toast if error", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(classroomApi, "getClassrooms").mockRejectedValue({ message: "error" })
-
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		renderScreen(<ClassroomsScreen />)
 
 		expect(await screen.findByText("Erro ao buscar as salas!")).toBeVisible()
@@ -122,6 +141,12 @@ describe("integration: ClassroomScreen", () => {
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 
 		renderScreen(<ClassroomsScreen />)
 
@@ -138,7 +163,12 @@ describe("integration: ClassroomScreen", () => {
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
-
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		renderScreen(<ClassroomsScreen />)
 
 		const underlineBtn = await screen.findByText(/Entre em uma sala com um código/i)
@@ -163,7 +193,12 @@ describe("integration: ClassroomScreen", () => {
 		)
 		jest.spyOn(classroomApi, "leaveClassroom").mockResolvedValue()
 		jest.spyOn(classroomApi, "deleteClassroom").mockResolvedValue()
-
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		renderScreen(<ClassroomsScreen />)
 
 		const classroom = await screen.findByText("Classroom 2")
@@ -210,7 +245,12 @@ describe("integration: ClassroomScreen", () => {
 		)
 		jest.spyOn(classroomApi, "leaveClassroom").mockResolvedValue()
 		jest.spyOn(classroomApi, "deleteClassroom").mockResolvedValue()
-
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		renderScreen(<ClassroomsScreen />)
 
 		const classroom = await screen.findByText("Classroom 2")
@@ -247,7 +287,12 @@ describe("integration: ClassroomScreen", () => {
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValueOnce(
 			mocks.classroomApiResponse
 		)
-
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		renderScreen(<ClassroomsScreen />)
 
 		expect(await screen.findByText("Classroom 1")).toBeVisible()
@@ -275,6 +320,12 @@ describe("integration: ClassroomScreen", () => {
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(themeStorage, "getThemeFromCache").mockResolvedValue("light")
 		const mockSaveThemeOnCache = jest
 			.spyOn(themeStorage, "saveThemeOnCache")

@@ -3,6 +3,7 @@ import { act, fireEvent, renderScreen, screen, waitFor } from "@/testUtils"
 import { EnterClassroomScreen } from "../EnterClassroomScreen"
 import { authStorage } from "@/modules/auth/storage"
 import { mocks } from "./__mocks__/enterClassroomScreenMock"
+import { authApi } from "@/modules/auth/api"
 
 jest.mock("@react-navigation/native", () => {
 	const actual = jest.requireActual("@react-navigation/native")
@@ -15,6 +16,14 @@ jest.mock("@react-navigation/native", () => {
 })
 
 describe("integration: EnterClassroomScreen", () => {
+	beforeAll(() => {
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
+	})
 	it("should show toast success message if success on enter classroom", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({

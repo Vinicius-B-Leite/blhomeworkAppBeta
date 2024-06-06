@@ -10,6 +10,7 @@ import { authStorage } from "@/modules/auth/storage"
 import { api } from "@/api"
 import { months } from "@/modules/task/constants"
 import { formatDate } from "@/utils"
+import { authApi } from "@/modules/auth/api"
 
 jest.mock("@/modules/task/utils")
 
@@ -22,6 +23,12 @@ describe("integration: UpsertTaskScreen", () => {
 		jest.clearAllMocks()
 	})
 	it("should show message error in empty inputs", async () => {
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
@@ -53,6 +60,12 @@ describe("integration: UpsertTaskScreen", () => {
 		screen.unmount()
 	})
 	it("it should create a task with title, subject and deadline", async () => {
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 
@@ -110,6 +123,12 @@ describe("integration: UpsertTaskScreen", () => {
 	})
 	it("it should create a task with title, description,subject, uploads and deadline", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 		jest.spyOn(api, "uploadFile").mockResolvedValue({
 			downloadUrl: "http://example.com",
@@ -191,6 +210,12 @@ describe("integration: UpsertTaskScreen", () => {
 	})
 	it("it should show a toast error if something wrong happend", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 		jest.spyOn(taskApi, "getDoneTaskList").mockResolvedValue([])
 
@@ -248,6 +273,12 @@ describe("integration: UpsertTaskScreen", () => {
 	})
 	it("should update a task", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(
@@ -315,6 +346,12 @@ describe("integration: UpsertTaskScreen", () => {
 	})
 	it("should show error toast when update a task fails", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(taskApi, "getUploads").mockResolvedValue([])
 
 		jest.spyOn(classroomApi, "getClassrooms").mockResolvedValue(

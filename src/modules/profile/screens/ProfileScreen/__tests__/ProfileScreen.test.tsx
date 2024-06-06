@@ -4,6 +4,7 @@ import { authStorage } from "@/modules/auth/storage"
 import { profileMock } from "./__mocks__/profileMock"
 import { storage } from "@/storage"
 import { dark } from "@/theme"
+import { authApi } from "@/modules/auth/api"
 
 const mockNavigate = jest.fn()
 jest.mock("@react-navigation/native", () => ({
@@ -14,6 +15,14 @@ jest.mock("@react-navigation/native", () => ({
 }))
 
 describe("integration: ProfileScreen", () => {
+	beforeAll(() => {
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: profileMock.user.email,
+			user_name: profileMock.user.username,
+			avatar_url: profileMock.user.avatarUrl,
+			id: profileMock.user.uid,
+		})
+	})
 	it("should render ProfileScreen", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(profileMock.user)
 		renderScreen(<ProfileScreen />)

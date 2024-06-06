@@ -6,9 +6,10 @@ import {
 	useEffect,
 	useState,
 } from "react"
-import { UserType } from "@/modules/auth/models"
+import { UserType, authService } from "@/modules/auth/models"
 import { authStorage } from "@/modules/auth/storage"
 import { storage } from "@/storage"
+import { authApi } from "../api"
 
 export type AuthContextType = {
 	user: UserType | null
@@ -33,7 +34,27 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		const getUser = async () => {
 			setIsLoadingUser(true)
 			const userStorage = await authStorage.getUser()
-			setUser(userStorage)
+			if (userStorage) {
+				const userApi = await authApi.getUserData(userStorage.uid)
+
+				setUser({
+					email:
+						userStorage.email !== userApi.email
+							? userApi.email
+							: userStorage.email,
+					username:
+						userStorage.username !== userApi.user_name
+							? userApi.user_name
+							: userStorage.username,
+					avatarUrl:
+						userStorage.avatarUrl !== userApi.avatar_url
+							? userApi.avatar_url
+							: userStorage.avatarUrl,
+					refreshtoken: userStorage.refreshtoken,
+					token: userStorage.token,
+					uid: userStorage.uid,
+				})
+			}
 			setIsLoadingUser(false)
 		}
 		getUser()

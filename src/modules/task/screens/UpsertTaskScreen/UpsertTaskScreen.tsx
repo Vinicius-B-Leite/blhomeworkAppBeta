@@ -3,7 +3,6 @@ import React, { useCallback, useRef } from "react"
 import Options from "./components/Options/Options"
 
 import { useUpsertTaskViewController } from "./UpsertTaskScreen.viewController"
-import DateTimePicker from "@react-native-community/datetimepicker"
 import { formatDate } from "@/utils"
 import { useAppTheme } from "@/hooks"
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet"

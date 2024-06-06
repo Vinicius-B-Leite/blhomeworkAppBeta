@@ -4,6 +4,7 @@ import { classroomApi } from "@/modules/classroom/api"
 import { authStorage } from "@/modules/auth/storage"
 import { mocks } from "./__mocks__/upsertClassroomScreenMocks"
 import { taskApi } from "@/modules/task/api"
+import { authApi } from "@/modules/auth/api"
 
 jest.mock("@/utils", () => ({
 	...jest.requireActual("@/utils"),
@@ -35,7 +36,12 @@ describe("integration: UpsertClassroomScreen", () => {
 
 	it("should create a classroom without banner and show toast message", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
-
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
@@ -58,6 +64,12 @@ describe("integration: UpsertClassroomScreen", () => {
 	})
 	it("should show toast error message if error", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockRejectedValue({
 			message: "some error",
 		})
@@ -92,6 +104,12 @@ describe("integration: UpsertClassroomScreen", () => {
 	})
 	it("should create a classroom with banner and show toast message", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
 		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
 			mocks.classroomApiResponse
@@ -116,6 +134,12 @@ describe("integration: UpsertClassroomScreen", () => {
 	})
 	it('should change "Criar" to "Atualizar" and inputs already fill when editing a classroom', async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
@@ -140,6 +164,12 @@ describe("integration: UpsertClassroomScreen", () => {
 	})
 	it("should update a classroom and show toast message", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
 		jest.spyOn(classroomApi, "updateClassroom").mockResolvedValue({
 			classroom: mocks.classroomApiResponse.classroom,
@@ -168,6 +198,12 @@ describe("integration: UpsertClassroomScreen", () => {
 	})
 	it("should show error toast when update classroom fails", async () => {
 		jest.spyOn(authStorage, "getUser").mockResolvedValue(mocks.user)
+		jest.spyOn(authApi, "getUserData").mockResolvedValue({
+			email: mocks.user.email,
+			user_name: mocks.user.username,
+			avatar_url: mocks.user.avatarUrl,
+			id: mocks.user.uid,
+		})
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockResolvedValue({ id: "id" })
 		jest.spyOn(classroomApi, "updateClassroom").mockRejectedValue({
 			error: "error",

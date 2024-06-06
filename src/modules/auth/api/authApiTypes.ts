@@ -3,6 +3,7 @@ import {
 	AuthLoginResponse,
 	AuthSingUpResponse,
 	UserType,
+	AuthTableResponde,
 } from "@/modules/auth/models"
 
 export type LoginWithEmailProps = {
@@ -18,4 +19,5 @@ export type AuthApi = {
 	insertUserTable: (
 		user: Pick<UserType, "uid" | "email" | "username" | "avatarUrl">
 	) => Promise<void>
+	getUserData: (uid: string) => Promise<AuthTableResponde>
 }

@@ -2,6 +2,7 @@ import { BaseIconProps } from "@/assets/icons"
 import React from "react"
 
 import { iconMap } from "./iconMap"
+import { Box } from "../Box/Box"
 
 export type IconProps = Pick<BaseIconProps, "testID"> & {
 	name: keyof typeof iconMap
@@ -15,7 +16,11 @@ export const Icon: React.FC<IconProps> = ({
 	testID,
 }) => {
 	const SvgIcon = iconMap[name]
-	return <SvgIcon size={size} color={color} testID={testID} />
+	return (
+		<Box>
+			<SvgIcon size={size} color={color} testID={testID} />
+		</Box>
+	)
 }
 
 export { iconMap }

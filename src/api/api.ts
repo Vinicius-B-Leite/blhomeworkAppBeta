@@ -4,21 +4,25 @@ import uuid from "react-native-uuid"
 import { decode } from "base64-arraybuffer"
 import { supabase } from "./apiConfig"
 import { mimeTypes } from "@/constant"
+import { Platform } from "react-native"
 
 export const api: Api = {
 	uploadFile: async (props) => {
 		const { base64, bucketName, contentType, uri, folder } = props
 		const fileName = uuid.v4().toString()
-		const extension = getExtension(uri)
 
-		const arrayBuffer = decode(base64)
+		const extension = getExtension(uri)
 
 		const path = folder
 			? `${folder}/${fileName}${extension}`
 			: `${fileName}${extension}`
+
+		const isWeb = Platform.OS === "web"
+		const fileBody = isWeb ? await fetch(uri).then((r) => r.blob()) : decode(base64)
+
 		const { data: uploadedFile, error: errorOnUpload } = await supabase.storage
 			.from(bucketName)
-			.upload(path, arrayBuffer, {
+			.upload(path, fileBody, {
 				contentType: mimeTypes[contentType],
 			})
 

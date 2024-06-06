@@ -3,7 +3,6 @@ import React, { useEffect } from "react"
 import { AnimatedBox } from "../Box/Box"
 import { Icon } from "../Icon/Icon"
 import { Text } from "../Text/Text"
-import { useAppSafeArea } from "@/hooks"
 
 import { toastMap } from "./toastMap"
 import { useToastConfig, useToastDispatch } from "@/store"
@@ -15,24 +14,29 @@ import {
 	withSequence,
 	withTiming,
 } from "react-native-reanimated"
+import { Dimensions } from "react-native"
 
 const DEFAULT_ANIMATION_DURATION = 1500
+const SCREEN_HEIGHT = Dimensions.get("window").height
 
 export const Toast: React.FC = () => {
-	const { top } = useAppSafeArea()
 	const { message, type, visible } = useToastConfig()
 	const { hideToast } = useToastDispatch()
 	const { iconColor, iconName } = toastMap[type]
-	const translationY = useSharedValue(0)
+
+	const screenTop = 0
+	const translationY = useSharedValue(screenTop)
 
 	const animatedStyle = useAnimatedStyle(() => ({
 		transform: [{ translateY: translationY.value }],
+		position: "absolute",
 	}))
 
 	useEffect(() => {
 		if (!visible) return
 
-		const toValue = 40 + top
+		const toValue = SCREEN_HEIGHT * 0.1
+
 		translationY.value = withSequence(
 			withTiming(toValue, { duration: 1000 }),
 			withDelay(
@@ -50,7 +54,6 @@ export const Toast: React.FC = () => {
 		<AnimatedBox
 			flexDirection="row"
 			alignSelf="center"
-			position="absolute"
 			style={animatedStyle}
 			gap={8}
 			alignItems="center"
@@ -60,7 +63,7 @@ export const Toast: React.FC = () => {
 			paddingHorizontal={24}
 			borderRadius={8}>
 			<Icon name={iconName} color={iconColor} testID={`toastIcon-${iconName}`} />
-			<Text preset="pMedium">{message}</Text>
+			<Text preset="pMedium">{message || "dklsajdalksj"}</Text>
 		</AnimatedBox>
 	)
 }

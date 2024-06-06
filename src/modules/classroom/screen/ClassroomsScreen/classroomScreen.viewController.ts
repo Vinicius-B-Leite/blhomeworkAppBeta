@@ -27,7 +27,7 @@ export function useClassroomScreenViewController() {
 	const { leaveClassroom } = useLeaveModelView({
 		onError: (error) => {
 			showToast({
-				message: error ? error.message : "Erro ao sair da tela!",
+				message: error ? error.message : "Erro ao sair da sala!",
 				type: "error",
 			})
 		},

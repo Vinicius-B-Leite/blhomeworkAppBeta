@@ -43,13 +43,20 @@ const UploadModal: React.FC<UploadModalProps> = ({
 				paddingHorizontal={14}
 				borderRadius={8}
 				mt={14}>
-				<Box flexDirection="row" gap={14} alignItems="center" flex={1}>
-					<Box bg={colorMap.bg} p={8} borderRadius={8}>
-						<Text preset="pMedium" color={colorMap.color}>
+				<Box flexDirection="row" alignItems="center" gap={14} flex={1}>
+					<Box bg={colorMap.bg} p={8} borderRadius={8} alignSelf="center">
+						<Text
+							preset="pMedium"
+							color={colorMap.color}
+							verticalAlign="middle">
 							{extention.toUpperCase()}
 						</Text>
 					</Box>
-					<Text preset="pMedium" numberOfLines={1} style={{ flex: 1 }}>
+					<Text
+						preset="pMedium"
+						verticalAlign="middle"
+						numberOfLines={1}
+						style={{ flex: 1 }}>
 						{item.name}
 					</Text>
 				</Box>
@@ -67,8 +74,8 @@ const UploadModal: React.FC<UploadModalProps> = ({
 	}, [])
 
 	return (
-		<Box p={24} alignItems="center" flex={1}>
-			<Text preset="pMedium">
+		<Box p={24} flex={1}>
+			<Text preset="pMedium" textAlign="center">
 				Suportamos somente{" "}
 				<Text
 					preset="pMedium"
@@ -101,12 +108,14 @@ const UploadModal: React.FC<UploadModalProps> = ({
 				<Text preset="pMedium">Selecione um arquivo</Text>
 			</PressableBox>
 
-			<List
-				isLoading={false}
-				refresh={() => {}}
-				data={uploads}
-				renderItem={renderItem}
-			/>
+			<Box>
+				<List
+					isLoading={false}
+					refresh={() => {}}
+					data={uploads}
+					renderItem={renderItem}
+				/>
+			</Box>
 		</Box>
 	)
 }

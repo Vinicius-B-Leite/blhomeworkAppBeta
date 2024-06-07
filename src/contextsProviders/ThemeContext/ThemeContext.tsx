@@ -5,6 +5,7 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 } from "react"
 import { ThemeContext as ThemeContextType, ThemeOptions } from "./type"
@@ -18,20 +19,30 @@ export function ThemeContextProvider({ children }: PropsWithChildren) {
 	const [theme, setTheme] = useState<ThemeOptions>("dark")
 	const [isLoadingTheme, setIsLoadingTheme] = useState(true)
 	const colorSchema = useColorScheme()
+	const isFirstRender = useRef(true)
 
 	useEffect(() => {
 		getThemeFromCache()
 	}, [])
 	useEffect(() => {
+		if (isFirstRender.current) {
+			isFirstRender.current = false
+			return
+		}
 		handleColorSchemaChange(colorSchema)
 	}, [colorSchema])
 
 	const getThemeFromCache = async () => {
 		setIsLoadingTheme(true)
 		const themeCache = await themeStorage.getThemeFromCache()
+
 		if (themeCache) {
 			setTheme(themeCache)
+			setIsLoadingTheme(false)
+
+			return
 		}
+		handleColorSchemaChange(colorSchema)
 		setIsLoadingTheme(false)
 	}
 

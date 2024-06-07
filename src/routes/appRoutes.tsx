@@ -7,6 +7,7 @@ import { Icon } from "@/components"
 import { ClassRoomRoutes } from "@/modules/classroom/routes/classroomRoutes"
 import { ClassroomRouteType } from "@/modules/classroom/routes/classroomRoutesTypes"
 import ProfileRoutes from "@/modules/profile/routes/profileRoutes"
+import Developing from "@/modules/chat/screens/Developing"
 
 const Tab = createBottomTabNavigator()
 
@@ -48,7 +49,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName 
 			</Tab.Screen>
 			<Tab.Screen
 				name="ChatroomRoutes"
-				component={View}
+				component={Developing}
 				options={{
 					tabBarIcon: ({ focused }) => (
 						<Icon

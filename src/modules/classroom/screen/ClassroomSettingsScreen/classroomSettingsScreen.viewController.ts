@@ -12,6 +12,7 @@ import {
 import { useAuth } from "@/modules/auth/context"
 import { Student } from "@/modules/classroom/models"
 import { useAlertDispatch, useToastDispatch } from "@/store"
+import { useCallback } from "react"
 
 export function useClassroomSettingsScreenViewController() {
 	const params = useRouteParams("ClassroomSettingsScreen")
@@ -57,7 +58,7 @@ export function useClassroomSettingsScreenViewController() {
 		},
 	})
 
-	const shareClassroomCode = async () => {
+	const shareClassroomCode = useCallback(async () => {
 		if (!classroom?.id) return
 
 		const message = `Olá, entre na minha sala de aula com o código: ${classroomId}`
@@ -65,56 +66,62 @@ export function useClassroomSettingsScreenViewController() {
 			message,
 			title: "Código da sala de aula",
 		})
-	}
+	}, [classroom, classroomId])
 
-	const removeStudent = async (student: Student) => {
-		const currentUserIsAdmin = classroom?.adminId === user!.uid
+	const removeStudent = useCallback(
+		async (student: Student) => {
+			const currentUserIsAdmin = classroom?.adminId === user!.uid
 
-		if (!currentUserIsAdmin) return
+			if (!currentUserIsAdmin) return
 
-		showAlert({
-			message: `Deseja remover o aluno ${student.userName} da sala de aula?`,
-			buttons: [
-				{
-					type: "cancel",
-					text: "Não",
-				},
-				{
-					type: "confirm",
-					text: "Sim",
-					onPress: () => {
-						removeStudentModelView({ studentId: student.id })
+			showAlert({
+				message: `Deseja remover o aluno ${student.userName} da sala de aula?`,
+				buttons: [
+					{
+						type: "cancel",
+						text: "Não",
 					},
-				},
-			],
-		})
-	}
-
-	const handlePromoteStudentToClassroomAdmin = async (student: Student) => {
-		if (!classroom) return
-
-		const currentUserIsAdmin = classroom.adminId === user!.uid
-
-		if (!currentUserIsAdmin) return
-
-		showAlert({
-			title: "Promover aluno",
-			message: `Deseja promover o aluno ${student.userName} a administrador da sala de aula?`,
-			buttons: [
-				{
-					type: "confirm",
-					text: "Sim",
-					onPress: () => {
-						promoteStudentToClassroomAdmin({ studentId: student.id })
+					{
+						type: "confirm",
+						text: "Sim",
+						onPress: () => {
+							removeStudentModelView({ studentId: student.id })
+						},
 					},
-				},
-				{
-					type: "cancel",
-					text: "Não",
-				},
-			],
-		})
-	}
+				],
+			})
+		},
+		[classroom, user]
+	)
+
+	const handlePromoteStudentToClassroomAdmin = useCallback(
+		async (student: Student) => {
+			if (!classroom) return
+
+			const currentUserIsAdmin = classroom.adminId === user!.uid
+
+			if (!currentUserIsAdmin) return
+
+			showAlert({
+				title: "Promover aluno",
+				message: `Deseja promover o aluno ${student.userName} a administrador da sala de aula?`,
+				buttons: [
+					{
+						type: "confirm",
+						text: "Sim",
+						onPress: () => {
+							promoteStudentToClassroomAdmin({ studentId: student.id })
+						},
+					},
+					{
+						type: "cancel",
+						text: "Não",
+					},
+				],
+			})
+		},
+		[classroom, user]
+	)
 
 	return {
 		shareClassroomCode,

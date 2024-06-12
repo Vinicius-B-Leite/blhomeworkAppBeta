@@ -3,6 +3,7 @@ import * as WebBrowser from "expo-web-browser"
 import { useDoneTask } from "../../modelView"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
+import { useCallback } from "react"
 
 export function useTaskDetailsScreenViewController() {
 	const params = useRouteParams("TaskDetails")
@@ -21,9 +22,9 @@ export function useTaskDetailsScreenViewController() {
 		},
 	})
 
-	const openFile = async ({ donwloadUrl }: { donwloadUrl: string }) => {
+	const openFile = useCallback(async ({ donwloadUrl }: { donwloadUrl: string }) => {
 		await WebBrowser.openBrowserAsync(donwloadUrl)
-	}
+	}, [])
 	return {
 		deadLine,
 		subject,

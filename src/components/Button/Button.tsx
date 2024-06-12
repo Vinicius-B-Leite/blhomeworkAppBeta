@@ -2,6 +2,7 @@ import React from "react"
 import { PressableBox, PressableBoxProps } from "../Box/Box"
 import { Text, TextProps } from "../Text/Text"
 import { Spinner } from "../Spinner/Spinner"
+import { Theme } from "@/theme"
 
 type ButtonProps = React.PropsWithChildren &
 	PressableBoxProps & {
@@ -17,7 +18,25 @@ export const Button: React.FC<ButtonProps> = ({
 	textProps,
 	...rest
 }) => {
-	const bg = rest.disabled ? "darkContrast" : "contrast"
+	const hadleLink = () => {
+		const bg = rest.disabled ? "darkContrast" : "contrast"
+		let textDecoratioLine: TextProps["textDecorationLine"] = "none"
+		let bgcolor: keyof Theme["colors"] = bg
+		let bold = true
+
+		if (link) {
+			textDecoratioLine = "underline"
+			bgcolor = "transparent"
+			bold = false
+		}
+
+		return {
+			textDecoratioLine,
+			bgcolor,
+			bold,
+		}
+	}
+
 	return (
 		<PressableBox
 			alignItems="center"
@@ -27,15 +46,15 @@ export const Button: React.FC<ButtonProps> = ({
 			borderRadius={10}
 			activeOpacity={0.8}
 			disabled={isloading || rest.disabled}
-			bg={link ? "transparent" : bg}
+			bg={hadleLink().bgcolor}
 			{...rest}>
 			{isloading ? (
 				<Spinner testID="spinner" />
 			) : (
 				<Text
 					preset="pMedium"
-					bold={!link}
-					textDecorationLine={link ? "underline" : "none"}
+					bold={hadleLink().bold}
+					textDecorationLine={hadleLink().textDecoratioLine}
 					{...textProps}>
 					{children}
 				</Text>

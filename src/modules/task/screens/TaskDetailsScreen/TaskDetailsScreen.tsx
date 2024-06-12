@@ -1,4 +1,4 @@
-import { Box, Container, Icon, List, PressableBox, Text } from "@/components"
+import { Box, Container, Icon, IconProps, List, PressableBox, Text } from "@/components"
 
 import { formatDate } from "@/utils"
 import React, { useCallback } from "react"
@@ -41,7 +41,17 @@ export const TaskDetailsScreen: React.FC = () => {
 	)
 
 	const renderItem = useCallback(({ item, index }: ListRenderItemInfo<Upload>) => {
-		const isPdf = item.type === "pdf"
+		const handleIcon = () => {
+			const isPdf = item.type === "pdf"
+			let name: IconProps["name"] = "image"
+			let id = "image-icon"
+
+			if (isPdf) {
+				name = "pdf"
+				id = "pdf-icon"
+			}
+			return { name, id }
+		}
 		return (
 			<PressableBox
 				onPress={() => openFile({ donwloadUrl: item.donwloadUrl })}
@@ -52,10 +62,7 @@ export const TaskDetailsScreen: React.FC = () => {
 				borderRadius={8}
 				mt={8}
 				gap={12}>
-				<Icon
-					name={isPdf ? "pdf" : "image"}
-					testID={isPdf ? "pdf-icon" : "image-icon"}
-				/>
+				<Icon name={handleIcon().name} testID={handleIcon().id} />
 				<Text preset="pMedium">
 					Arquivo {index + 1}.{item.type}
 				</Text>

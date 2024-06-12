@@ -119,12 +119,12 @@ export const UpsertTaskScreen: React.FC = () => {
 					onPress={handleCloseBottomSheet}
 					width={"100%"}
 					height={"100%"}
+					bg="black07"
 					flex={1}
 					style={{
 						position: "absolute",
 						top: 0,
 						left: 0,
-						backgroundColor: "rgba(0, 0, 0, 0.7)",
 					}}
 				/>
 			)}

@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native"
 import { ClassroomType } from "@/modules/classroom/models"
 import { useAuth } from "@/modules/auth/context"
 import { useAppTheme } from "@/hooks"
+import { useCallback } from "react"
 
 export function useClassroomScreenViewController() {
 	const { showToast } = useToastDispatch()
@@ -39,79 +40,82 @@ export function useClassroomScreenViewController() {
 		},
 	})
 
-	const handleNavigateToTasks = (classroom: ClassroomType) => {
+	const handleNavigateToTasks = useCallback((classroom: ClassroomType) => {
 		hideAnimatedHeaderOptions()
 		navigation.navigate("TaskRoutes", {
 			screen: "TaskList",
 			params: { classroom },
 		})
-	}
-	const handleNavigateToCreateClassroom = () => {
+	}, [])
+	const handleNavigateToCreateClassroom = useCallback(() => {
 		navigation.navigate("ClassroomRoutes", {
 			screen: "UpsertClassroomScreen",
 		})
-	}
-	const handleNavigateToEnterClassroom = () => {
+	}, [])
+	const handleNavigateToEnterClassroom = useCallback(() => {
 		navigation.navigate("ClassroomRoutes", {
 			screen: "EnterClassroomScreen",
 		})
-	}
+	}, [])
 
-	const handleOpenAnimatedHeader = (classroom: ClassroomType) => {
-		const isAdmin = user!.uid === classroom.adminId
-		let rightOptions: RightOptions[] = [
-			{
-				iconsName: "leave",
-				onPress: () => {
-					showAlert({
-						message: "Deseja realmente sair da sala?",
-						buttons: [
-							{
-								type: "confirm",
-								text: "Sim",
-								onPress: () => {
-									leaveClassroom({ classroomId: classroom.id })
+	const handleOpenAnimatedHeader = useCallback(
+		(classroom: ClassroomType) => {
+			const isAdmin = user!.uid === classroom.adminId
+			let rightOptions: RightOptions[] = [
+				{
+					iconsName: "leave",
+					onPress: () => {
+						showAlert({
+							message: "Deseja realmente sair da sala?",
+							buttons: [
+								{
+									type: "confirm",
+									text: "Sim",
+									onPress: () => {
+										leaveClassroom({ classroomId: classroom.id })
+									},
 								},
-							},
-							{
-								type: "cancel",
-								text: "Não",
-							},
-						],
-					})
-				},
-			},
-		]
-
-		if (isAdmin) {
-			rightOptions.push(
-				{
-					iconsName: "pen",
-					onPress: () => {
-						navigation.navigate("ClassroomRoutes", {
-							screen: "UpsertClassroomScreen",
-							params: { classroom },
+								{
+									type: "cancel",
+									text: "Não",
+								},
+							],
 						})
 					},
 				},
-				{
-					iconsName: "settings",
-					onPress: () => {
-						navigation.navigate("ClassroomRoutes", {
-							screen: "ClassroomSettingsScreen",
-							params: { classroomId: classroom.id },
-						})
-					},
-				}
-			)
-		}
+			]
 
-		showAnimatedHeaderOptions({
-			title: classroom.title,
-			titleColor: theme.colors.text,
-			rightOptions,
-		})
-	}
+			if (isAdmin) {
+				rightOptions.push(
+					{
+						iconsName: "pen",
+						onPress: () => {
+							navigation.navigate("ClassroomRoutes", {
+								screen: "UpsertClassroomScreen",
+								params: { classroom },
+							})
+						},
+					},
+					{
+						iconsName: "settings",
+						onPress: () => {
+							navigation.navigate("ClassroomRoutes", {
+								screen: "ClassroomSettingsScreen",
+								params: { classroomId: classroom.id },
+							})
+						},
+					}
+				)
+			}
+
+			showAnimatedHeaderOptions({
+				title: classroom.title,
+				titleColor: theme.colors.text,
+				rightOptions,
+			})
+		},
+		[user]
+	)
 
 	return {
 		handleNavigateToTasks,

@@ -46,8 +46,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
 					borderRadius={8}
 					width={"100%"}
 					height={"85%"}
+					bg="black03"
 					style={{
-						backgroundColor: "rgba(0, 0, 0, .3)",
 						position: "absolute",
 					}}
 				/>

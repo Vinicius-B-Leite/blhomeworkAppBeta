@@ -2,7 +2,7 @@ import { create } from "zustand"
 
 type AlertButtonType = "confirm" | "cancel"
 
-type AlertButton = {
+export type AlertButton = {
 	type: AlertButtonType
 	text?: string
 	onPress?: () => void

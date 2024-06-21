@@ -5,6 +5,7 @@ import { authStorage } from "@/modules/auth/storage"
 import { mocks } from "./__mocks__/upsertClassroomScreenMocks"
 import { taskApi } from "@/modules/task/api"
 import { authApi } from "@/modules/auth/api"
+import { chatApi } from "@/modules/chat/api"
 
 jest.mock("@/utils", () => ({
 	...jest.requireActual("@/utils"),
@@ -45,6 +46,7 @@ describe("integration: UpsertClassroomScreen", () => {
 		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
+		jest.spyOn(chatApi, "createChat").mockResolvedValue()
 		jest.spyOn(taskApi, "createSubject").mockResolvedValue(mocks.subjectApiResponse)
 
 		renderScreen(<UpsertClassroomScreen />)
@@ -73,6 +75,7 @@ describe("integration: UpsertClassroomScreen", () => {
 		jest.spyOn(classroomApi, "uploadClassroomBanner").mockRejectedValue({
 			message: "some error",
 		})
+		jest.spyOn(chatApi, "createChat").mockResolvedValue()
 		jest.spyOn(classroomApi, "createClassroom").mockRejectedValue({
 			message: "error",
 		})
@@ -114,6 +117,7 @@ describe("integration: UpsertClassroomScreen", () => {
 		jest.spyOn(classroomApi, "createClassroom").mockResolvedValue(
 			mocks.classroomApiResponse
 		)
+		jest.spyOn(chatApi, "createChat").mockResolvedValue()
 		jest.spyOn(taskApi, "createSubject").mockResolvedValue(mocks.subjectApiResponse)
 
 		renderScreen(<UpsertClassroomScreen />)

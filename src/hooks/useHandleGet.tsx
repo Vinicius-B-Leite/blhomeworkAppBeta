@@ -1,4 +1,5 @@
 import { storage } from "@/storage"
+import { saveDataInStorageWithTimestamp } from "@/utils"
 import { useNetInfo } from "@react-native-community/netinfo"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
@@ -17,7 +18,8 @@ export function useHandleGet<ReturnDataType>({
 	onError,
 	onSuccess,
 }: UseHandleGetProps<ReturnDataType>) {
-	const { isConnected } = useNetInfo()
+	let { isConnected } = useNetInfo()
+
 	const isfethingNetinfo = isConnected === null
 
 	const { data, error, refetch, isFetching, isSuccess } = useQuery<
@@ -46,15 +48,11 @@ export function useHandleGet<ReturnDataType>({
 		return null
 	}
 
-	useEffect(
-		function saveDataOnCache() {
-			if (isSuccess && isConnected && data) {
-				const timestamp = Date.now()
-				storage.setItem(JSON.stringify(queryKey), { data, timestamp })
-			}
-		},
-		[isSuccess, data, isConnected]
-	)
+	useEffect(() => {
+		if (isSuccess && isConnected && data) {
+			saveDataInStorageWithTimestamp(data, queryKey)
+		}
+	}, [isSuccess, data, isConnected])
 
 	useEffect(() => {
 		if (error) {

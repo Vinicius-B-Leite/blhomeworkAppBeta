@@ -15,7 +15,8 @@
 		"ios": {
 			"supportsTablet": true,
 			"infoPlist": {
-				"NSFaceIDUsageDescription": "Permite BL Homewokr usar o Face ID."
+				"NSFaceIDUsageDescription": "Permite BL Homewokr usar o Face ID.",
+				"UIBackgroundModes": ["location", "fetch", "remote-notification"]
 			}
 		},
 		"android": {

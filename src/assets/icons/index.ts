@@ -25,5 +25,6 @@ export * from "./SettingsSvg"
 export * from "./ShareSvg"
 export * from "./LeaveSvg"
 export * from "./SadFaceSvg"
+export * from "./SendSvg"
 
 export * from "./iconTypes"

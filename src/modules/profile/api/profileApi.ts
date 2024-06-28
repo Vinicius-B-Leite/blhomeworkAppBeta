@@ -2,16 +2,18 @@ import { supabase } from "@/api"
 import { ProfileApi as ProfileApiType } from "./profileApiTypes"
 
 export const profileApi: ProfileApiType = {
-	updateProfile: async ({ username, avatarUrl, password, uid }) => {
-		const [{ error: authError }, { data: userTableData, error: tableError }] =
+	updateProfile: async ({ username, avatarUrl, password, uid, notificationToken }) => {
+		const [authResponse, { data: userTableData, error: tableError }] =
 			await Promise.all([
-				supabase.auth.updateUser({
-					password,
-					data: {
-						username,
-						avatarUrl,
-					},
-				}),
+				username || avatarUrl
+					? supabase.auth.updateUser({
+							password,
+							data: {
+								username,
+								avatarUrl,
+							},
+					  })
+					: undefined,
 				supabase
 					.from("user")
 					.update([
@@ -19,6 +21,7 @@ export const profileApi: ProfileApiType = {
 							id: uid,
 							user_name: username,
 							avatar_url: avatarUrl,
+							notification_token: notificationToken,
 						},
 					])
 					.eq("id", uid)
@@ -29,8 +32,8 @@ export const profileApi: ProfileApiType = {
 			throw new Error(tableError.message)
 		}
 
-		if (authError) {
-			throw new Error(authError.message)
+		if (authResponse?.error?.message) {
+			throw new Error(authResponse?.error?.message)
 		}
 
 		return userTableData?.[0]

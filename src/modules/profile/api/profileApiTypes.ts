@@ -4,6 +4,7 @@ import { UserUpdatedTableRespnse } from "../models/profileTypes"
 export type UpdatedProfileApiProps = Partial<
 	Omit<UserType, "token" | "refreshtoken" | "email"> & {
 		password: string
+		notificationToken?: string
 	}
 >
 export type ProfileApi = {

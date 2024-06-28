@@ -4,6 +4,7 @@ import { AUTH_STORAGE_KEY } from "@/modules/auth/storage"
 const KEYS = {
 	auth: AUTH_STORAGE_KEY,
 	theme: THEME_STORAGE_KEY,
+	notificationToken: "notificationToken",
 }
 
 export type StorageKeys = keyof typeof KEYS

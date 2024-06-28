@@ -7,6 +7,7 @@ import {
 	SubapaseClassroomError,
 	getSubapaseClassroomError,
 } from "@/modules/classroom/utils"
+import { CHAT_QUERY_KEYS } from "@/modules/chat/api"
 
 type UseEnterClassroomModelViewProps = CoumnModelViewProps<SubapaseClassroomError, void>
 
@@ -17,11 +18,16 @@ export function useEnterClassroomModelView(props?: UseEnterClassroomModelViewPro
 		mutationKey: [CLASSROOM_QUERY_KEYS.ENTER_CLASSROOM],
 		mutationFn: ({ classroomCode }) =>
 			classroomService.enterClassroom(classroomCode, user!.uid),
-		onSuccess: () => {
+		onSuccess: async () => {
 			props?.onSuccess?.()
-			client.invalidateQueries({
-				queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user!.uid],
-			})
+			await Promise.all([
+				client.invalidateQueries({
+					queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user!.uid],
+				}),
+				client.invalidateQueries({
+					queryKey: [CHAT_QUERY_KEYS.GET_CHATS, user!.uid],
+				}),
+			])
 		},
 		onError: (error) => {
 			const errorHandled = getSubapaseClassroomError(error.message)

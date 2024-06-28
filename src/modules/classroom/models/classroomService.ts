@@ -2,6 +2,7 @@ import { classroomApi } from "@/modules/classroom/api"
 import { classroomAdapter } from "./classroomAdapter"
 import { convertUriToBase64 } from "@/utils"
 import { taskApi } from "@/modules/task/api"
+import { chatApi } from "@/modules/chat/api"
 
 const getClassrooms = async (userId: string) => {
 	try {
@@ -47,6 +48,7 @@ const createClassroom = async (classroom: CreateClassroomServiceProps) => {
 				shortName: "POT",
 				color: "rgb(0, 0, 255)",
 			}),
+			chatApi.createChat(classroomResponse.classroom.id),
 		])
 	} catch (error) {
 		throw error
@@ -144,6 +146,12 @@ const leaveClassroom = async (classroomId: string, userId: string) => {
 const deleteClassroom = async (classroomId: string) => {
 	try {
 		await classroomApi.deleteClassroom(classroomId)
+		const chat = await chatApi.getChatByClassroomId(classroomId)
+		if (!chat) return
+		await Promise.all([
+			chatApi.deleteAllMessagesFromChat(chat.id.toString()),
+			chatApi.deleteChatByClassroomId(classroomId),
+		])
 	} catch (error) {
 		throw error
 	}

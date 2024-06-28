@@ -11,7 +11,7 @@ import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 import { LogBox } from "react-native"
-import { useCacheControll } from "@/hooks"
+import { useCacheControll, useNotificationControll } from "@/hooks"
 import { useEffect } from "react"
 import {
 	initializeNotifications,

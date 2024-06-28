@@ -53,6 +53,7 @@ const updateProfile = async (
 			password: props.password,
 			uid: props.uid,
 			username: props.username,
+			notificationToken: props.notificationToken,
 		})
 
 		return profileAdapert.toUser(updatedMetadadosUser)

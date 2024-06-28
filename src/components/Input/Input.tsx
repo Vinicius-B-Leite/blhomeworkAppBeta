@@ -19,6 +19,7 @@ export const Input: React.FC<InputProps> = ({
 	boxProps,
 	onPress,
 	style,
+	multiline,
 	...textinputProps
 }) => {
 	const theme = useAppTheme()
@@ -53,9 +54,10 @@ export const Input: React.FC<InputProps> = ({
 							},
 							style,
 						]}
+						multiline={multiline}
 						{...textinputProps}
 					/>
-					<Box alignSelf="center">{RightIcon}</Box>
+					<Box alignSelf={multiline ? "flex-end" : "center"}>{RightIcon}</Box>
 				</Box>
 			</PressableBox>
 			{errorMessage && (

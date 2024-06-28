@@ -25,6 +25,7 @@ import {
 	LeaveSvg,
 	SadFaceSvg,
 	MoonSvg,
+	SendSvg,
 } from "@/assets/icons"
 import { PdfSvg } from "@/assets/icons/PdfSvg"
 
@@ -56,4 +57,5 @@ export const iconMap = {
 	leave: LeaveSvg,
 	sadFace: SadFaceSvg,
 	moon: MoonSvg,
+	send: SendSvg,
 }

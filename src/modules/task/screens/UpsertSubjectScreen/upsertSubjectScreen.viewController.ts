@@ -6,6 +6,7 @@ import { useRouteParams } from "@/hooks"
 import { returnedResults } from "reanimated-color-picker"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
+import { useCallback } from "react"
 
 export function useUpsertSubjectScreenViewController() {
 	const params = useRouteParams("UpsertSubjectScreen")
@@ -49,9 +50,9 @@ export function useUpsertSubjectScreenViewController() {
 			showToast({ message: "Erro ao atualizar disciplina!", type: "error" })
 		},
 	})
-	const onSelectColor = ({ rgb }: returnedResults) => {
+	const onSelectColor = useCallback(({ rgb }: returnedResults) => {
 		setValue("color", rgb)
-	}
+	}, [])
 
 	const handleCreateSubject = handleSubmit((data) => {
 		if (isUpdate) {
@@ -74,6 +75,21 @@ export function useUpsertSubjectScreenViewController() {
 			classroomId: classroomId,
 		})
 	})
+
+	const handleTitle = useCallback(() => {
+		let submitBtnTitle = "Criar"
+		let goBackTitle = "Criar Disciplina"
+
+		if (isUpdate) {
+			submitBtnTitle = "Salvar"
+			goBackTitle = "Atualizar Disciplina"
+		}
+
+		return {
+			submitBtnTitle,
+			goBackTitle,
+		}
+	}, [isUpdate])
 	return {
 		onSelectColor,
 		selectedColor: watch("color"),
@@ -85,5 +101,6 @@ export function useUpsertSubjectScreenViewController() {
 		isLoading: isCreateSubjectLoading || isUpdateSubjectLoading,
 		isUpdate,
 		subject,
+		handleTitle,
 	}
 }

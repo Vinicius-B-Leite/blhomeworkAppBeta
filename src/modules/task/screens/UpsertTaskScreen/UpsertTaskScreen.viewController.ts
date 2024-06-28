@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { set, useForm } from "react-hook-form"
 import { CreateTaskScreenSchema, createTaskScreenSchema } from "./upsertTaskScreenSchmea"
-import { useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { Subject, File } from "@/modules/task/model"
 import { useNavigation } from "@react-navigation/native"
 import { useRouteParams } from "@/hooks"
@@ -96,24 +96,24 @@ export function useUpsertTaskViewController() {
 		})
 	})
 
-	const openDatePicker = () => {
+	const openDatePicker = useCallback(() => {
 		setShowDatePicker(true)
-	}
+	}, [])
 
-	const closeDatePicker = () => {
+	const closeDatePicker = useCallback(() => {
 		setShowDatePicker(false)
-	}
+	}, [])
 
-	const handleSelectDate = (date: Date) => {
+	const handleSelectDate = useCallback((date: Date) => {
 		setValue("deadLine", date)
-	}
+	}, [])
 
 	const handleSelectSubject = (subject: Subject) => {
 		setValue("subject", { id: subject.id, name: subject.name, color: subject.color })
 		navigation.goBack()
 	}
 
-	const navigateToSubjects = () => {
+	const navigateToSubjects = useCallback(() => {
 		navigation.navigate("TaskRoutes", {
 			screen: "Subjects",
 			params: {
@@ -122,9 +122,9 @@ export function useUpsertTaskViewController() {
 				selectedSubjectId: watch("subject")?.id,
 			},
 		})
-	}
+	}, [])
 
-	const selectDocuments = async () => {
+	const selectDocuments = useCallback(async () => {
 		const documents = await getDocuments()
 
 		if (!documents) {
@@ -132,9 +132,9 @@ export function useUpsertTaskViewController() {
 		}
 
 		setValue("uploads", [...documentList, ...documents])
-	}
+	}, [])
 
-	const removeDocument = (doc: File) => {
+	const removeDocument = useCallback((doc: File) => {
 		const oldDocuments = getValues("uploads") || []
 		const index = oldDocuments.findIndex((d) => d.uri === doc.uri)
 
@@ -142,18 +142,18 @@ export function useUpsertTaskViewController() {
 		newDocuments.splice(index, 1)
 
 		setValue("uploads", [...newDocuments])
-	}
+	}, [])
 
-	const handleOpenBottomSheet = () => {
+	const handleOpenBottomSheet = useCallback(() => {
 		bottomSheetRef.current?.expand()
 		Keyboard.dismiss()
 		setIsBottomSheetOpen(true)
-	}
-	const handleCloseBottomSheet = () => {
+	}, [])
+	const handleCloseBottomSheet = useCallback(() => {
 		bottomSheetRef.current?.close()
 
 		setIsBottomSheetOpen(false)
-	}
+	}, [])
 	return {
 		control,
 		isLoading: isUpdateLoading || isLoading,

@@ -34,6 +34,7 @@ export const dark = createTheme({
 		24: 24,
 		36: 36,
 		50: 50,
+		10: 10,
 	},
 	borderRadii: {
 		8: 8,

@@ -7,6 +7,7 @@ import {
 	SubapaseClassroomError,
 	getSubapaseClassroomError,
 } from "@/modules/classroom/utils"
+import { CHAT_QUERY_KEYS } from "@/modules/chat/api"
 
 type UseEnterClassroomModelViewProps = CoumnModelViewProps<SubapaseClassroomError, void>
 
@@ -17,13 +18,20 @@ export function useLeaveModelView(props?: UseEnterClassroomModelViewProps) {
 		mutationKey: [CLASSROOM_QUERY_KEYS.LEAVE_CLASSROOM],
 		mutationFn: ({ classroomId }) =>
 			classroomService.leaveClassroom(classroomId, user!.uid),
-		onSuccess: () => {
+		onSuccess: async () => {
 			props?.onSuccess?.()
-			client.invalidateQueries({
-				queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user!.uid],
-			})
+			await Promise.all([
+				client.invalidateQueries({
+					queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user!.uid],
+				}),
+				client.invalidateQueries({
+					queryKey: [CHAT_QUERY_KEYS.GET_CHATS, user!.uid],
+				}),
+			])
 		},
 		onError: (error) => {
+			console.log(error)
+
 			const errorHandled = getSubapaseClassroomError(error.message)
 			props?.onError?.(errorHandled)
 		},

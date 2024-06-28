@@ -1,9 +1,11 @@
-import { renderHook, waitFor } from "@/testUtils"
+import { act, renderHook, waitFor } from "@/testUtils"
 import { useEnterClassroomModelView } from "../useEnterClassroom.modelView"
 import { classroomApi } from "@/modules/classroom/api"
 import { mocks } from "./__mocks__/classrooModelViewMocks"
 import { getSubapaseClassroomError } from "@/modules/classroom/utils"
 import { useLeaveModelView } from "../useLeaveClassroom.modelView"
+import { chatApi } from "@/modules/chat/api"
+import { ChatApiResponse } from "@/modules/chat/models"
 
 jest.mock("@/modules/auth/context", () => ({
 	...jest.requireActual("@/modules/auth/context"),
@@ -63,6 +65,11 @@ describe("modelView: useLeaveClassroom", () => {
 	})
 
 	it("should delete classroom if it has only 1 student", async () => {
+		jest.spyOn(chatApi, "getChatByClassroomId").mockResolvedValue({
+			id: "1",
+		} as unknown as ChatApiResponse)
+		jest.spyOn(chatApi, "deleteAllMessagesFromChat").mockResolvedValue()
+		jest.spyOn(chatApi, "deleteChatByClassroomId").mockResolvedValue()
 		jest.spyOn(classroomApi, "getClassroomById").mockResolvedValue({
 			classroom: mocks.classroomApiResponse[0].classroom,
 		})
@@ -81,8 +88,10 @@ describe("modelView: useLeaveClassroom", () => {
 			useLeaveModelView({ onSuccess, onError: jest.fn() })
 		)
 
-		result.current.leaveClassroom({
-			classroomId: mocks.classroomApiResponse[0].classroom.id,
+		await act(async () => {
+			result.current.leaveClassroom({
+				classroomId: mocks.classroomApiResponse[0].classroom.id,
+			})
 		})
 
 		await waitFor(() => expect(mockDeleteClassroom).toHaveBeenCalled())

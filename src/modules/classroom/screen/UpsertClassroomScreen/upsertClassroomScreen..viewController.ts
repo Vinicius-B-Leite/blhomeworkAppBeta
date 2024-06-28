@@ -8,6 +8,7 @@ import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
 import { pickImage } from "@/utils"
 import { useRouteParams } from "@/hooks"
+import { useCallback } from "react"
 
 export function useUpsertClassroomScreenModelView() {
 	const { showToast } = useToastDispatch()
@@ -72,14 +73,14 @@ export function useUpsertClassroomScreenModelView() {
 		createClassroomModelView(props)
 	}
 
-	const selectBannerImage = async () => {
+	const selectBannerImage = useCallback(async () => {
 		const result = await pickImage()
 
 		if (result && result.uri && result.base64) {
 			setValue("bannerUri.uri", result.uri)
 			setValue("bannerUri.base64", result!.base64)
 		}
-	}
+	}, [])
 
 	return {
 		control,

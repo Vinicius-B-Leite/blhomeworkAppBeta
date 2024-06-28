@@ -4,8 +4,11 @@ import { Routes } from "./routes"
 import { dark, light } from "./theme"
 import { useAuth } from "./modules/auth/context"
 import * as SplashScreen from "expo-splash-screen"
+import { useNotificationControll } from "./hooks"
 
 export function Index() {
+	useNotificationControll()
+
 	const { theme, isLoadingTheme } = useThemeContext()
 	const { isLoadingUser } = useAuth()
 

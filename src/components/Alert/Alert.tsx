@@ -2,7 +2,8 @@ import React from "react"
 import { Box, PressableBox } from "../Box/Box"
 import { Text } from "../Text/Text"
 import { Button } from "../Button/Button"
-import { useAlertConfig, useAlertDispatch } from "@/store"
+import { AlertButton, useAlertConfig, useAlertDispatch } from "@/store"
+import { Theme } from "@/theme"
 
 export const Alert: React.FC = () => {
 	const { buttons, message, visible, title } = useAlertConfig()
@@ -14,18 +15,38 @@ export const Alert: React.FC = () => {
 		callback?.()
 	}
 
+	const handleButtonType = (button: AlertButton) => {
+		let bgColor: keyof Theme["colors"] = "darkAlert"
+		let textColor: keyof Theme["colors"] = "text"
+		let text = button.text
+
+		if (button.type === "confirm") {
+			bgColor = "darkContrast"
+			textColor = "contrast"
+			text = "Sim"
+		}
+
+		if (button.type === "cancel") {
+			bgColor = "darkAlert"
+			textColor = "alert"
+			text = "Não"
+		}
+
+		return { bgColor, textColor, text }
+	}
+
 	return (
 		<PressableBox
 			onPress={hideAlert}
 			width={"100%"}
 			height={"100%"}
 			justifyContent="center"
+			bg="black03"
 			alignItems="center"
 			style={{
 				position: "absolute",
 				top: 0,
 				left: 0,
-				backgroundColor: "rgba(0, 0, 0, 0.3)",
 			}}>
 			<Box bg="bg" p={24} borderRadius={10}>
 				<Text preset="tSmall" mb={20}>
@@ -38,15 +59,11 @@ export const Alert: React.FC = () => {
 							onPress={() => handleButtonOnPress(button.onPress)}
 							key={index}
 							flex={1}
-							bg={button.type === "confirm" ? "darkContrast" : "darkAlert"}
+							bg={handleButtonType(button).bgColor}
 							textProps={{
-								color: button.type === "confirm" ? "contrast" : "alert",
+								color: handleButtonType(button).textColor,
 							}}>
-							{button?.text?.length
-								? button.text
-								: button.type === "confirm"
-								? "Sim"
-								: "Não"}
+							{handleButtonType(button).text}
 						</Button>
 					))}
 				</Box>

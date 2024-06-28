@@ -16,6 +16,7 @@ export const UpsertSubjectScreen: React.FC = () => {
 		isLoading,
 		isUpdate,
 		subject,
+		handleTitle,
 	} = useUpsertSubjectScreenViewController()
 	const theme = useAppTheme()
 
@@ -25,10 +26,10 @@ export const UpsertSubjectScreen: React.FC = () => {
 			submitButton={{
 				onPress: () => handleCreateSubject(),
 				isLoading: isLoading,
-				title: isUpdate ? "Salvar" : "Criar",
+				title: handleTitle().submitBtnTitle,
 			}}
 			goBack={{
-				title: isUpdate ? "Atualizar Disciplina" : "Criar Disciplina",
+				title: handleTitle().goBackTitle,
 			}}>
 			<Box testID="colorPicker">
 				<ColorPicker

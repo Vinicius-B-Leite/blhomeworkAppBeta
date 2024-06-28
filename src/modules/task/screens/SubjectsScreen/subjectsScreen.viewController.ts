@@ -7,6 +7,7 @@ import {
 	useToastDispatch,
 } from "@/store"
 import { Subject } from "@/modules/task/model"
+import { useCallback } from "react"
 
 export function useSubjectsScreenViewController() {
 	const navigation = useNavigation()
@@ -32,7 +33,7 @@ export function useSubjectsScreenViewController() {
 		},
 	})
 
-	const handleNavigateToCreateSubject = () => {
+	const handleNavigateToCreateSubject = useCallback(() => {
 		navigation.navigate("TaskRoutes", {
 			screen: "UpsertSubjectScreen",
 			params: {
@@ -40,75 +41,84 @@ export function useSubjectsScreenViewController() {
 				isUpdate: false,
 			},
 		})
-	}
+	}, [])
 
-	const onLongPressSubject = (subject: Subject) => {
-		showAnimatedHeaderOptions({
-			title: subject.name,
-			titleColor: subject.color,
-			rightOptions: [
-				{
-					iconsName: "trash",
-					onPress: () => {
-						showAlert({
-							title: "Deletar disciplina",
-							message: `Você tem certeza que deseja deletar a disciplina ${subject.name}?`,
-							buttons: [
-								{
-									text: "Sim",
-									type: "confirm",
-									onPress: () => {
-										const canDeleteSubject =
-											subject.id !== selectedSubjectId
+	const onLongPressSubject = useCallback(
+		(subject: Subject) => {
+			showAnimatedHeaderOptions({
+				title: subject.name,
+				titleColor: subject.color,
+				rightOptions: [
+					{
+						iconsName: "trash",
+						onPress: () => {
+							showAlert({
+								title: "Deletar disciplina",
+								message: `Você tem certeza que deseja deletar a disciplina ${subject.name}?`,
+								buttons: [
+									{
+										text: "Sim",
+										type: "confirm",
+										onPress: () => {
+											const canDeleteSubject =
+												subject.id !== selectedSubjectId
 
-										if (canDeleteSubject) {
-											deleteSubject({ subjectId: subject.id })
+											if (canDeleteSubject) {
+												deleteSubject({ subjectId: subject.id })
 
-											return
-										}
-										showToast({
-											message:
-												"Você não pode deletar a disciplina selecionada!",
-											type: "error",
-										})
+												return
+											}
+											showToast({
+												message:
+													"Você não pode deletar a disciplina selecionada!",
+												type: "error",
+											})
+										},
 									},
-								},
-								{
-									text: "Não",
-									type: "cancel",
-								},
-							],
-						})
+									{
+										text: "Não",
+										type: "cancel",
+									},
+								],
+							})
+						},
+						isLoading: isDeleteSubjectLoading,
 					},
-					isLoading: isDeleteSubjectLoading,
-				},
-				{
-					iconsName: "pen",
-					onPress: () => {
-						navigation.navigate("TaskRoutes", {
-							screen: "UpsertSubjectScreen",
-							params: {
-								classroomId: classroomId,
-								subject: subject,
-								isUpdate: true,
-							},
-						})
+					{
+						iconsName: "pen",
+						onPress: () => {
+							navigation.navigate("TaskRoutes", {
+								screen: "UpsertSubjectScreen",
+								params: {
+									classroomId: classroomId,
+									subject: subject,
+									isUpdate: true,
+								},
+							})
+						},
 					},
-				},
-			],
-		})
-	}
+				],
+			})
+		},
+		[selectedSubjectId, deleteSubject, showToast, isDeleteSubjectLoading, classroomId]
+	)
 
-	const handleSelectSubject = (subject: Subject) => {
-		hideAnimatedHeaderOptions()
-		onSelectSubject(subject)
-	}
+	const handleSelectSubject = useCallback(
+		(subject: Subject) => {
+			hideAnimatedHeaderOptions()
+			onSelectSubject(subject)
+		},
+		[hideAnimatedHeaderOptions, onSelectSubject]
+	)
+	const handleGoBack = useCallback(() => {
+		navigation.goBack()
+	}, [])
 	return {
 		handleNavigateToCreateSubject,
 		subjectList: subjectList ?? [],
 		isLoading,
 		refresh: () => refresh(),
-		goBack: () => navigation.goBack(),
+		goBack: handleGoBack,
 		onLongPressSubject,
 		handleSelectSubject,
 	}

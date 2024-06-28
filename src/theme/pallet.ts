@@ -2,6 +2,8 @@ export const pallet = {
 	black: "#000000",
 	black900: "#080808",
 	black800: "#121212",
+	black03: "rgba(0, 0, 0, 0.03)",
+	black07: "rgba(0, 0, 0, 0.07)",
 
 	gray400: "#6A6A6A",
 	gray450: "#676767",

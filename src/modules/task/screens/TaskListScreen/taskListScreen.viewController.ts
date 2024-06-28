@@ -8,7 +8,7 @@ import {
 import { useNavigation, useTheme } from "@react-navigation/native"
 import { Task } from "@/modules/task/model"
 import { useAppTheme } from "@/hooks"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 
 type UseTaskListScreenViewControllerProps = {
 	classroomAdminId: string
@@ -31,8 +31,7 @@ export function useTaskListScreenViewController({
 			showToast({ message: "Erro ao deletar tarefa", type: "error" })
 		},
 	})
-	const { hideAnimatedHeaderOptions, showAnimatedHeaderOptions } =
-		useAnimatedHeaderOptionsDispatch()
+	const { showAnimatedHeaderOptions } = useAnimatedHeaderOptionsDispatch()
 	const { taskList, isLoading, refresh } = useGetTaskListModelView({
 		classroomId,
 		onError: () => {
@@ -40,7 +39,7 @@ export function useTaskListScreenViewController({
 		},
 	})
 
-	const handleNavigateToCreateTask = () => {
+	const handleNavigateToCreateTask = useCallback(() => {
 		navigation.navigate("TaskRoutes", {
 			screen: "UpsertTask",
 			params: {
@@ -48,9 +47,9 @@ export function useTaskListScreenViewController({
 				isUpdate: false,
 			},
 		})
-	}
+	}, [])
 
-	const handleNavigateToTaskDetails = (task: Task) => {
+	const handleNavigateToTaskDetails = useCallback((task: Task) => {
 		navigation.navigate("TaskRoutes", {
 			screen: "TaskDetails",
 			params: {
@@ -58,67 +57,70 @@ export function useTaskListScreenViewController({
 				classroomId,
 			},
 		})
-	}
+	}, [])
 
-	const userIsClassroomAdim = user?.uid == classroomAdminId
-	const handleOpenTaskOptions = (task: Task) => {
-		if (!userIsClassroomAdim) {
-			return
-		}
+	const userIsClassroomAdim = useMemo(() => user?.uid == classroomAdminId, [user])
+	const handleOpenTaskOptions = useCallback(
+		(task: Task) => {
+			if (!userIsClassroomAdim) {
+				return
+			}
 
-		setCurrentTaskInAnimatedHeader(task)
+			setCurrentTaskInAnimatedHeader(task)
 
-		showAnimatedHeaderOptions({
-			title: task.title,
-			titleColor: theme.colors.text,
-			onClose: () => {
-				setCurrentTaskInAnimatedHeader(null)
-			},
-			rightOptions: [
-				{
-					iconsName: "trash",
-					isLoading: false,
-					onPress: () => {
-						showAlert({
-							message: `Deseja realmente deletar a tarefa ${task.title}?`,
-							buttons: [
-								{
-									type: "confirm",
-									text: "Sim",
-									onPress: () => {
-										setCurrentTaskInAnimatedHeader(null)
-										deleteTask({ taskId: task.id })
-									},
-								},
-								{
-									type: "cancel",
-									text: "Não",
-									onPress: () => {
-										setCurrentTaskInAnimatedHeader(null)
-									},
-								},
-							],
-						})
-					},
+			showAnimatedHeaderOptions({
+				title: task.title,
+				titleColor: theme.colors.text,
+				onClose: () => {
+					setCurrentTaskInAnimatedHeader(null)
 				},
-				{
-					iconsName: "pen",
-					isLoading: false,
-					onPress: () => {
-						setCurrentTaskInAnimatedHeader(null)
-						navigation.navigate("TaskRoutes", {
-							screen: "UpsertTask",
-							params: {
-								classroomId,
-								task,
-								isUpdate: true,
-							},
-						})
+				rightOptions: [
+					{
+						iconsName: "trash",
+						isLoading: false,
+						onPress: () => {
+							showAlert({
+								message: `Deseja realmente deletar a tarefa ${task.title}?`,
+								buttons: [
+									{
+										type: "confirm",
+										text: "Sim",
+										onPress: () => {
+											setCurrentTaskInAnimatedHeader(null)
+											deleteTask({ taskId: task.id })
+										},
+									},
+									{
+										type: "cancel",
+										text: "Não",
+										onPress: () => {
+											setCurrentTaskInAnimatedHeader(null)
+										},
+									},
+								],
+							})
+						},
 					},
-				},
-			],
-		})
-	}
+					{
+						iconsName: "pen",
+						isLoading: false,
+						onPress: () => {
+							setCurrentTaskInAnimatedHeader(null)
+							navigation.navigate("TaskRoutes", {
+								screen: "UpsertTask",
+								params: {
+									classroomId,
+									task,
+									isUpdate: true,
+								},
+							})
+						},
+					},
+				],
+			})
+		},
+		[userIsClassroomAdim]
+	)
 
 	return {
 		currentUserIsAdmin: userIsClassroomAdim,

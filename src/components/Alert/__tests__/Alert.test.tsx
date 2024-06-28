@@ -24,8 +24,8 @@ describe("component: Alert", () => {
 
 		expect(screen.getByText("Test title")).toBeTruthy()
 		expect(screen.getByText("Test message")).toBeTruthy()
-		expect(screen.getByText("Yes")).toBeTruthy()
-		expect(screen.getByText("No")).toBeTruthy()
+		expect(screen.getByText("Sim")).toBeTruthy()
+		expect(screen.getByText("Não")).toBeTruthy()
 	})
 
 	it("does not render when not visible", () => {
@@ -60,7 +60,7 @@ describe("component: Alert", () => {
 
 		render(<Alert />)
 
-		fireEvent.press(screen.getByText("Yes"))
+		fireEvent.press(screen.getByText("Sim"))
 
 		expect(mockOnPress).toHaveBeenCalled()
 		expect(mockHideAlert).toHaveBeenCalled()

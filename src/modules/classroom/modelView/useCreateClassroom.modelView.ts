@@ -4,6 +4,7 @@ import { CreateClassroomServiceProps, classroomService } from "@/modules/classro
 import { CoumnModelViewProps } from "@/types"
 import { useAuth } from "@/modules/auth/context"
 import { CLASSROOM_QUERY_KEYS } from "@/modules/classroom/api"
+import { CHAT_QUERY_KEYS } from "@/modules/chat/api"
 
 type UseCreateClassroomProps = CoumnModelViewProps<string, void>
 export function useCreateClassroom(props: UseCreateClassroomProps) {
@@ -18,11 +19,16 @@ export function useCreateClassroom(props: UseCreateClassroomProps) {
 		retry: false,
 		mutationFn: (props) =>
 			classroomService.createClassroom({ ...props, userId: user!.uid }),
-		onSuccess: () => {
+		onSuccess: async () => {
 			props.onSuccess?.()
-			client.invalidateQueries({
-				queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user!.uid],
-			})
+			await Promise.all([
+				client.invalidateQueries({
+					queryKey: [CLASSROOM_QUERY_KEYS.GET_CLASSROOMS, user!.uid],
+				}),
+				client.invalidateQueries({
+					queryKey: [CHAT_QUERY_KEYS.GET_CHATS, user!.uid],
+				}),
+			])
 		},
 		onError: (error) => {
 			props.onError?.(error.message)

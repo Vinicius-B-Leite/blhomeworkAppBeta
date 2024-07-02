@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const rgbColorRegex = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/
+export const rgbColorRegex = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/
 export const createSubjectSchema = z.object({
 	name: z.string().min(3, "Mínimo de 3 caracteres"),
 	color: z

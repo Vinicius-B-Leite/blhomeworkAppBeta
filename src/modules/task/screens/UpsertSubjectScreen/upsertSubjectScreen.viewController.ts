@@ -1,12 +1,16 @@
 import { useForm } from "react-hook-form"
-import { CreateSubjectSchema, createSubjectSchema } from "./upsertSubjectSchema"
+import {
+	CreateSubjectSchema,
+	createSubjectSchema,
+	rgbColorRegex,
+} from "./upsertSubjectSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useCreateSubject, useupdateSubject } from "@/modules/task/modelView"
 import { useRouteParams } from "@/hooks"
 import { returnedResults } from "reanimated-color-picker"
 import { useToastDispatch } from "@/store"
 import { useNavigation } from "@react-navigation/native"
-import { useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 export function useUpsertSubjectScreenViewController() {
 	const params = useRouteParams("UpsertSubjectScreen")
@@ -15,6 +19,9 @@ export function useUpsertSubjectScreenViewController() {
 	const subject = params?.subject
 	const navigation = useNavigation()
 	const { showToast } = useToastDispatch()
+	const initialColor = isUpdate ? subject!.color : "rgb(255, 0, 0)"
+
+	const [colorPickerValue, setColorPickerValue] = useState(initialColor)
 	const {
 		handleSubmit,
 		watch,
@@ -24,7 +31,7 @@ export function useUpsertSubjectScreenViewController() {
 	} = useForm<CreateSubjectSchema>({
 		resolver: zodResolver(createSubjectSchema),
 		defaultValues: {
-			color: isUpdate ? subject!.color : "rgb(255, 0, 0)",
+			color: initialColor,
 			name: isUpdate ? subject!.name : "",
 			shortName: isUpdate ? subject!.shortName : "",
 		},
@@ -90,9 +97,18 @@ export function useUpsertSubjectScreenViewController() {
 			goBackTitle,
 		}
 	}, [isUpdate])
+
+	const selectedColor = watch("color")
+
+	useEffect(() => {
+		if (rgbColorRegex.test(selectedColor)) {
+			setColorPickerValue(selectedColor)
+		}
+	}, [selectedColor])
+
 	return {
 		onSelectColor,
-		selectedColor: watch("color"),
+		selectedColor,
 		subjectName: watch("name"),
 		shortName: watch("shortName"),
 		control,
@@ -102,5 +118,6 @@ export function useUpsertSubjectScreenViewController() {
 		isUpdate,
 		subject,
 		handleTitle,
+		colorPickerValue,
 	}
 }

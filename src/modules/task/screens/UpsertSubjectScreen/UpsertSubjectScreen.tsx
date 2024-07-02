@@ -14,9 +14,8 @@ export const UpsertSubjectScreen: React.FC = () => {
 		shortName,
 		handleCreateSubject,
 		isLoading,
-		isUpdate,
-		subject,
 		handleTitle,
+		colorPickerValue,
 	} = useUpsertSubjectScreenViewController()
 	const theme = useAppTheme()
 
@@ -34,7 +33,7 @@ export const UpsertSubjectScreen: React.FC = () => {
 			<Box testID="colorPicker">
 				<ColorPicker
 					style={{ width: "100%", marginTop: theme.spacing[36] }}
-					value={isUpdate ? subject!.color : "red"}
+					value={colorPickerValue}
 					onComplete={onSelectColor}>
 					<Panel1 thumbSize={20} />
 
@@ -53,6 +52,7 @@ export const UpsertSubjectScreen: React.FC = () => {
 							<FormInput
 								control={control}
 								name="color"
+								autoCapitalize="none"
 								placeholder="rgb(0, 0, 0)"
 							/>
 						</Box>

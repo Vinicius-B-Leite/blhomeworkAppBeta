@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query"
 import { TASK_QUERY_KEY } from "@/modules/task/api"
 import { CoumnModelViewProps } from "@/types"
 import { Task, taskService } from "@/modules/task/model"
@@ -30,23 +29,32 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 				(t) => t.content.data.taskId
 			)
 			const tasksUnDone = task.filter((t) => !t.isDone)
+
 			for (const t of tasksUnDone) {
 				const taskNotificationAlreadyScheduled = taskIdsHasNotification.includes(
 					t.id
 				)
 				if (!taskNotificationAlreadyScheduled) {
-					const dateLeddOneDay = new Date()
-					dateLeddOneDay.setDate(t.deadLine.getDate() - 1)
+					const dateLessOneDay = new Date()
+					dateLessOneDay.setDate(t.deadLine.getDate() - 1)
 
-					await scheduleNotification({
-						title: "Não esqueça da tarefa",
-						body: `Você tem uma tarefa para amanha: ${t.title} - ${t.subject.name}`,
-						date: dateLeddOneDay,
-						subtitle: "Tarefa",
-						data: {
-							taskId: t.id,
-						},
-					})
+					const minumumDate = new Date(
+						new Date().setDate(new Date().getDate() + 1)
+					)
+					const isDateToScheduleNotificationMinumiunDate =
+						dateLessOneDay >= minumumDate
+
+					if (isDateToScheduleNotificationMinumiunDate) {
+						await scheduleNotification({
+							title: "Não esqueça da tarefa",
+							body: `Você tem uma tarefa para amanha: ${t.title} - ${t.subject.name}`,
+							date: dateLessOneDay,
+							subtitle: "Tarefa",
+							data: {
+								taskId: t.id,
+							},
+						})
+					}
 				}
 			}
 		},

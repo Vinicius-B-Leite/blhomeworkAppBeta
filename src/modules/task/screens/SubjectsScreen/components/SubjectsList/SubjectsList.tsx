@@ -1,7 +1,6 @@
 import { Box, Icon, List, PressableBox, Text } from "@/components"
-import { useAppTheme } from "@/hooks"
 import { Subject } from "@/modules/task/model"
-import { useAnimatedHeaderOptionsDispatch } from "@/store"
+
 import React, { useCallback } from "react"
 import { ListRenderItemInfo } from "react-native"
 
@@ -34,7 +33,9 @@ const SubjectsList: React.FC<SubjectsListProps> = ({
 				p={14}
 				borderRadius={8}
 				mt={14}>
-				<Text preset="pMedium">{item.name}</Text>
+				<Text preset="pMedium" numberOfLines={1}>
+					{item.name}
+				</Text>
 			</PressableBox>
 		),
 		[]

@@ -89,6 +89,17 @@ export function useSubjectsScreenViewController() {
 					{
 						iconsName: "pen",
 						onPress: () => {
+							const isSubjectSelectedInTaskForm =
+								selectedSubjectId === subject.id
+							if (isSubjectSelectedInTaskForm) {
+								showToast({
+									message:
+										"Você não pode editar a disciplina selecionada!",
+									type: "error",
+								})
+
+								return
+							}
 							navigation.navigate("TaskRoutes", {
 								screen: "UpsertSubjectScreen",
 								params: {

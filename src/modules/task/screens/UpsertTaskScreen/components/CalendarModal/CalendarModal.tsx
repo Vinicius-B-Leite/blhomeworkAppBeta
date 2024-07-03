@@ -1,11 +1,12 @@
 import { Box, Container, Icon, PressableBox, Text } from "@/components"
 import { months } from "@/modules/task/constants"
 import React from "react"
-import { FlatList, Modal } from "react-native"
+import { FlatList, Modal, Platform } from "react-native"
 import { CalendarProps } from "./calendarTypes"
 import { useCalendar } from "./useCalender"
 import MonthItem from "./MonthItem"
 import CalendarItem from "./CalendarItem"
+import { useAppTheme } from "@/hooks"
 
 const CalendarModal: React.FC<CalendarProps> = ({
 	closeCalendar,
@@ -22,19 +23,45 @@ const CalendarModal: React.FC<CalendarProps> = ({
 		showMonthsSelector,
 		calendarData,
 		handleSaveDate,
+		top,
 	} = useCalendar({ closeCalendar, onDateSave })
+	const theme = useAppTheme()
 
 	return (
 		<Modal onRequestClose={closeCalendar} animationType="slide" visible={visible}>
-			<Container
-				goBack={{
-					title: "Data de entrega",
-					onPress: closeCalendar,
-				}}
-				submitButton={{
-					title: "salvar",
-					onPress: handleSaveDate,
+			<Box
+				bg="bg"
+				flex={1}
+				paddingHorizontal={24}
+				style={{
+					paddingTop:
+						Platform.OS === "ios"
+							? top + theme.spacing[12]
+							: theme.spacing[12],
 				}}>
+				<Box
+					flexDirection="row"
+					alignItems="center"
+					justifyContent="space-between"
+					gap={14}>
+					<PressableBox
+						onPress={closeCalendar}
+						flex={1}
+						flexDirection="row"
+						alignItems="center"
+						gap={14}>
+						<Icon name="left" size={24} />
+						<Text preset="tSmallBold" numberOfLines={1} style={{ flex: 1 }}>
+							Data de entrega
+						</Text>
+					</PressableBox>
+
+					<PressableBox onPress={handleSaveDate}>
+						<Text preset="pMedium" color="contrast">
+							salvar
+						</Text>
+					</PressableBox>
+				</Box>
 				<Box mt={50} mb={24}>
 					<Text preset="pMedium">Data selecionada</Text>
 					<Text preset="tMedium">
@@ -93,7 +120,7 @@ const CalendarModal: React.FC<CalendarProps> = ({
 						/>
 					)}
 				</Box>
-			</Container>
+			</Box>
 		</Modal>
 	)
 }

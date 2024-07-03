@@ -1,4 +1,6 @@
+import { useAppSafeArea } from "@/hooks"
 import { week } from "@/modules/task/constants"
+import { useTheme } from "@shopify/restyle"
 import { useCallback, useMemo, useState } from "react"
 
 type useCalendarProps = {
@@ -9,7 +11,7 @@ export function useCalendar({ closeCalendar, onDateSave }: useCalendarProps) {
 	const [showMonthsSelector, setShowMonthsSelector] = useState(false)
 	const [selectedDay, setSelectedDay] = useState<null | number>(new Date().getDate())
 	const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth())
-
+	const { top } = useAppSafeArea()
 	const calendarData = useMemo(() => {
 		const lastDayMonthInNumber = new Date(
 			new Date(new Date().setMonth(selectedMonth + 1)).setDate(0)
@@ -68,5 +70,6 @@ export function useCalendar({ closeCalendar, onDateSave }: useCalendarProps) {
 		selectedMonth,
 		calendarData,
 		handleSaveDate,
+		top: top,
 	}
 }

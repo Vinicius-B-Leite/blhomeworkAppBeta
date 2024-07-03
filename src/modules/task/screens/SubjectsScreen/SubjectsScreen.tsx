@@ -15,12 +15,20 @@ export const SubjectsScreen: React.FC = () => {
 		goBack,
 		handleSelectSubject,
 		onLongPressSubject,
+		handleSetSearchSubject,
+		searchSubject,
+		isSearchingSubject,
 	} = useSubjectsScreenViewController()
 
 	return (
 		<>
 			<Container>
-				<Header onBackPress={goBack} />
+				<Header
+					onBackPress={goBack}
+					onChangeSearchText={handleSetSearchSubject}
+					searchText={searchSubject}
+					isSearchingSubject={isSearchingSubject}
+				/>
 				<SubjectsList
 					onListHeaderPress={handleNavigateToCreateSubject}
 					onLongPressSubject={(subject) => onLongPressSubject(subject)}

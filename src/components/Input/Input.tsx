@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = ({
 	const inputRef = useRef<TextInput>(null)
 
 	return (
-		<>
+		<Box>
 			<PressableBox
 				onPress={() => onPress?.() || inputRef.current?.focus()}
 				activeOpacity={1}
@@ -65,6 +65,6 @@ export const Input: React.FC<InputProps> = ({
 					{errorMessage}
 				</Text>
 			)}
-		</>
+		</Box>
 	)
 }

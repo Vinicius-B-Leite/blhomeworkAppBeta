@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const createTaskScreenSchema = z.object({
-	title: z.string().min(3, "Mínimo de 3 caracteres"),
+	title: z.string().trim().min(3, "Mínimo de 3 caracteres"),
 	subject: z.object(
 		{
 			id: z.string(),
@@ -10,7 +10,7 @@ export const createTaskScreenSchema = z.object({
 		},
 		{ required_error: "Disciplina é obrigatória" }
 	),
-	description: z.string().optional(),
+	description: z.string().trim().optional(),
 	uploads: z
 		.array(
 			z.object({

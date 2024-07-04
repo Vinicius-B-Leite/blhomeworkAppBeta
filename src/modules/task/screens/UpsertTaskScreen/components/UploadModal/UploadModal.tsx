@@ -108,12 +108,13 @@ const UploadModal: React.FC<UploadModalProps> = ({
 				<Text preset="pMedium">Selecione um arquivo</Text>
 			</PressableBox>
 
-			<Box>
+			<Box flex={1} pt={24}>
 				<List
 					isLoading={false}
 					refresh={() => {}}
 					data={uploads}
 					renderItem={renderItem}
+					contentContainerStyle={{ paddingBottom: theme.spacing[24] }}
 				/>
 			</Box>
 		</Box>

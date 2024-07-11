@@ -20,12 +20,6 @@ export function useChatListViewController() {
 		},
 	})
 
-	useFocusEffect(
-		useCallback(() => {
-			refresh()
-		}, [])
-	)
-
 	const filteredChats = useMemo(() => {
 		if (!chats || !debouncedSearchChatInput) return []
 		setIsSearching(true)

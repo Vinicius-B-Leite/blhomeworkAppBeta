@@ -10,6 +10,8 @@ import { CoumnModelViewProps } from "@/types"
 
 import { useNavigation } from "@react-navigation/native"
 import { CHAT_QUERY_KEYS } from "../api"
+import { useQueryClient } from "@tanstack/react-query"
+import { useAuth } from "@/modules/auth/context"
 
 type SectionMessages = {
 	title: string
@@ -25,6 +27,8 @@ export function useListenMessagesModelView({
 }: useListenMessagesModelViewProps) {
 	const [messages, setMessages] = useState<Message[]>([])
 	const navigation = useNavigation()
+	const client = useQueryClient()
+	const { user } = useAuth()
 	const queryKey = [CHAT_QUERY_KEYS.GET_MESSAGES, chatId]
 	const { isLoading } = useGetMessagesModelView({
 		chatId: chatId,
@@ -61,9 +65,15 @@ export function useListenMessagesModelView({
 		return orderedMessages.reverse()
 	}, [messages])
 
+	const updateChatList = async () => {
+		client.invalidateQueries({
+			queryKey: [CHAT_QUERY_KEYS.GET_CHATS, user!.uid],
+		})
+	}
 	useEffect(() => {
 		navigation.addListener("beforeRemove", (ac) => {
 			saveDataInStorageWithTimestamp(messages, queryKey)
+			updateChatList()
 		})
 
 		return () => {

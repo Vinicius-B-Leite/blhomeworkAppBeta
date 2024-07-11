@@ -1,4 +1,4 @@
-import { useRouteParams } from "@/hooks"
+import { useDebouncedValue, useRouteParams } from "@/hooks"
 import { useNavigation } from "@react-navigation/native"
 import { useDeleteSubject, useGetSubjectListModelView } from "@/modules/task/modelView"
 import {
@@ -7,7 +7,7 @@ import {
 	useToastDispatch,
 } from "@/store"
 import { Subject } from "@/modules/task/model"
-import { useCallback } from "react"
+import { useCallback, useMemo, useState } from "react"
 
 export function useSubjectsScreenViewController() {
 	const navigation = useNavigation()
@@ -15,6 +15,8 @@ export function useSubjectsScreenViewController() {
 	const classroomId = params!.classroomId
 	const selectedSubjectId = params?.selectedSubjectId
 	const onSelectSubject = params!.onSelectSubject
+	const [searchSubject, setSearchSubject] = useState("")
+	const debouncedSearchSubject = useDebouncedValue(searchSubject)
 	const { showAlert } = useAlertDispatch()
 	const { showToast } = useToastDispatch()
 	const { showAnimatedHeaderOptions, hideAnimatedHeaderOptions } =
@@ -87,6 +89,17 @@ export function useSubjectsScreenViewController() {
 					{
 						iconsName: "pen",
 						onPress: () => {
+							const isSubjectSelectedInTaskForm =
+								selectedSubjectId === subject.id
+							if (isSubjectSelectedInTaskForm) {
+								showToast({
+									message:
+										"Você não pode editar a disciplina selecionada!",
+									type: "error",
+								})
+
+								return
+							}
 							navigation.navigate("TaskRoutes", {
 								screen: "UpsertSubjectScreen",
 								params: {
@@ -113,13 +126,31 @@ export function useSubjectsScreenViewController() {
 	const handleGoBack = useCallback(() => {
 		navigation.goBack()
 	}, [])
+
+	const handleSetSearchSubject = useCallback((text: string) => {
+		setSearchSubject(text)
+	}, [])
+
+	const searchedSubjectList = useMemo(() => {
+		if (debouncedSearchSubject.length === 0) {
+			return subjectList
+		}
+
+		return subjectList?.filter((subject) =>
+			subject.name.toLowerCase().includes(debouncedSearchSubject.toLowerCase())
+		)
+	}, [subjectList, debouncedSearchSubject])
+
 	return {
 		handleNavigateToCreateSubject,
-		subjectList: subjectList ?? [],
+		subjectList: searchedSubjectList ?? [],
 		isLoading,
 		refresh: () => refresh(),
 		goBack: handleGoBack,
 		onLongPressSubject,
 		handleSelectSubject,
+		handleSetSearchSubject,
+		searchSubject,
+		isSearchingSubject: debouncedSearchSubject !== searchSubject,
 	}
 }

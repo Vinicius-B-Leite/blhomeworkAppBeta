@@ -161,11 +161,12 @@ export const classroomApi: ClassroomApi = {
 
 		return
 	},
-	getStudentById: async (studentId) => {
+	getStudentById: async (studentId, classroomId) => {
 		const { data, error } = await supabase
 			.from("student")
 			.select("user ( * )")
 			.eq("user_id", studentId)
+			.eq("classroom_id", classroomId)
 
 		if (error) {
 			throw new Error(error.message)

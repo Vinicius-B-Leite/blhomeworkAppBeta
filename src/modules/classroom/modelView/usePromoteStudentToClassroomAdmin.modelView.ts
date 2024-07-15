@@ -39,9 +39,14 @@ export const usePromoteStudentToClassroomAdmin = (props: UseCreateClassroomProps
 				}),
 			])
 		},
-		onError: (error) => {
+		onError: async (error) => {
 			const formatedError = getSubapaseClassroomError(error.message)
 			props.onError?.(formatedError?.message || "Erro ao promover aluno!")
+			if (formatedError?.message === "Aluno não encontrado") {
+				await client.invalidateQueries({
+					queryKey: [CLASSROOM_QUERY_KEYS.GET_STUDENTS, props.classroomId],
+				})
+			}
 		},
 	})
 

@@ -156,9 +156,9 @@ const deleteClassroom = async (classroomId: string) => {
 		throw error
 	}
 }
-const getStudentById = async (studentId: string) => {
+const getStudentById = async (studentId: string, classroomId: string) => {
 	try {
-		const response = await classroomApi.getStudentById(studentId)
+		const response = await classroomApi.getStudentById(studentId, classroomId)
 
 		return response ? classroomAdapter.studentApiResponseToStudent(response) : null
 	} catch (error) {
@@ -170,7 +170,7 @@ const promoteStudentToClassroomAdmin = async (studentId: string, classroomId: st
 	try {
 		const [classroom, student] = await Promise.all([
 			getClassroomById(classroomId),
-			getStudentById(studentId),
+			getStudentById(studentId, classroomId),
 		])
 
 		const classroomExist = !!classroom
@@ -188,7 +188,7 @@ const removeStudent = async (classroomId: string, studentId: string) => {
 	try {
 		const [classroom, student] = await Promise.all([
 			getClassroomById(classroomId),
-			getStudentById(studentId),
+			getStudentById(studentId, studentId),
 		])
 
 		const classroomExists = !!classroom

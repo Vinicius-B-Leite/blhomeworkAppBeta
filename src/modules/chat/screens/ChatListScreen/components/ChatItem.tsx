@@ -45,7 +45,7 @@ const ChatItem: React.FC<ChatItemProps> = ({ onPress, chat, unreadMessages }) =>
 					height={38}
 					width={38}
 					borderRadius={9999}>
-					<Text preset="pMedium">
+					<Text preset="pMedium" testID={`${id}-${unreadMessages}`}>
 						{unreadMessages > 99 ? "+99" : unreadMessages}
 					</Text>
 				</Box>

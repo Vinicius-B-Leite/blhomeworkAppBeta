@@ -8,7 +8,7 @@ export type ClassroomType = {
 export type ClassroomApiResponse = {
 	classroom: {
 		created_at: string
-		deleted_at: string
+		deleted_at: string | null
 		id: string
 		name: string
 		admin_id: string

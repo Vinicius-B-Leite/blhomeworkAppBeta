@@ -8,7 +8,7 @@ import ImageView from "@/components/ImageView/ImageView"
 
 const MessagesScreen: React.FC = () => {
 	const {
-		params,
+		chat,
 		isLoading,
 		sectionMessages,
 		handleChangeMessageInput,
@@ -23,7 +23,7 @@ const MessagesScreen: React.FC = () => {
 	if (isLoading) {
 		return (
 			<Container alignItems="center" justifyContent="center">
-				<Spinner color="contrast" size={22} />
+				<Spinner color="contrast" size={22} testID="loading" />
 			</Container>
 		)
 	}
@@ -32,7 +32,7 @@ const MessagesScreen: React.FC = () => {
 		<>
 			<Container
 				goBack={{
-					title: params?.chat.classroom.title || "Chat",
+					title: chat?.classroom?.title || "Chat",
 				}}>
 				<Box flex={1} mt={36}>
 					<SectionList
@@ -52,11 +52,13 @@ const MessagesScreen: React.FC = () => {
 				<Input
 					value={messageInput}
 					onChangeText={handleChangeMessageInput}
-					placeholder="Digite sua mensage"
+					placeholder="Digite sua mensagem"
 					multiline
 					RightIcon={
 						<Box flexDirection="row" gap={14} alignItems="center">
-							<PressableBox onPress={handleSelectImage}>
+							<PressableBox
+								onPress={handleSelectImage}
+								testID="image-selector">
 								<Icon name="image" color="contrast" size={20} />
 							</PressableBox>
 
@@ -65,6 +67,7 @@ const MessagesScreen: React.FC = () => {
 								disabled={isSendingMessage}
 								backgroundColor="contrast"
 								p={4}
+								testID="send-message"
 								borderRadius={9999}>
 								{isSendingMessage ? (
 									<Spinner size={22} />

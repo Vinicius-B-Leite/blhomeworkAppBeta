@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from "react"
 
 import { useGetMessagesModelView } from "./useGetMessages.modelVIew"
 import { formatDate, saveDataInStorageWithTimestamp } from "@/utils"
-import { supabase } from "@/api"
-import { authService } from "@/modules/auth/models"
 
 import { Message } from "../models"
 import { CoumnModelViewProps } from "@/types"
@@ -12,6 +10,7 @@ import { useNavigation } from "@react-navigation/native"
 import { CHAT_QUERY_KEYS } from "../api"
 import { useQueryClient } from "@tanstack/react-query"
 import { useAuth } from "@/modules/auth/context"
+import { chatService } from "../models/chatService"
 
 type SectionMessages = {
 	title: string
@@ -81,49 +80,20 @@ export function useListenMessagesModelView({
 		}
 	}, [navigation, messages])
 
-	useEffect(() => {
+	const receviMessage = () => {
 		if (!chatId) return
-		const channels = supabase.channel("custom-filter-channel")
 
-		channels
-			.on(
-				"postgres_changes",
-				{
-					event: "INSERT",
-					schema: "public",
-					table: "messages",
-					filter: `chatId=eq.${chatId}`,
-				},
-				async (payload) => {
-					if (!payload?.new?.userId) return
+		const unSub = chatService.onMessageReceived((message) => {
+			setMessages((prev) => [...prev, message])
+		}, chatId)
 
-					const user = await authService.getUserData(payload.new.userId)
+		return unSub
+	}
 
-					if (!user) return
-
-					const message: Message = {
-						chatId: payload.new.chatId,
-						id: payload.new.id.toString(),
-						message: payload.new.message,
-						createdAt: new Date(payload.new.created_at),
-						updatedAt: null,
-						deletedAt: null,
-						uploadUrl: payload.new.uploadUrl,
-						userId: payload.new.userId,
-						user: {
-							avatarUrl: user.avatar_url || null,
-							email: user.email,
-							username: user.user_name,
-							id: user.id,
-						},
-					}
-					setMessages((prev) => [...prev, message])
-				}
-			)
-			.subscribe()
-
+	useEffect(() => {
+		const unsub = receviMessage()
 		return () => {
-			supabase.removeChannel(channels)
+			unsub?.()
 		}
 	}, [chatId])
 

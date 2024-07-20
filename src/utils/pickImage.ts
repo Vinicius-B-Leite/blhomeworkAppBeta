@@ -1,6 +1,10 @@
 import * as ImagePicker from "expo-image-picker"
 
-export async function pickImage(props?: { allowsEditing?: boolean }) {
+export type PickImageResult = ImagePicker.ImagePickerAsset
+
+export async function pickImage(props?: {
+	allowsEditing?: boolean
+}): Promise<PickImageResult | undefined> {
 	const allowsEditing = props?.allowsEditing === undefined ? true : props.allowsEditing
 	let result = await ImagePicker.launchImageLibraryAsync({
 		mediaTypes: ImagePicker.MediaTypeOptions.Images,

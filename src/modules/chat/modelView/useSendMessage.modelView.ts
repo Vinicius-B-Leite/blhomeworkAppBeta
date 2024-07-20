@@ -23,6 +23,7 @@ export function useSendMessageModelView(props: UseSendMessageModelViewProps) {
 		mutationKey: [CHAT_QUERY_KEYS.SEND_MESSAGE],
 		mutationFn: (mutationProps) => {
 			const isImageToSend = mutationProps.image?.base64 && mutationProps.image?.uri
+
 			if (isImageToSend) {
 				return chatService.sendMessage({
 					message: null,
@@ -31,6 +32,7 @@ export function useSendMessageModelView(props: UseSendMessageModelViewProps) {
 					image: mutationProps.image,
 				})
 			}
+
 			return chatService.sendMessage({
 				message: mutationProps.message,
 				userId: user!.uid,

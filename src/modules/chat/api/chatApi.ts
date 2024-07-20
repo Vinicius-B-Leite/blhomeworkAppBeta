@@ -101,4 +101,34 @@ export const chatApi: ChatApi = {
 
 		return data?.[0]
 	},
+	registerListener: (
+		chatId: string,
+		callback: (message: any) => void,
+		channelName: string
+	) => {
+		const channels = supabase.channel(channelName)
+
+		channels
+			.on(
+				"postgres_changes",
+				{
+					event: "INSERT",
+					schema: "public",
+					table: "messages",
+					filter: `chatId=eq.${chatId}`,
+				},
+				async (payload) => {
+					if (!payload?.new?.userId) return
+
+					callback(payload.new)
+				}
+			)
+			.subscribe()
+
+		const unsubscribe = () => {
+			supabase.removeChannel(channels)
+		}
+
+		return unsubscribe
+	},
 }

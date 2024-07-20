@@ -1,10 +1,11 @@
-import { api } from "@/api"
+import { api, supabase } from "@/api"
 import { CHAT_QUERY_KEYS, chatApi } from "../api"
 import { chatAdapter } from "./chatAdapter"
 import { getExtension } from "@/utils"
 import { mimeTypes } from "@/constant"
 import { storage } from "@/storage"
 import { ChatListItem, Message } from "./chatTypes"
+import { authService } from "@/modules/auth/models"
 
 const getChats = async (userId: string) => {
 	try {
@@ -89,8 +90,39 @@ const sendMessage = async (props: {
 	}
 }
 
+const onMessageReceived = (callback: (message: Message) => void, chatId: string) => {
+	const unsubscribe = chatApi.registerListener(
+		chatId,
+		async (m) => {
+			const user = await authService.getUserData(m.userId)
+
+			const message: Message = {
+				chatId: m.chatId.toString(),
+				id: m.id.toString(),
+				message: m.message,
+				createdAt: new Date(m.created_at),
+				updatedAt: null,
+				deletedAt: null,
+				uploadUrl: m.uploadUrl,
+				userId: m.userId,
+				user: {
+					avatarUrl: user.avatar_url || null,
+					email: user.email,
+					username: user.user_name,
+					id: user.id,
+				},
+			}
+			callback(message)
+		},
+		"custom-filter-channel"
+	)
+
+	return unsubscribe
+}
+
 export const chatService = {
 	getChats,
 	getChatMessages,
 	sendMessage,
+	onMessageReceived,
 }

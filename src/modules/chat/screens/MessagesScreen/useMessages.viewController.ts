@@ -7,6 +7,8 @@ import { useState } from "react"
 
 export function useMessagesViewController() {
 	const params = useRouteParams("Messages")
+
+	const chat = params?.chat
 	const [messageInput, setMessageInput] = useState("")
 	const [imageInput, setImageInput] = useState<{ uri: string; base64: string } | null>(
 		null
@@ -58,6 +60,7 @@ export function useMessagesViewController() {
 
 	const handleSendMessage = async () => {
 		const messageIsImage = imageInput?.base64 && imageInput?.uri
+
 		if (messageIsImage) {
 			sendMessage({
 				image: imageInput,
@@ -74,7 +77,7 @@ export function useMessagesViewController() {
 	}
 
 	return {
-		params,
+		chat,
 		sectionMessages,
 		isLoading,
 		messageInput,

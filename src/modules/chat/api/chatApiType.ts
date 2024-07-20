@@ -14,4 +14,9 @@ export type ChatApi = {
 	deleteAllMessagesFromChat: (classroomId: string) => Promise<void>
 	deleteChatByClassroomId: (classroomId: string) => Promise<void>
 	getChatByClassroomId: (classroomId: string) => Promise<ChatApiResponse | null>
+	registerListener: (
+		chatId: string,
+		callback: (message: MessageApiResponse) => void,
+		channelName: string
+	) => () => void
 }

@@ -32,6 +32,7 @@ const ImageView: React.FC<ImageViewProps> = ({ uri, visible, onClose, onSend }) 
 				bg="bg"
 				borderRadius={9999}
 				padding={8}
+				testID="close-image"
 				style={{
 					position: "absolute",
 					top: height * 0.08,

@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react"
 import { useGetChatsModelView } from "../../modelView"
 import { useDebouncedValue } from "@/hooks"
-import { useFocusEffect, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { Chat } from "../../models"
 import { useToastDispatch } from "@/store"
 

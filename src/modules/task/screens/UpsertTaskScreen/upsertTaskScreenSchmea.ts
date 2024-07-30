@@ -23,7 +23,10 @@ export const createTaskScreenSchema = z.object({
 		.optional(),
 	deadLine: z
 		.date({ required_error: "Data de entrega é obrigatória" })
-		.min(new Date(), "A data mínima é hoje"),
+		.min(
+			new Date(new Date().setDate(new Date().getDate() + 1)),
+			"A data mínima é amanhã"
+		),
 })
 
 export type CreateTaskScreenSchema = z.infer<typeof createTaskScreenSchema>

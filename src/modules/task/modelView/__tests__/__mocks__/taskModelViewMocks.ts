@@ -12,7 +12,9 @@ const tasks: TaskApiResponse[] = [
 			updated_at: null,
 		},
 		classroom_id: "classroom1",
-		dead_line: "2022-12-31",
+		dead_line: `${new Date(
+			new Date().setDate(new Date().getDate() + 3)
+		).toISOString()}`,
 		description: "Task 1",
 		id: "task1",
 		subject: {

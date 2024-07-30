@@ -8,6 +8,7 @@ import {
 	getAllScheduleNotifications,
 	scheduleNotification,
 } from "@/service/notifications"
+import { isDateAfterOrEqual } from "@/utils"
 
 type useTaskListModelViewProps = Pick<
 	CoumnModelViewProps<string | null, void>,
@@ -15,6 +16,7 @@ type useTaskListModelViewProps = Pick<
 > & {
 	classroomId: string
 }
+
 export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 	const { user } = useAuth()
 
@@ -35,14 +37,22 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 					t.id
 				)
 				if (!taskNotificationAlreadyScheduled) {
-					const dateLessOneDay = new Date()
+					const dateLessOneDay = new Date(t.deadLine)
 					dateLessOneDay.setDate(t.deadLine.getDate() - 1)
 
 					const minumumDate = new Date(
 						new Date().setDate(new Date().getDate() + 1)
 					)
-					const isDateToScheduleNotificationMinumiunDate =
-						dateLessOneDay >= minumumDate
+					const isDateToScheduleNotificationMinumiunDate = isDateAfterOrEqual(
+						dateLessOneDay,
+						minumumDate
+					)
+
+					console.log({
+						dateLessOneDay,
+						minumumDate,
+						isDateToScheduleNotificationMinumiunDate,
+					})
 
 					if (isDateToScheduleNotificationMinumiunDate) {
 						await scheduleNotification({

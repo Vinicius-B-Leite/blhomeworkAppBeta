@@ -5,11 +5,13 @@ import { CoumnModelViewProps } from "@/types"
 import { useAuth } from "@/modules/auth/context"
 
 import { cancelAllScheduledNotifications } from "@/service/notifications"
+import { useNavigation } from "@react-navigation/native"
 
 export const useLogoutModelView = (
 	props?: Omit<CoumnModelViewProps<void, void>, "onError">
 ) => {
 	const { logout } = useAuth()
+	const navigation = useNavigation()
 	const onSuccess = props?.onSuccess
 
 	const { isPending, mutate } = useMutation<void, Error, void>({
@@ -18,6 +20,7 @@ export const useLogoutModelView = (
 		gcTime: Infinity,
 		onSuccess: async () => {
 			onSuccess && onSuccess()
+			navigation.reset(navigation.getState())
 			await cancelAllScheduledNotifications()
 		},
 	})

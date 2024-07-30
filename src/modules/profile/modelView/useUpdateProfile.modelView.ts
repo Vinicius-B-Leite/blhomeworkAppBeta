@@ -11,7 +11,10 @@ import {
 } from "@/modules/profile/utils"
 import { UserUpdatedReturn } from "../models/profileTypes"
 
-type MutateProps = Omit<Parameters<typeof profileService.updateProfile>[0], "uid"> & {
+type MutateProps = Omit<
+	Parameters<typeof profileService.updateProfile>[0],
+	"uid" | "refreshToken"
+> & {
 	base64?: string
 }
 
@@ -36,6 +39,7 @@ export function useUpdateProfileModelView(props: UseUpdateProfileModelViewProps)
 		const updateProfile = await profileService.updateProfile({
 			uid: user!.uid,
 			shouldRefreshSession: localAutheticationSuccess,
+			refreshToken: user!.refreshtoken,
 			...p,
 		})
 

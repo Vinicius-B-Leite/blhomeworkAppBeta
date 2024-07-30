@@ -38,8 +38,10 @@ export const profileApi: ProfileApiType = {
 
 		return userTableData?.[0]
 	},
-	refreshSeassion: async () => {
-		const { data: user, error } = await supabase.auth.refreshSession()
+	refreshSeassion: async (refreshToken) => {
+		const { data: user, error } = await supabase.auth.refreshSession({
+			refresh_token: refreshToken,
+		})
 
 		if (error || !user.session?.access_token || !user.session?.refresh_token) {
 			throw new Error("Auth session missing!")

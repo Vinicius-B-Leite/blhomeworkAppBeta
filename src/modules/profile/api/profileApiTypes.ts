@@ -9,5 +9,5 @@ export type UpdatedProfileApiProps = Partial<
 >
 export type ProfileApi = {
 	updateProfile: (profile: UpdatedProfileApiProps) => Promise<UserUpdatedTableRespnse>
-	refreshSeassion: () => Promise<void>
+	refreshSeassion: (refreshToken: string) => Promise<void>
 }

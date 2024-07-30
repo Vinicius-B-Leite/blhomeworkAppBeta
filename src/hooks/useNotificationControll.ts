@@ -15,6 +15,7 @@ export function useNotificationControll() {
 			notificationToken: token,
 			uid: user.uid,
 			shouldRefreshSession: false,
+			refreshToken: user.refreshtoken,
 		})
 	}
 

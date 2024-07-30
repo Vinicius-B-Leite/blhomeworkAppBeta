@@ -10,11 +10,12 @@ const updateProfile = async (
 		uid: string
 		base64?: string
 		shouldRefreshSession?: boolean
+		refreshToken: string
 	}
 ) => {
 	try {
 		if (props.shouldRefreshSession) {
-			await profileApi.refreshSeassion()
+			await profileApi.refreshSeassion(props.refreshToken)
 		}
 		let avatarUrl = props.avatarUrl
 

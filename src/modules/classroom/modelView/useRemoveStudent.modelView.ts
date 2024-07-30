@@ -25,8 +25,13 @@ export const useRemoveStudentModelView = (props: UseEnterClassroomModelViewProps
 				queryKey: [CLASSROOM_QUERY_KEYS.GET_STUDENTS, props.classroomId],
 			})
 		},
-		onError: (error) => {
+		onError: async (error) => {
 			const formatedError = getSubapaseClassroomError(error.message)
+			if (error?.message === "Classroom or student not found") {
+				await client.invalidateQueries({
+					queryKey: [CLASSROOM_QUERY_KEYS.GET_STUDENTS, props.classroomId],
+				})
+			}
 			props?.onError?.(formatedError)
 		},
 		retry: false,

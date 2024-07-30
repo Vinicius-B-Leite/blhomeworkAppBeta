@@ -30,8 +30,6 @@ export function useLeaveModelView(props?: UseEnterClassroomModelViewProps) {
 			])
 		},
 		onError: (error) => {
-			console.log(error)
-
 			const errorHandled = getSubapaseClassroomError(error.message)
 			props?.onError?.(errorHandled)
 		},

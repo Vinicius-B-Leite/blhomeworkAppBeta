@@ -48,12 +48,6 @@ export function useGetTaskListModelView(props: useTaskListModelViewProps) {
 						minumumDate
 					)
 
-					console.log({
-						dateLessOneDay,
-						minumumDate,
-						isDateToScheduleNotificationMinumiunDate,
-					})
-
 					if (isDateToScheduleNotificationMinumiunDate) {
 						await scheduleNotification({
 							title: "Não esqueça da tarefa",

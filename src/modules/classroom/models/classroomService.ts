@@ -188,7 +188,7 @@ const removeStudent = async (classroomId: string, studentId: string) => {
 	try {
 		const [classroom, student] = await Promise.all([
 			getClassroomById(classroomId),
-			getStudentById(studentId, studentId),
+			getStudentById(studentId, classroomId),
 		])
 
 		const classroomExists = !!classroom

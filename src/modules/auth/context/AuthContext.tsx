@@ -33,29 +33,34 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 	useEffect(() => {
 		const getUser = async () => {
 			setIsLoadingUser(true)
-			const userStorage = await authStorage.getUser()
-			if (userStorage) {
-				const userApi = await authApi.getUserData(userStorage.uid)
+			try {
+				const userStorage = await authStorage.getUser()
+				if (userStorage) {
+					const userApi = await authApi.getUserData(userStorage.uid)
 
-				setUser({
-					email:
-						userStorage.email !== userApi.email
-							? userApi.email
-							: userStorage.email,
-					username:
-						userStorage.username !== userApi.user_name
-							? userApi.user_name
-							: userStorage.username,
-					avatarUrl:
-						userStorage.avatarUrl !== userApi.avatar_url
-							? userApi.avatar_url
-							: userStorage.avatarUrl,
-					refreshtoken: userStorage.refreshtoken,
-					token: userStorage.token,
-					uid: userStorage.uid,
-				})
+					setUser({
+						email:
+							userStorage.email !== userApi.email
+								? userApi.email
+								: userStorage.email,
+						username:
+							userStorage.username !== userApi.user_name
+								? userApi.user_name
+								: userStorage.username,
+						avatarUrl:
+							userStorage.avatarUrl !== userApi.avatar_url
+								? userApi.avatar_url
+								: userStorage.avatarUrl,
+						refreshtoken: userStorage.refreshtoken,
+						token: userStorage.token,
+						uid: userStorage.uid,
+					})
+				}
+				setIsLoadingUser(false)
+			} catch (error) {
+			} finally {
+				setIsLoadingUser(false)
 			}
-			setIsLoadingUser(false)
 		}
 		getUser()
 	}, [])

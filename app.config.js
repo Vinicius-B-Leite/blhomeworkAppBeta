@@ -1,8 +1,11 @@
+const IS_DEV = process.env.DEV
+const VERSION_NUMBER = "1.0.0"
+
 export default {
 	expo: {
-		name: "bl-homework",
+		name: IS_DEV ? "BL Homework - Dev" : "BL Homework",
 		slug: "bl-homework",
-		version: "1.0.0",
+		version: VERSION_NUMBER,
 		orientation: "portrait",
 		icon: "./assets/icon.png",
 		userInterfaceStyle: "automatic",

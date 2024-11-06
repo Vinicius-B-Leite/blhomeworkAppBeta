@@ -1,3 +1,5 @@
+import * as Updates from "expo-updates"
+
 const globalEnvs = {
 	DEV: {
 		SUPABASE_URL: process.env.EXPO_PUBLIC_SUPABASE_URL_DEV ?? "",
@@ -9,5 +11,6 @@ const globalEnvs = {
 	},
 }
 
-const environment: keyof typeof globalEnvs = __DEV__ ? "DEV" : "PROD"
+const isProd = Updates?.channel === "production"
+export const environment: keyof typeof globalEnvs = isProd ? "PROD" : "DEV"
 export const envs = globalEnvs[environment]

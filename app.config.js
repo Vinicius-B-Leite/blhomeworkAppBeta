@@ -1,9 +1,24 @@
-const IS_DEV = process.env.DEV
 const VERSION_NUMBER = "1.0.0"
-
+const envPackageConfig = {
+	development: {
+		name: "BL Homework - Dev",
+		package: "com.viniciusbl21.blhomework.dev",
+		googleService: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_DEV,
+	},
+	preview: {
+		name: "BL Homework - PRW",
+		package: "com.viniciusbl21.blhomework.prw",
+		googleService: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PRW,
+	},
+	production: {
+		name: "BL Homework",
+		package: "com.viniciusbl21.blhomework",
+		googleService: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PROD,
+	},
+}
 export default {
 	expo: {
-		name: IS_DEV ? "BL Homework - Dev" : "BL Homework",
+		name: envPackageConfig[process.env.APP_ENV].name,
 		slug: "bl-homework",
 		version: VERSION_NUMBER,
 		orientation: "portrait",
@@ -23,7 +38,7 @@ export default {
 			},
 		},
 		android: {
-			googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES,
+			googleServicesFile: envPackageConfig[process.env.APP_ENV].googleService,
 			adaptiveIcon: {
 				foregroundImage: "./assets/adaptive-icon.png",
 				backgroundColor: "#121212",
@@ -34,7 +49,7 @@ export default {
 				"android.permission.USE_BIOMETRIC",
 				"android.permission.USE_FINGERPRINT",
 			],
-			package: "com.viniciusbl21.blhomework",
+			package: envPackageConfig[process.env.APP_ENV].package,
 		},
 		web: {
 			favicon: "./assets/favicon.png",

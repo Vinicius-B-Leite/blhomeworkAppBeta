@@ -8,7 +8,7 @@ const envPackageConfig = {
 	},
 	preview: {
 		name: "BL Homework - HML",
-		package: "com.viniciusbl21.blhomework.hml",
+		package: "com.viniciusbl21.blhomework.prw",
 		googleService: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PRW,
 	},
 	production: {

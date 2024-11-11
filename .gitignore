@@ -4,7 +4,7 @@ tarefas.txt
 google-services-prod.json
 google-services-dev.json
 google-services-prw.json
-
+/android
 # dependencies
 node_modules/
 coverage/

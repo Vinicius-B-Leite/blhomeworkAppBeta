@@ -1,5 +1,5 @@
 export type ThemeContext = {
-	toogleTheme: () => void
+	toogleTheme: () => Promise<void>
 	theme: ThemeOptions
 	isLoadingTheme: boolean
 }

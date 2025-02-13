@@ -53,27 +53,29 @@ export function useUpsertSubjectScreenViewController() {
 		setValue("color", rgb)
 	}
 
-	const handleCreateSubject = handleSubmit((data) => {
-		if (isUpdate) {
-			updateSubject({
+	const handleCreateSubject = () => {
+		handleSubmit((data) => {
+			if (isUpdate) {
+				updateSubject({
+					subject: {
+						id: subject!.id,
+						color: data.color,
+						name: data.name,
+						shortName: data.shortName,
+					},
+				})
+				return
+			}
+			createSubject({
 				subject: {
-					id: subject!.id,
 					color: data.color,
 					name: data.name,
 					shortName: data.shortName,
 				},
+				classroomId: classroomId,
 			})
-			return
-		}
-		createSubject({
-			subject: {
-				color: data.color,
-				name: data.name,
-				shortName: data.shortName,
-			},
-			classroomId: classroomId,
-		})
-	})
+		})()
+	}
 	return {
 		onSelectColor,
 		selectedColor: watch("color"),

@@ -69,33 +69,34 @@ export function useUpsertTaskViewController() {
 			navigation.goBack()
 		},
 	})
-	const handleCreateTask = handleSubmit((data) => {
-		if (isUpdate) {
-			updateTask({
+	const handleCreateTask = () => {
+		handleSubmit((data) => {
+			if (isUpdate) {
+				updateTask({
+					task: {
+						title: data.title,
+						description: data.description,
+						deadLine: data.deadLine,
+						id: taskUpdating!.id,
+						subjectId: data.subject.id,
+						files: documentList,
+					},
+				})
+				return
+			}
+
+			createTaskt({
+				classroomId: classroomId,
 				task: {
 					title: data.title,
 					description: data.description,
 					deadLine: data.deadLine,
-					id: taskUpdating!.id,
-					subjectId: data.subject.id,
-					files: documentList,
 				},
+				subjectId: data.subject.id,
+				files: documentList,
 			})
-			return
-		}
-
-		createTaskt({
-			classroomId: classroomId,
-			task: {
-				title: data.title,
-				description: data.description,
-				deadLine: data.deadLine,
-			},
-			subjectId: data.subject.id,
-			files: documentList,
-		})
-	})
-
+		})()
+	}
 	const openDatePicker = () => {
 		setShowDatePicker(true)
 	}

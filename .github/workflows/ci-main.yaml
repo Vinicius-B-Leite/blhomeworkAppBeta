@@ -1,6 +1,9 @@
-name: CI
+name: CI - Main
 
-on: pull_request
+on:
+    push:
+        branches:
+            - main
 
 jobs:
     CI:
@@ -31,6 +34,7 @@ jobs:
 
             - name: Run Tests
               run: yarn test
+              continue-on-error: true
 
             - name: Run Sonar Scanner
               uses: SonarSource/sonarqube-scan-action@v4

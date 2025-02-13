@@ -31,3 +31,15 @@ jobs:
 
             - name: Run Tests
               run: yarn test
+
+            - name: Run Sonar Scanner
+              uses: SonarSource/sonarqube-scan-action@v4
+              env:
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  SONAR_HOST_URL: https://sonarcloud.io
+              with:
+                  args: >
+                      -Dsonar.pullrequest.branch=${{ github.head_ref }} 
+                      -Dsonar.pullrequest.base=${{ github.base_ref }} 
+                      -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} 
+                      -Dproject.settings=./sonar-project.properties

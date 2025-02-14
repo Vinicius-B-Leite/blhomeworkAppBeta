@@ -29,7 +29,7 @@ SplashScreen.preventAutoHideAsync()
 
 export default function App() {
 	useCacheControll()
-
+	//teste
 	useEffect(() => {
 		requestNotificationPermisson()
 	})

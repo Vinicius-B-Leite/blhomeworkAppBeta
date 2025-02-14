@@ -4,7 +4,9 @@ on:
     issue_comment:
         types:
           - created  # Dispara a Action quando um novo comentário é criado
-
+    pull_request:
+        branches:
+          - '*'
 
 jobs:
     CI:

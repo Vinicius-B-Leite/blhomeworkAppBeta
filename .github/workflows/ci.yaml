@@ -1,16 +1,9 @@
 name: CI
 
-on: 
-    issue_comment:
-        types:
-          - created  # Dispara a Action quando um novo comentário é criado
-    pull_request:
-        branches:
-          - '*'
+on: pull_request
 
 jobs:
     CI:
-        if: contains(github.event.comment.body, 'sonar')
         name: Continuos Integration
         runs-on: ubuntu-latest
 

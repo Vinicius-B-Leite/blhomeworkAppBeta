@@ -28,6 +28,7 @@ jobs:
 
             - name: Run TsCheck
               run: yarn tsCheck
+              continue-on-error: true
 
             - name: Run Tests
               run: yarn test

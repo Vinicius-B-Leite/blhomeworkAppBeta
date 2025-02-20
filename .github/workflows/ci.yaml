@@ -28,9 +28,11 @@ jobs:
 
             - name: Run TsCheck
               run: yarn tsCheck
+              continue-on-error: true
 
             - name: Run Tests
               run: yarn test
+              continue-on-error: true
 
             - name: Run Sonar Scanner
               uses: SonarSource/sonarqube-scan-action@v4

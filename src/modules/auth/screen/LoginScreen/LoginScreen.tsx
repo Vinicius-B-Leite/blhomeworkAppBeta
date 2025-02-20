@@ -2,6 +2,8 @@ import { Box, Button, Container, FormInput, FormPasswordInput, Icon } from "@/co
 import React from "react"
 import { useLoginScreenViewController } from "./loginScreen.viewController"
 import { Logo } from "@/modules/auth/components"
+import { useNavigation } from "@react-navigation/native"
+import { useQuickActionCallback } from "expo-quick-actions/hooks"
 
 export const LoginScreen: React.FC = () => {
 	const {
@@ -13,7 +15,12 @@ export const LoginScreen: React.FC = () => {
 		navigateToSignUp,
 		navigateToForgetPassword,
 	} = useLoginScreenViewController()
+	const navigate = useNavigation()
 
+	useQuickActionCallback((action) => {
+		console.log({ action })
+		navigate.navigate(action.params.href.split("/")[1])
+	})
 	return (
 		<Container justifyContent="center" width={"100%"}>
 			<Logo />

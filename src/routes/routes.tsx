@@ -10,8 +10,14 @@ import {
 import { StatusBar } from "react-native"
 import { AppRoutes } from "./appRoutes"
 import { useThemeContext } from "@/contextsProviders"
+import * as Linking from "expo-linking"
+
+const prefix = Linking.createURL("/")
 
 export const Routes = () => {
+	const linking = {
+		prefixes: [prefix],
+	}
 	const theme = useAppTheme()
 	const isDarkTheme = useThemeContext().theme === "dark"
 	const { user } = useAuth()
@@ -21,7 +27,16 @@ export const Routes = () => {
 
 	return (
 		<Box bg="bg" flex={1}>
-			<NavigationContainer theme={navigationTheme}>
+			<NavigationContainer
+				linking={{
+					prefixes: [prefix],
+					config: {
+						screens: {
+							ForgetPasswordScreen: "forgot",
+						},
+					},
+				}}
+				theme={navigationTheme}>
 				<StatusBar
 					barStyle={isDarkTheme ? "light-content" : "dark-content"}
 					translucent

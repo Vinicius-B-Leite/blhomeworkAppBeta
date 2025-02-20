@@ -2,6 +2,7 @@
 	"expo": {
 		"name": "bl-homework",
 		"slug": "bl-homework",
+		"scheme": "bl-homework",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
@@ -16,7 +17,8 @@
 			"supportsTablet": true,
 			"infoPlist": {
 				"NSFaceIDUsageDescription": "Permite BL Homewokr usar o Face ID."
-			}
+			},
+			"bundleIdentifier": "com.viniciusbl21.blhomework"
 		},
 		"android": {
 			"adaptiveIcon": {
@@ -40,6 +42,7 @@
 			"tsconfigPaths": true
 		},
 		"plugins": [
+			["expo-quick-actions"],
 			[
 				"expo-local-authentication",
 				{
@@ -68,7 +71,8 @@
 					"color": "#48CAE4",
 					"icon": "./assets/notifcation-icon.png"
 				}
-			]
+			],
+			"expo-quick-actions"
 		],
 		"extra": {
 			"eas": {

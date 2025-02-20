@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { View } from "react-native"
@@ -7,6 +7,7 @@ import { Icon } from "@/components"
 import { ClassRoomRoutes } from "@/modules/classroom/routes/classroomRoutes"
 import { ClassroomRouteType } from "@/modules/classroom/routes/classroomRoutesTypes"
 import ProfileRoutes from "@/modules/profile/routes/profileRoutes"
+import { useEvent } from "./file.event"
 
 const Tab = createBottomTabNavigator()
 
@@ -15,7 +16,14 @@ type AppRoutesProps = {
 }
 export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName }) => {
 	const theme = useAppTheme()
+	const { emmitEvent } = useEvent()
+
+	useEffect(() => {
+		emmitEvent()
+	}, [])
+
 	const { bottom } = useAppSafeArea()
+
 	return (
 		<Tab.Navigator
 			screenOptions={{

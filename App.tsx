@@ -10,7 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ContextsProviders } from "@/contextsProviders/ContextsProviders"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
-import { LogBox } from "react-native"
+import { LogBox, Platform } from "react-native"
 import { useCacheControll } from "@/hooks"
 import { useEffect } from "react"
 import {
@@ -20,6 +20,7 @@ import {
 import { Index } from "./src"
 import { dark } from "@/theme"
 import * as SplashScreen from "expo-splash-screen"
+import * as QuickActions from "expo-quick-actions"
 
 LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"])
 
@@ -29,6 +30,21 @@ SplashScreen.preventAutoHideAsync()
 
 export default function App() {
 	useCacheControll()
+
+	useEffect(() => {
+		QuickActions.setItems([
+			{
+				title: "Wait! Don't delete me!",
+				subtitle: "We're here to help",
+				icon:
+					Platform.OS === "ios"
+						? "symbol:person.crop.circle.badge.questionmark"
+						: undefined,
+				id: "0",
+				params: { href: "/ForgetPasswordScreen" },
+			},
+		])
+	}, [])
 
 	useEffect(() => {
 		requestNotificationPermisson()

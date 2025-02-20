@@ -73,8 +73,7 @@
 	"jest": {
 		"preset": "jest-expo",
 		"collectCoverageFrom": [
-			"src/**/*.{ts, tsx, js, jsx}",
-			"!src/**/*.event.{ts, tsx, js, jsx}"
+			"src/**/*.event.{ts, tsx, js, jsx}"
 		],
 		"setupFiles": [
 			"./node_modules/react-native-gesture-handler/jestSetup.js"

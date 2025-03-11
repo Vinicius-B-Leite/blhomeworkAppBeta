@@ -20,6 +20,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName 
 		<Tab.Navigator
 			screenOptions={{
 				headerShown: false,
+				tabBarTestID: "tab-bar-app-routes",
 				tabBarStyle: {
 					backgroundColor: theme.colors.secondsBg,
 					borderTopWidth: 0,
@@ -31,6 +32,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName 
 			<Tab.Screen
 				name="ClassroomRoutes"
 				options={{
+					tabBarTestID: "classroom-tab",
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							name="home"
@@ -63,6 +65,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = ({ initialClassroomRouteName 
 				name="ProfileRoutes"
 				component={ProfileRoutes}
 				options={{
+					tabBarTestID: "tab-bar-profile-tab",
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							name="user"

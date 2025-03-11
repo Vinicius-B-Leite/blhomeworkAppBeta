@@ -10,7 +10,6 @@ import {
 import React, { useCallback } from "react"
 import ImageNotFound from "@/assets/images/ImageNotfound.png"
 import { useProfileScreenViewController } from "./profileScreen.viewController"
-import { string } from "zod"
 
 export const ProfileScreen: React.FC = () => {
 	const { user, handleToggleTheme, theme, logout, handleNavigateToUpdateProfile } =
@@ -21,13 +20,16 @@ export const ProfileScreen: React.FC = () => {
 			text,
 			icon,
 			onPress,
+			testId,
 		}: {
 			text: string
 			icon: IconProps["name"]
 			onPress: () => void
+			testId?: string
 		}) => {
 			return (
 				<PressableBox
+					testID={testId}
 					onPress={onPress}
 					bg="secondsBg"
 					flexDirection="row"
@@ -91,7 +93,12 @@ export const ProfileScreen: React.FC = () => {
 					text="Tema"
 					onPress={handleToggleTheme}
 				/>
-				<Option icon="leave" text="Sair da conta" onPress={logout} />
+				<Option
+					testId="profile-screen-logout-button"
+					icon="leave"
+					text="Sair da conta"
+					onPress={logout}
+				/>
 			</Box>
 		</Container>
 	)

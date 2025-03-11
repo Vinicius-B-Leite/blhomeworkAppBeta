@@ -15,8 +15,7 @@ export const Alert: React.FC = () => {
 	}
 
 	return (
-		<PressableBox
-			onPress={hideAlert}
+		<Box
 			width={"100%"}
 			height={"100%"}
 			justifyContent="center"
@@ -27,14 +26,26 @@ export const Alert: React.FC = () => {
 				left: 0,
 				backgroundColor: "rgba(0, 0, 0, 0.3)",
 			}}>
-			<Box bg="bg" p={24} borderRadius={10}>
-				<Text preset="tSmall" mb={20}>
+			<PressableBox
+				onPress={hideAlert}
+				width={"100%"}
+				height={"100%"}
+				style={{
+					position: "absolute",
+					top: 0,
+					left: 0,
+					zIndex: 1,
+				}}
+			/>
+			<Box bg="bg" p={24} borderRadius={10} zIndex={2}>
+				<Text testID="modal-title-text" preset="tSmall" mb={20}>
 					{title || "Atenção"}
 				</Text>
 				<Text preset="pMedium">{message}</Text>
 				<Box flexDirection="row" justifyContent="space-between" gap={20} mt={20}>
 					{buttons.map((button, index) => (
 						<Button
+							testID={`modal-option-${index}`}
 							onPress={() => handleButtonOnPress(button.onPress)}
 							key={index}
 							flex={1}
@@ -51,6 +62,6 @@ export const Alert: React.FC = () => {
 					))}
 				</Box>
 			</Box>
-		</PressableBox>
+		</Box>
 	)
 }

@@ -18,6 +18,7 @@ export const SingUpScreen: React.FC = () => {
 				placeholder="Nome de usuário"
 				errorMessage={error.username?.message}
 				LeftIcon={<Icon name="user" />}
+				testID="signup-screen-username-input"
 			/>
 
 			<FormInput
@@ -27,6 +28,7 @@ export const SingUpScreen: React.FC = () => {
 				errorMessage={error.email?.message}
 				LeftIcon={<Icon name="email" />}
 				boxProps={{ mt: 14 }}
+				testID="signup-screen-email-input"
 			/>
 
 			<FormPasswordInput
@@ -35,6 +37,7 @@ export const SingUpScreen: React.FC = () => {
 				placeholder="Sua senha"
 				errorMessage={error.passwords?.password?.message}
 				boxProps={{ mt: 14 }}
+				testID="signup-screen-password-input"
 			/>
 			<FormPasswordInput
 				control={control}
@@ -42,9 +45,15 @@ export const SingUpScreen: React.FC = () => {
 				placeholder="Confirme sua senha"
 				errorMessage={error.passwords?.confirmPassword?.message}
 				boxProps={{ mt: 14 }}
+				testID="signup-screen-confirm-password-input"
 			/>
 
-			<Button onPress={submit} mt={24} isloading={isLoading} disabled={!isValid}>
+			<Button
+				testID="signup-screen-submit-button"
+				onPress={submit}
+				mt={24}
+				isloading={isLoading}
+				disabled={!isValid}>
 				Criar conta
 			</Button>
 			<Button link onPress={goBackToLogin}>

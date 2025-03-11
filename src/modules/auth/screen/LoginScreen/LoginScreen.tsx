@@ -25,6 +25,7 @@ export const LoginScreen: React.FC = () => {
 				keyboardType="email-address"
 				errorMessage={error.email?.message}
 				LeftIcon={<Icon name="email" size={24} />}
+				testID="login-screen-email-input"
 			/>
 
 			<FormPasswordInput
@@ -35,6 +36,7 @@ export const LoginScreen: React.FC = () => {
 				boxProps={{
 					mt: 14,
 				}}
+				testID="login-screen-password-input"
 			/>
 			<Box width={"100%"} alignItems="flex-start">
 				<Button link width={undefined} onPress={navigateToForgetPassword}>
@@ -42,10 +44,18 @@ export const LoginScreen: React.FC = () => {
 				</Button>
 			</Box>
 
-			<Button onPress={submit} isloading={isLoading} disabled={!isValid} mt={24}>
+			<Button
+				testID="login-screen-submit-button"
+				onPress={submit}
+				isloading={isLoading}
+				disabled={!isValid}
+				mt={24}>
 				Entrar
 			</Button>
-			<Button link onPress={navigateToSignUp}>
+			<Button
+				testID="login-screen-navigate-sing-up-button"
+				link
+				onPress={navigateToSignUp}>
 				Não possui conta? Crie uma aqui.
 			</Button>
 		</Container>

@@ -1,0 +1,51 @@
+appId: com.viniciusbl21.blhomework
+name: Login Screen Form Validation
+onFlowStart:
+    - runFlow: ../../../../testUtils/e2e/setup.yaml
+
+---
+- tapOn:
+      id: login-screen-email-input
+      label: "Focus email input"
+
+- inputText:
+      text: "teste@teste"
+      label: "Typing invalid email"
+
+- assertVisible:
+      text: "Informe um email válido"
+      label: "Expect invalid email message"
+
+- eraseText:
+      label: "Erase email input"
+
+- inputText:
+      text: "teste@teste.com"
+      label: "Typing valid email"
+
+- assertNotVisible:
+      text: "Informe um email válido"
+      label: "Expect invalid email message to disappear"
+
+- tapOn:
+      id: login-screen-password-input
+      label: "Focus password input"
+
+- inputRandomText:
+      length: 5
+      label: "Typing invalid password"
+
+- assertVisible:
+      text: "A senha deve ter no mínimo 6 caracteres"
+      label: "Expect invalid password message"
+
+- eraseText:
+      label: "Erase password input"
+
+- inputRandomText:
+      length: 6
+      label: "Typing valid password"
+
+- assertNotVisible:
+      text: "A senha deve ter no mínimo 6 caracteres"
+      label: "Expect invalid password message to disappear"

@@ -1,0 +1,54 @@
+appId: com.viniciusbl21.blhomework
+name: Signup Screen Success
+onFlowStart:
+    - runFlow: ../../../../testUtils/e2e/setup.yaml
+
+---
+- runFlow:
+      label: Logout User if Logged In
+      when:
+          notVisible:
+              id: login-screen-navigate-sing-up-button
+      file: ../logout/logoutSuccess.yaml
+
+- tapOn:
+      id: login-screen-navigate-sing-up-button
+      label: Navigate to Signup Screen
+
+- tapOn:
+      id: signup-screen-username-input
+      label: Focus username input
+
+- inputRandomPersonName:
+      label: Typing random username
+
+- tapOn:
+      id: signup-screen-email-input
+      label: Focus email input
+
+- inputRandomEmail:
+      label: Typing random email
+
+- tapOn:
+      id: "signup-screen-password-input"
+      label: Focus password input
+
+- inputText:
+      text: "123123123"
+      label: Typing password
+
+- tapOn:
+      id: "signup-screen-confirm-password-input"
+      label: Focus confirm password input
+
+- inputText:
+      text: "123123123"
+      label: Typing confirm password
+
+- tapOn:
+      id: "signup-screen-submit-button"
+      label: Tap on signup button
+
+- assertVisible:
+      text: "Cadastro realizado com sucesso"
+      label: Expect success signup

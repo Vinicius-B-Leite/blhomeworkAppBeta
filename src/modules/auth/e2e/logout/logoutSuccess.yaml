@@ -1,0 +1,32 @@
+appId: com.viniciusbl21.blhomework
+name: Profile Screen Logout Success
+onFlowStart:
+    - runFlow: ../../../../testUtils/e2e/setup.yaml
+
+---
+- runFlow:
+      label: Login User if not Logged In
+      when:
+          notVisible:
+              id: tab-bar-profile-tab
+      file: ../login/loginSuccess.yaml
+
+- tapOn:
+      id: tab-bar-profile-tab
+      label: Navigate to Profile Screen
+
+- tapOn:
+      id: profile-screen-logout-button
+      label: Tap on Logout Button
+
+- assertVisible:
+      id: modal-title-text
+      label: Check Modal Title Text
+
+- tapOn:
+      id: modal-option-0
+      label: Tap on Yes Modal Option
+
+- assertVisible:
+      id: login-screen-email-input
+      label: Check If Is in Login Screen

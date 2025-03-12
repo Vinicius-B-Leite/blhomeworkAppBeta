@@ -1,0 +1,12 @@
+flows:
+    - login/*
+    - logout/*
+    - signup/*
+
+executionOrder:
+    continueOnFailure: false
+    flowsOrder:
+        - Signup Screen Success
+        - Login Screen Form Validation
+        - Login Screen Success
+        - Profile Screen Logout Success

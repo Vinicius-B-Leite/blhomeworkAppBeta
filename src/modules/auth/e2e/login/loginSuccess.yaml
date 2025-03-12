@@ -1,0 +1,46 @@
+appId: com.viniciusbl21.blhomework
+name: Login Screen Success
+onFlowStart:
+    - runFlow: ../../../../testUtils/e2e/setup.yaml
+
+---
+- runFlow:
+      label: Logout if user is logged
+      when:
+          visible:
+              id: tab-bar-profile-tab
+      commands:
+          - tapOn:
+                id: tab-bar-profile-tab
+          - tapOn:
+                id: profile-screen-logout-button
+          - assertVisible:
+                id: modal-title-text
+          - tapOn:
+                id: modal-option-0
+
+- tapOn:
+      id: login-screen-email-input
+      label: "Focus email input"
+
+- inputText:
+      text: "teste@teste.com"
+      label: "Typing valid email"
+
+- tapOn:
+      id: login-screen-password-input
+      label: "Focus password input"
+
+- inputText:
+      text: "123123"
+      label: "Typing valid password"
+
+- pressKey: Enter
+
+- tapOn:
+      id: login-screen-submit-button
+      label: "Tap on login button"
+
+- assertVisible:
+      text: "Entre em uma sala com um código"
+      label: "Expect success login"

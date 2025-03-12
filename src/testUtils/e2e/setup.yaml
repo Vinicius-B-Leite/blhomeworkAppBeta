@@ -1,0 +1,10 @@
+appId: com.viniciusbl21.blhomework
+---
+- launchApp
+
+- retry:
+      maxRetries: 3
+      commands:
+          - assertVisible:
+                id: (?:tab-bar-app-routes|auth-routes)
+                label: Verify if the app is running correctly

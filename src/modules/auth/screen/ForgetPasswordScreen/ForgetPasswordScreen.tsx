@@ -9,7 +9,8 @@ export const ForgetPasswordScreen: React.FC = () => {
 		<Container goBack={{ title: "Esqueci a senha" }} justifyContent="center" gap={14}>
 			<Text preset="pMedium">
 				Informe o e-mail da sua conta para recuperar e atualizar sua senha.
-				Lembre-se de realizar a atualização no mesmo dispositivo que você
+				Lembre-se de realizar a atualização no mesmo dispositivo do aplicativo
+				instalado.
 			</Text>
 			<FormInput
 				control={control}

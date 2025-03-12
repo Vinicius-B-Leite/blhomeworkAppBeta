@@ -72,7 +72,7 @@ describe("integration: ForgetPasswordScreen", () => {
 			fireEvent.press(screen.getByText("Receber email"))
 		})
 		await waitFor(() => {
-			expect(screen.getByText("E-mail enviado com sucesso")).toBeTruthy()
+			expect(screen.getByText("E-mail enviado com sucesso!")).toBeTruthy()
 		})
 	})
 })

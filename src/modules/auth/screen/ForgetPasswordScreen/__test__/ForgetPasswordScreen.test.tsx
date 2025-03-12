@@ -52,7 +52,9 @@ describe("integration: ForgetPasswordScreen", () => {
 		})
 
 		await waitFor(() => {
-			expect(screen.getByTestId("emailInput").props.value).toBe(email)
+			expect(screen.getByTestId("forgot-screen-email-input").props.value).toBe(
+				email
+			)
 		})
 	})
 	it("should show a success message if success", async () => {

@@ -39,7 +39,11 @@ export const LoginScreen: React.FC = () => {
 				testID="login-screen-password-input"
 			/>
 			<Box width={"100%"} alignItems="flex-start">
-				<Button link width={undefined} onPress={navigateToForgetPassword}>
+				<Button
+					testID="login-screen-forget-password-navigate-button"
+					link
+					width={undefined}
+					onPress={navigateToForgetPassword}>
 					Esqueci a senha
 				</Button>
 			</Box>

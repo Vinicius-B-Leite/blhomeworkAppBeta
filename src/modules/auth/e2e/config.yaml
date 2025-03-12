@@ -2,6 +2,7 @@ flows:
     - login/*
     - logout/*
     - signup/*
+    - forgetPassword/*
 
 executionOrder:
     continueOnFailure: false
@@ -10,3 +11,4 @@ executionOrder:
         - Login Screen Form Validation
         - Login Screen Success
         - Profile Screen Logout Success
+        - Forget Password Screen Success

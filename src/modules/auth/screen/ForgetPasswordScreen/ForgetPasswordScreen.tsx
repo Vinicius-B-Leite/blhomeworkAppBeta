@@ -16,9 +16,13 @@ export const ForgetPasswordScreen: React.FC = () => {
 				name="email"
 				LeftIcon={<Icon name="email" />}
 				placeholder="Email"
-				testID="emailInput"
+				testID="forgot-screen-email-input"
 			/>
-			<Button disabled={!isValid} onPress={handleSubmit} isloading={isLoading}>
+			<Button
+				testID="forgot-screen-submit-button"
+				disabled={!isValid}
+				onPress={handleSubmit}
+				isloading={isLoading}>
 				Receber email
 			</Button>
 		</Container>

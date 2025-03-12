@@ -4,6 +4,13 @@ onFlowStart:
     - runFlow: ../../../../testUtils/e2e/setup.yaml
 
 ---
+- runFlow:
+      label: Logout User if Logged In
+      when:
+          notVisible:
+              id: login-screen-navigate-sing-up-button
+      file: ../logout/logoutSuccess.yaml
+
 - tapOn:
       id: login-screen-email-input
       label: "Focus email input"

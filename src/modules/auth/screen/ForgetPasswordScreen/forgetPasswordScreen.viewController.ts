@@ -16,7 +16,7 @@ export const useForgetPasswordViewController = () => {
 			showToast({ message: errorMessage, type: "error" })
 		},
 		onSuccess: () => {
-			showToast({ message: "E-mail enviado com sucesso", type: "success" })
+			showToast({ message: "E-mail enviado com sucesso!", type: "success" })
 			reset()
 		},
 	})

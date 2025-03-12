@@ -24,6 +24,7 @@ export async function scheduleNotification({
 		},
 		trigger: {
 			date,
+			type: Notifications.SchedulableTriggerInputTypes.DATE,
 		},
 	})
 }
